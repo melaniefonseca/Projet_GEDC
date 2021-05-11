@@ -19,24 +19,27 @@
     --mediumgrey: #CCCCCC;
     --darkgrey: #172026;
     --purple: #8B0146;
+    --mediumblue: #231d99;
     --darkblue: #181552;
 }
 
 /* charte graphique */
-.bg-white {background-color: white;}
-.bg-lightgrey {background-color: var(--lightgrey);}
-.bg-mediumgrey {background-color: var(--mediumgrey);}
-.bg-darkgrey {background-color: var(--darkgrey);}
-.bg-purple {background-color: var(--purple);}
-.bg-darkblue {background-color: var(--darkblue);}
+.bg-white           {background-color: white!important;}
+.bg-lightgrey       {background-color: var(--lightgrey)!important;}
+.bg-mediumgrey      {background-color: var(--mediumgrey)!important;}
+.bg-darkgrey        {background-color: var(--darkgrey)!important;}
+.bg-purple          {background-color: var(--purple)!important;}
+.bg-mediumblue      {background-color: var(--mediumblue)!important;}
+.bg-darkblue        {background-color: var(--darkblue)!important;}
 
-.text-white {color: white;}
-.text-lightgrey {color: var(--lightgrey);}
-.text-mediumgrey {color: var(--mediumgrey);}
-.text-darkgrey {color: var(--darkgrey);}
-.text-purple {color: var(--purple);}
-.text-darkblue {color: var(--darkblue);}
+.text-white         {color: white!important;}
+.text-lightgrey     {color: var(--lightgrey)!important;}
+.text-mediumgrey    {color: var(--mediumgrey)!important;}
+.text-darkgrey      {color: var(--darkgrey)!important;}
+.text-purple        {color: var(--purple)!important;}
+.text-mediumblue    {color: var(--mediumblue)!important;}
+.text-darkblue      {color: var(--darkblue)!important;}
 
-.text-right {text-align: right;}
-.text-left {text-align: left;}
-.text-center {text-align: center;}
+.text-right         {text-align: right!important;}
+.text-left          {text-align: left!important;}
+.text-center        {text-align: center!important;}

@@ -1,6 +1,6 @@
 .navbar {
     min-height: 53px;
-    color: var(--lightgrey);
+    background-color: var(--lightgrey);
 }
 
 .nav-link{

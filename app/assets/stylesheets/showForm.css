@@ -1,0 +1,61 @@
+.capitalized {
+    text-transform: capitalize;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.table>:not(:last-child)>:last-child>* {
+    border-bottom-color: black;
+}
+
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.requis {
+    background-color: var(--purple);
+    border-radius: 20px;
+}
+
+.sous-titre {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--darkgrey);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    width: 50%;
+    margin-bottom: 1rem;
+    padding-bottom: .5rem;
+}
+
+.formLabel {
+    width: 150px;
+    text-align: right;
+    margin-right: 1rem;
+}
+
+.formInput {
+    width: 300px;
+}
+
+.section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.block {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 1rem;
+    width: 80%;
+}
+
