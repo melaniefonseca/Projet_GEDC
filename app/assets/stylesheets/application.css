@@ -13,3 +13,30 @@
  *= require_tree .
  *= require_self
  */
+
+:root {
+    --lightgrey: #F9F9F9;
+    --mediumgrey: #CCCCCC;
+    --darkgrey: #172026;
+    --purple: #8B0146;
+    --darkblue: #181552;
+}
+
+/* charte graphique */
+.bg-white {background-color: white;}
+.bg-lightgrey {background-color: var(--lightgrey);}
+.bg-mediumgrey {background-color: var(--mediumgrey);}
+.bg-darkgrey {background-color: var(--darkgrey);}
+.bg-purple {background-color: var(--purple);}
+.bg-darkblue {background-color: var(--darkblue);}
+
+.text-white {color: white;}
+.text-lightgrey {color: var(--lightgrey);}
+.text-mediumgrey {color: var(--mediumgrey);}
+.text-darkgrey {color: var(--darkgrey);}
+.text-purple {color: var(--purple);}
+.text-darkblue {color: var(--darkblue);}
+
+.text-right {text-align: right;}
+.text-left {text-align: left;}
+.text-center {text-align: center;}

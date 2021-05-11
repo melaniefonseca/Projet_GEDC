@@ -1,6 +1,6 @@
 .navbar {
     min-height: 53px;
-    color: #F9F9F9;
+    color: var(--lightgrey);
 }
 
 .nav-link{
@@ -10,11 +10,11 @@
     margin-right: 25px;
 }
 
-p {
+.navbar p {
     height: 36px;
     left: 0px;
     top: 0px;
-    color: #8B0146;
+    color: var(--purple);
     font-weight: bold;
 }
 
@@ -28,8 +28,4 @@ p {
     position: absolute;
     max-width: 150px;
     max-height: 52px;
-}
-
-.favi {
-    max-width: 50px;
 }
