@@ -4,7 +4,9 @@ class PagesController < ApplicationController
   end
 
   def showForm
-    @json_request = '{
+
+    require 'json'
+    text =  '{
       "annee": "",
       "nom": "",
       "entreprise": "",
@@ -34,5 +36,10 @@ class PagesController < ApplicationController
         }
       ]
     }'
+
+    @data = JSON.parse(text)  # <--- no `to_json`
+    # => {"one"=>1, "two"=>2}
+    puts @data.class
+
   end
 end

@@ -1,1 +1,44 @@
 TEST DE LA PAGE AUTOEVALUATION
+<form>
+
+<% @data.each do |key, value| %>
+    <% if (key == 'data')
+      then value.each do |valueData|%>
+        <div><%= valueData['titre'] %></div>
+        <table class="table">
+          <thead>
+          <tr>
+            <th></th>
+        <%
+          valueData['choix'].each do |valueChoix| %>
+              <th><%= valueChoix %></th>
+          <%
+            end
+          %>
+          </tr>
+          </thead>
+        <tbody>
+        <%
+            valueData['competences'].each do |valueComp| %>
+          <tr> <td> <%= valueComp['intitule'] %> </td>
+        <%
+          valueData['choix'].each_with_index { |val, index|
+            if index == valueComp['requis']
+        then %>  <td style="background-color: red"> <input type="radio"></td>
+                <%
+                  else
+        %>
+            <td> <input type="radio"></td>
+           <% end } %>
+              </tr>
+          <%  end
+          %>
+        </tbody>
+      </table>
+      <%end else %>
+      <label> <%=key %> : </label>
+      <input type="text" value="<%=value %>">
+      <br/>
+       <% end %>
+<% end %>
+</form>
