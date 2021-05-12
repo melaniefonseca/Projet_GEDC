@@ -4,7 +4,7 @@
   <span class="mx-4 uppercase font-bold">TEST DE LA PAGE AUTOEVALUATION</span>
 </div>
 
-<form>
+<form method="post" action="/autoeval/save">
   <div class="m-4">
 
     <div class="section">
@@ -38,9 +38,8 @@
 
           <div class="my-2">
             <label for="<%=key %>" class="capitalized formLabel text-mediumblue mx-3"> <%=key %> : </label>
-            <input id="<%=key %>" class="formInput" type="text" value="<%=value %>"> <br/>
+            <input id="<%=key %>" name="<%=key %>" class="formInput" type="text" value="<%=value %>"> <br/>
           </div>
-
   <% end
 end %>
 
@@ -78,14 +77,14 @@ end %>
 
               <td class="text-center">
                 <div class="requis">
-                  <input type="radio" name="<%= valueComp['intitule'] %>">
+                  <input type="radio" name="<%= valueComp['intitule'] %>" value="<%= index%>">
                 </div>
               </td>
 
       <% else %>
 
               <td class="text-center">
-                <input type="radio" name="<%= valueComp['intitule'] %>">
+                <input type="radio" name="<%= valueComp['intitule'] %>" value="<%= index%>">
               </td>
 
       <% end
@@ -114,8 +113,9 @@ end %>
     </div>
 
   </div>
-</form>
 
-<div class="d-flex justify-content-center py-2 pb-4">
-  <span class="btn btn-round">Soumettre</span>
-</div>
+
+  <div class="d-flex justify-content-center py-2 pb-4">
+    <button type="submit" class="btn btn-round">Soumettre</button>
+  </div>
+</form>
