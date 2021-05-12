@@ -19,6 +19,7 @@
     --mediumgrey: #CCCCCC;
     --darkgrey: #172026;
     --purple: #8B0146;
+    --purple-transparent: #8B0146BB;
     --mediumblue: #231d99;
     --darkblue: #181552;
 }
@@ -43,3 +44,41 @@
 .text-right         {text-align: right!important;}
 .text-left          {text-align: left!important;}
 .text-center        {text-align: center!important;}
+
+.btn-round {
+    border-radius: 20px!important;
+    padding-right: 3rem!important;
+    padding-left: 3rem!important;
+    font-weight: bold!important;
+    color: #FFFFFF!important;
+    background-color: var(--purple)!important;
+}
+
+input[type='radio']:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -4px;
+    left: -1px;
+    position: relative;
+    background-color: #d1d3d1;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid darkgrey;
+    background-color: white;
+}
+
+input[type='radio']:checked:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -4px;
+    left: -1px;
+    position: relative;
+    background-color: darkgrey;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid darkgrey;
+}

@@ -1,3 +1,11 @@
+.bandeauSuperieur {
+    background-color: var(--purple);
+    color: white;
+    padding: .5rem;
+    margin: 0 .5rem .5rem;
+    border-radius: 10px;
+}
+
 .capitalized {
     text-transform: capitalize;
 }
@@ -20,7 +28,7 @@ table {
 }
 
 .requis {
-    background-color: var(--purple);
+    background-color: var(--purple-transparent);
     border-radius: 20px;
 }
 
@@ -30,6 +38,7 @@ table {
     color: var(--darkgrey);
     border-bottom-style: solid;
     border-bottom-width: 1px;
+    border-bottom-color: darkgray;
     width: 50%;
     margin-bottom: 1rem;
     padding-bottom: .5rem;
@@ -37,7 +46,7 @@ table {
 
 .formLabel {
     width: 150px;
-    text-align: right;
+    text-align: left;
     margin-right: 1rem;
 }
 
@@ -58,4 +67,3 @@ table {
     padding: 1rem;
     width: 80%;
 }
-
