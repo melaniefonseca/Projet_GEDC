@@ -1,7 +1,7 @@
 <%= stylesheet_link_tag "showForm" %>
 
 <div class="bandeauSuperieur d-flex justify-content-center">
-  <span class="mx-4 uppercase font-bold">Remplissage de votre fiche d'auto-évaluation</span>
+  <span class="mx-4 uppercase font-bold">Visualisation de votre fiche d'auto-évaluation</span>
 </div>
 
 <form>
@@ -10,17 +10,14 @@
     <div class="section">
       <div class="block">
         <div class="sous-titre">
-          <span class="uppercase font-bold text-darkgrey">Instructions</span>
+          <span class="uppercase font-bold text-darkgrey">Légende</span>
         </div>
         <div class="d-flex flex-column">
           <div class="d-flex my-1">
             <div class="requis px-5">
-              <input type="radio">
+              <input type="radio" disabled>
             </div>
-            <label class="formLabel mx-2"> Compétence requise </label>
-          </div>
-          <div class="d-flex my-1">
-            <span>Vous devez évaluer chaque compétence en fonction du niveau que vous estimez avoir acquis</span>
+            <label class="formLabel mx-2 w-auto"> Niveau de compétence requis </label>
           </div>
         </div>
       </div>
@@ -36,9 +33,9 @@
 <% @data.each do |key, value|
   if (key != 'sections' && key != 'commentaire') then %>
 
-          <div class="my-2">
-            <label for="<%=key %>" class="capitalized formLabel text-mediumblue mx-3"> <%=key %> : </label>
-            <input id="<%=key %>" class="formInput" type="text" value="<%=value %>"> <br/>
+          <div class="my-2 px-3">
+            <label class="capitalized formLabel text-mediumblue"> <%=key %> : </label>
+            <label class=""> <%=value %> </label> <br/>
           </div>
 
   <% end
@@ -74,21 +71,39 @@ end %>
               <td class="text-mediumblue"> <%= valueComp['intitule'] %> </td>
 
     <% valueData['choix'].each_with_index { |val, index|
-      if index == valueComp['requis'] then %>
+      if index == valueComp['requis'] then
+        if index == valueComp['selection'] then %>
 
               <td class="text-center">
                 <div class="requis">
-                  <input type="radio" name="<%= valueComp['intitule'] %>">
+                  <input type="radio" disabled checked name="<%= valueComp['intitule'] %>">
                 </div>
               </td>
 
-      <% else %>
+        <% else %>
 
               <td class="text-center">
-                <input type="radio" name="<%= valueComp['intitule'] %>">
+                <div class="requis">
+                  <input type="radio" disabled name="<%= valueComp['intitule'] %>">
+                </div>
               </td>
 
       <% end
+      else
+        if index == valueComp['selection'] then %>
+
+              <td class="text-center">
+                <input type="radio" disabled checked name="<%= valueComp['intitule'] %>">
+              </td>
+
+        <% else %>
+
+              <td class="text-center">
+                <input type="radio" disabled name="<%= valueComp['intitule'] %>">
+              </td>
+
+        <% end
+      end
     } %>
 
             </tr>
@@ -100,22 +115,27 @@ end %>
       </div>
     </div>
 
-<% } %>
+<% }
+if @data.has_key?('commentaire') then
+  if @data['commentaire'] != '' then %>
 
     <div class="section">
       <div class="block">
         <div class="sous-titre">
-          <span class="uppercase font-bold text-darkgrey">Espace de commentaire</span>
+          <span class="uppercase font-bold text-darkgrey">Commentaire</span>
         </div>
         <div class="d-flex">
-          <textarea cols="500"></textarea>
+          <label> <%= @data['commentaire'] %> </label>
         </div>
       </div>
     </div>
+
+  <% end
+end %>
 
   </div>
 </form>
 
 <div class="d-flex justify-content-center py-2 pb-5">
-  <span class="btn btn-round">Soumettre</span>
+  <span class="btn btn-round">Télécharger</span>
 </div>
