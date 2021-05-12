@@ -10,37 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_10_134853) do
-
-  create_table "personnes", force: :cascade do |t|
-    t.string "nom"
-    t.string "prenom"
-    t.string "email"
-    t.string "telephone"
-    t.boolean "est_utilisateur"
-  end
-
-  create_table "etudiants", id: false, force: :cascade do |t|
-    t.integer "id_personne", primary_key: true
-  end
-
-  create_table "responsables_stage", id: false, force: :cascade do |t|
-    t.integer "id_personne", primary_key: true
-  end
-
-  create_table "maitres_stage", id: false, force: :cascade do |t|
-    t.integer "id_personne", primary_key: true
-    t.integer "id_entreprise"
-  end
-
-  create_table "tuteurs_pedagogique", id: false, force: :cascade do |t|
-    t.integer "id_personne", primary_key: true
-  end
-
-  create_table "formations", force: :cascade do |t|
-    t.string "niveau"
-    t.string "libelle"
-  end
+ActiveRecord::Schema.define(version: 2021_05_11_124430) do
 
   create_table "entreprises", force: :cascade do |t|
     t.string "raison_sociale"
@@ -50,6 +20,45 @@ ActiveRecord::Schema.define(version: 2021_05_10_134853) do
     t.string "ville"
     t.string "email"
     t.string "telephone"
+  end
+
+  create_table "etudiants", primary_key: "id_personne", force: :cascade do |t|
+  end
+
+  create_table "evaluations", force: :cascade do |t|
+    t.string "contenu"
+    t.boolean "est_auto_evaluation"
+    t.integer "id_stage"
+  end
+
+  create_table "formations", force: :cascade do |t|
+    t.string "niveau"
+    t.string "libelle"
+  end
+
+  create_table "ge_formats", force: :cascade do |t|
+    t.text "content"
+  end
+
+  create_table "maitres_stage", primary_key: "id_personne", force: :cascade do |t|
+    t.integer "id_entreprise"
+  end
+
+  create_table "personnes", force: :cascade do |t|
+    t.string "nom"
+    t.string "prenom"
+    t.string "email"
+    t.string "telephone"
+    t.boolean "est_utilisateur"
+  end
+
+  create_table "promotions", primary_key: ["id_etudiant", "id_formation"], force: :cascade do |t|
+    t.integer "id_etudiant"
+    t.integer "id_formation"
+    t.string "annee"
+  end
+
+  create_table "responsables_stage", primary_key: "id_personne", force: :cascade do |t|
   end
 
   create_table "stages", force: :cascade do |t|
@@ -66,35 +75,19 @@ ActiveRecord::Schema.define(version: 2021_05_10_134853) do
     t.integer "id_etudiant"
   end
 
-  create_table "evaluations", force: :cascade do |t|
-    t.string "contenu"
-    t.boolean "est_auto_evaluation"
-    t.integer "id_stage"
+  create_table "tuteurs_pedagogique", primary_key: "id_personne", force: :cascade do |t|
   end
 
-  add_foreign_key :"etudiants", :"personnes", column: "id_personne"
-  add_foreign_key :"responsables_stage", :"personnes", column: "id_personne"
-  add_foreign_key :"maitres_stage", :"personnes", column: "id_personne"
-  add_foreign_key :"maitres_stage", :"entreprises", column: "id_entreprise"
-  add_foreign_key :"tuteurs_pedagogique", :"personnes", column: "id_personne"
-
-  add_foreign_key "stages", "tuteurs_pedagogique", column: "id_tuteur_pedagogique", primary_key: "id_personne"
-  add_foreign_key "stages", "responsables_stage", column: "id_responsable_stage", primary_key: "id_personne"
-  add_foreign_key "stages", "maitres_stage", column: "id_maitre_stage", primary_key: "id_personne"
-  add_foreign_key "stages", "etudiants", column: "id_etudiant", primary_key: "id_personne"
-
+  add_foreign_key "etudiants", "personnes", column: "id_personne"
   add_foreign_key "evaluations", "stages", column: "id_stage"
-
-  execute "
-    CREATE TABLE IF NOT EXISTS promotions (
-      id_etudiant int,
-      id_formation int,
-      annee varchar,
-      PRIMARY KEY (id_etudiant,id_formation),
-      FOREIGN KEY (id_etudiant)
-        REFERENCES etudiants (id_personne),
-      FOREIGN KEY (id_formation)
-        REFERENCES formations (id)
-    );"
-
+  add_foreign_key "maitres_stage", "entreprises", column: "id_entreprise"
+  add_foreign_key "maitres_stage", "personnes", column: "id_personne"
+  add_foreign_key "promotions", "etudiants", column: "id_etudiant", primary_key: "id_personne"
+  add_foreign_key "promotions", "formations", column: "id_formation"
+  add_foreign_key "responsables_stage", "personnes", column: "id_personne"
+  add_foreign_key "stages", "etudiants", column: "id_etudiant", primary_key: "id_personne"
+  add_foreign_key "stages", "maitres_stage", column: "id_maitre_stage", primary_key: "id_personne"
+  add_foreign_key "stages", "responsables_stage", column: "id_responsable_stage", primary_key: "id_personne"
+  add_foreign_key "stages", "tuteurs_pedagogique", column: "id_tuteur_pedagogique", primary_key: "id_personne"
+  add_foreign_key "tuteurs_pedagogique", "personnes", column: "id_personne"
 end

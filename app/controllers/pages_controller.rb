@@ -14,7 +14,7 @@ class PagesController < ApplicationController
       "activité": "",
       "date":"",
       "commentaire": "",
-      "data": [{
+      "sections": [{
           "titre": "Savoir-être",
           "choix": ["Non évalué", "A travailler", "Acquis"],
           "competences": [{
