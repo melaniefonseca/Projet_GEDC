@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   get '/', to: 'pages#home'
   get '/autoeval', to: 'pages#showForm'
   get '/viewautoeval', to: 'pages#viewAutoEval'
+  get '/menuetudiant', to: 'pages#menuEtudiant'
 end
