@@ -1,0 +1,31 @@
+.navbar {
+    min-height: 53px;
+    background-color: var(--lightgrey);
+}
+
+.nav-link{
+    height: 36px;
+    left: 0px;
+    top: 0px;
+    margin-right: 25px;
+}
+
+.navbar p {
+    height: 36px;
+    left: 0px;
+    top: 0px;
+    color: var(--purple);
+    font-weight: bold;
+}
+
+.navbar-nav {
+    margin-left: auto;
+    margin-right: 0;
+    text-align: center;
+}
+
+.logo {
+    position: absolute;
+    max-width: 150px;
+    max-height: 52px;
+}
