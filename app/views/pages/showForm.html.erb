@@ -100,18 +100,22 @@ end %>
       </div>
     </div>
 
-<% } %>
+<% }
+
+ if @data.has_key?('commentaire') then %>
 
     <div class="section">
       <div class="block">
         <div class="sous-titre">
-          <span class="uppercase font-bold text-darkgrey">Espace de commentaire</span>
+          <span class="uppercase font-bold text-darkgrey">Commentaire</span>
         </div>
         <div class="d-flex">
           <textarea cols="500"></textarea>
         </div>
       </div>
     </div>
+
+<% end %>
 
   </div>
 </form>
