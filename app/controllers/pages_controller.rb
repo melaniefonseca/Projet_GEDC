@@ -11,7 +11,6 @@ class PagesController < ApplicationController
     @data = JSON.parse(text)  # <--- no `to_json`
     # => {"one"=>1, "two"=>2}
     puts @data.class
-
   end
 
   def viewAutoEval
@@ -21,6 +20,16 @@ class PagesController < ApplicationController
     @data = JSON.parse(text)  # <--- no `to_json`
     # => {"one"=>1, "two"=>2}
     puts @data.class
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = ConsultationEval.new(@data);
+        # pdf = Prawn::Document.new
+        # pdf.text "Hello"
+        send_data pdf.render, filename: 'member.pdf', type: 'application/pdf', disposition: "inline"
+      end
+    end
   end
 
   def menuEtudiant
