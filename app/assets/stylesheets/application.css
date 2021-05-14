@@ -54,6 +54,14 @@
     background-color: var(--purple)!important;
 }
 
+.btn-square {
+    border-radius: 20px!important;
+    padding: 2rem!important;
+    font-weight: bold!important;
+    color: #FFFFFF!important;
+    background-color: var(--purple)!important;
+}
+
 input[type='radio']:after {
     width: 15px;
     height: 15px;
@@ -61,7 +69,6 @@ input[type='radio']:after {
     top: -4px;
     left: -1px;
     position: relative;
-    background-color: #d1d3d1;
     content: '';
     display: inline-block;
     visibility: visible;

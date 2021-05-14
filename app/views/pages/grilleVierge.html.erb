@@ -1,11 +1,11 @@
 <%= stylesheet_link_tag "showForm" %>
 
 <div class="bandeauSuperieur d-flex justify-content-center">
-  <span class="mx-4 uppercase font-bold">Remplissage de votre fiche d'auto-évaluation</span>
+  <span class="mx-4 uppercase font-bold">Grille d'évaluation vierge</span>
 </div>
 
-<form method="post" action="/autoeval/save">
-  <div class="m-4">
+<form>
+  <div class="m-4 pt-4">
 
     <div class="section">
       <div class="block">
@@ -20,7 +20,7 @@
             <label class="formLabel mx-2"> Compétence requise </label>
           </div>
           <div class="d-flex my-1">
-            <span>Vous devez évaluer chaque compétence en fonction du niveau que vous estimez avoir acquis</span>
+            <span>Vous devez évaluer chaque compétence en fonction du niveau que vous estimez acquis</span>
           </div>
         </div>
       </div>
@@ -38,8 +38,9 @@
 
           <div class="my-2">
             <label for="<%=key %>" class="capitalized formLabel text-mediumblue mx-3"> <%=key %> : </label>
-            <input id="<%=key %>" name="<%=key %>" class="formInput" type="text" value="<%=value %>"> <br/>
+            <input id="<%=key %>" class="formInput" type="text" readonly> <br/>
           </div>
+
   <% end
 end %>
 
@@ -73,39 +74,21 @@ end %>
               <td class="text-mediumblue"> <%= valueComp['intitule'] %> </td>
 
     <% valueData['choix'].each_with_index { |val, index|
-      if index == valueComp['requis'] then
-        if index == valueComp['selection'] then %>
+      if index == valueComp['requis'] then %>
 
               <td class="text-center">
                 <div class="requis">
-                  <input type="radio" checked name="<%= valueComp['intitule'] %>">
+                  <input type="radio" name="<%= valueComp['intitule'] %>" disabled>
                 </div>
               </td>
 
-        <% else %>
+      <% else %>
 
               <td class="text-center">
-                <div class="requis">
-                  <input type="radio" name="<%= valueComp['intitule'] %>" value="<%= index%>">
-                </div>
+                <input type="radio" name="<%= valueComp['intitule'] %>" disabled>
               </td>
 
-        <% end
-      else
-        if index == valueComp['selection'] then %>
-
-              <td class="text-center">
-                <input type="radio" checked name="<%= valueComp['intitule'] %>">
-              </td>
-
-        <% else %>
-
-              <td class="text-center">
-                <input type="radio" name="<%= valueComp['intitule'] %>" value="<%= index%>">
-              </td>
-
-        <% end
-      end
+      <% end
     } %>
 
             </tr>
@@ -127,7 +110,7 @@ end %>
           <span class="uppercase font-bold text-darkgrey">Commentaire</span>
         </div>
         <div class="d-flex">
-          <textarea cols="500"><%= @data['commentaire'] %></textarea>
+          <textarea cols="500" readonly></textarea>
         </div>
       </div>
     </div>
@@ -135,9 +118,8 @@ end %>
 <% end %>
 
   </div>
-
-  <div class="d-flex justify-content-center py-2 pb-4">
-    <button type="submit" class="btn btn-round">Soumettre</button>
-  </div>
 </form>
 
+<div class="d-flex justify-content-center py-2 pb-5">
+  <span class="btn btn-round">Télécharger</span>
+</div>
