@@ -1,0 +1,80 @@
+<%= stylesheet_link_tag "viewStudentBoard" %>
+
+
+<div class="bandeauSuperieur d-flex justify-content-center">
+  <span class="mx-4 uppercase font-bold">Tableau de bord</span>
+</div>
+
+<div class="dropdown" style="text-align: center">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Promotion
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="#">L3 MIAGE</a>
+    <a class="dropdown-item" href="#">M1 MIAGE</a>
+    <a class="dropdown-item" href="#">M2 MIAGE</a>
+  </div>
+</div>
+
+
+<div class="card-body">
+  <div class="table-responsive">
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Nom/Prénom de l'étudiant</th>
+          <th>Promotion</th>
+          <th>Entreprise</th>
+          <th>Auto evaluation (Élève)</th>
+          <th>Grille d'évaluation</th>
+          <th>Auto evaluation finale (Élève)</th>
+          <th>Grille de notation finale</th>
+          <th>Note entreprise</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @data['etudiants'].each do |valueData| %>
+          <tr>
+          <% valueData.each do |key, val| %>
+              <% if key == 'autoevaluation' || key == 'grilleevaluation' || key == 'grilleevaluationfinale' || key == 'autoevaluationfinale' %>
+                <% if val == nil %>
+                  <td>
+                    <span class="not-completed">Non Completée</span>
+                  <% if key != 'autoevaluation' && key != 'autoevaluationfinale' %>
+                    <br/>
+                    <button type="button" class="btn btn-round tab">Remplir</button>
+                  <% end %>
+                  </td>
+                <% else %>
+                  <td>
+                    <span class="completed">Completée</span>
+                    <br/>
+                    <button type="button" class="btn btn-round tab">Consulter</button>
+                  </td>
+                <% end %>
+              <% elsif key == 'note'%>
+                <% if val == nil %>
+                <td>
+                  <span>-</span>
+                  <br/>
+                  <button type="button" class="btn btn-round tab">Noter</button>
+                </td>
+                <% else %>
+                  <td>
+                    <span><%= val %></span>
+                    <br/>
+                    <button type="button" class="btn btn-round tab">Consulter</button>
+                  </td>
+                <% end %>
+              <% else %>
+                <td>
+                  <%= val %>
+                </td>
+              <% end %>
+          <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

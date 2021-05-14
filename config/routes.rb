@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   get '/menuetudiant', to: 'pages#menuEtudiant'
   get '/grillevierge', to: 'pages#grilleVierge'
   get '/viewgrille', to: 'pages#viewGrilleStage'
+  get '/viewstudentboard', to: 'pages#viewStudentBoard'
+  get '/menurespstage', to: 'pages#menuRespStage'
 end

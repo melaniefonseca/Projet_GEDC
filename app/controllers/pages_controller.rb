@@ -12,47 +12,7 @@ class PagesController < ApplicationController
   end
 
   def save
-    text = '{
-      "annee": "",
-      "nom": "",
-      "entreprise": "",
-      "poste": "",
-      "activité": "",
-      "date":"",
-      "sections":
-      [
-        {
-          "titre": "Savoir-être",
-          "choix": ["Non évalué", "A travailler", "Acquis"],
-          "competences":
-          [
-            {
-              "intitule": "Investi et motivé",
-              "requis": 2,
-              "selection": 2
-            },
-            {
-              "intitule": "Anglais",
-              "requis": 1,
-              "selection": 2
-            }
-          ]
-        },
-        {
-          "titre": "Compétences transverses",
-          "choix": ["Non évalué", "Avec aide", "Autonome", "Niveau professionnel"],
-          "competences":
-          [
-            {
-              "intitule": "Organisé",
-              "requis": 3,
-              "selection": 1
-            }
-          ]
-        }
-      ],
-      "commentaire": ""
-    }'
+    text =  '{"annee": "","nom": "","entreprise": "","poste": "","activité": "","date":"","sections":[{"titre": "Savoir-être","choix": ["Non évalué", "A travailler", "Acquis"],"competences":[{"intitule": "Investi et motivé","requis": 2,"selection": 2},{"intitule": "Anglais","requis": 1,"selection": -1}]},{"titre": "Compétences transverses","choix": ["Non évalué", "Avec aide", "Autonome", "Niveau professionnel"],"competences":[{"intitule": "Organisé","requis": 3,"selection": 1}]}],"commentaire": ""}'
 
     @text_json = JSON.parse(text)
 
@@ -90,7 +50,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        pdf = ConsultationEval.new(@data);
+        pdf = ConsultationEval.new(@data)
         # pdf = Prawn::Document.new
         # pdf.text "Hello"
         send_data pdf.render, filename: 'member.pdf', type: 'application/pdf', disposition: "inline"
@@ -118,5 +78,16 @@ class PagesController < ApplicationController
     @data = JSON.parse(text)  # <--- no `to_json`
     # => {"one"=>1, "two"=>2}
     puts @data.class
+  end
+
+  def viewStudentBoard
+    require 'json'
+    text =  '{"etudiants":[{"nom": "Marie Danede","promotion": "M2 Miage", "entreprise": "Bordeaux Metropole", "autoevaluation": 1, "grilleevaluation": 2, "autoevaluationfinale": 7, "grilleevaluationfinale": 3,  "note": "B"}, {"nom": "Nawel Ouadhour","promotion": "M2 Miage", "entreprise": "Atos", "autoevaluation": null, "grilleevaluation": null, "autoevaluationfinale": null, "grilleevaluationfinale": null,  "note": null}]}'
+
+    @data = JSON.parse(text)
+  end
+
+  def menuRespStage
+
   end
 end
