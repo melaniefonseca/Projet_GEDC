@@ -1,7 +1,7 @@
 <%= stylesheet_link_tag "showForm" %>
 
 <div class="bandeauSuperieur d-flex justify-content-center">
-  <span class="mx-4 uppercase font-bold">Remplissage de votre fiche d'auto-évaluation</span>
+  <span class="mx-4 uppercase font-bold">Consultation de la grille d'évaluation</span>
 </div>
 
 <form>
@@ -19,9 +19,6 @@
             </div>
             <label class="formLabel mx-2"> Compétence requise </label>
           </div>
-          <div class="d-flex my-1">
-            <span>Vous devez évaluer chaque compétence en fonction du niveau que vous estimez avoir acquis</span>
-          </div>
         </div>
       </div>
     </div>
@@ -38,7 +35,7 @@
 
           <div class="my-2">
             <label for="<%=key %>" class="capitalized formLabel text-mediumblue mx-3"> <%=key %> : </label>
-            <input id="<%=key %>" class="formInput" type="text" value="<%=value %>"> <br/>
+            <label class=""> <%=value %> </label> <br/>
           </div>
 
   <% end
@@ -79,7 +76,7 @@ end %>
 
               <td class="text-center">
                 <div class="requis">
-                  <input type="radio" checked name="<%= valueComp['intitule'] %>">
+                  <input type="radio" checked disabled name="<%= valueComp['intitule'] %>">
                 </div>
               </td>
 
@@ -87,7 +84,7 @@ end %>
 
               <td class="text-center">
                 <div class="requis">
-                  <input type="radio" name="<%= valueComp['intitule'] %>">
+                  <input type="radio" disabled name="<%= valueComp['intitule'] %>">
                 </div>
               </td>
 
@@ -96,13 +93,13 @@ end %>
         if index == valueComp['selection'] then %>
 
               <td class="text-center">
-                <input type="radio" checked name="<%= valueComp['intitule'] %>">
+                <input type="radio" disabled checked name="<%= valueComp['intitule'] %>">
               </td>
 
         <% else %>
 
               <td class="text-center">
-                <input type="radio" name="<%= valueComp['intitule'] %>">
+                <input type="radio" disabled name="<%= valueComp['intitule'] %>">
               </td>
 
         <% end
@@ -128,7 +125,7 @@ end %>
           <span class="uppercase font-bold text-darkgrey">Commentaire</span>
         </div>
         <div class="d-flex">
-          <textarea cols="500"><%= @data['commentaire'] %></textarea>
+          <label> <%= @data['commentaire'] %> </label>
         </div>
       </div>
     </div>
@@ -139,5 +136,5 @@ end %>
 </form>
 
 <div class="d-flex justify-content-center py-2 pb-5">
-  <span class="btn btn-round" onclick="window.location.replace('./viewautoeval');">Soumettre</span>
+  <span class="btn btn-round">Télécharger</span>
 </div>
