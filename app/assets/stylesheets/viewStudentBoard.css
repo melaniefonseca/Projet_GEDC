@@ -50,3 +50,31 @@ span {
     padding-right: 2rem!important;
     padding-left: 2rem!important;
 }
+
+.dropdown{
+    position: relative;
+    align-items: stretch;
+    width: 100%;
+    max-width: 150px;
+    padding: 15px 19px;
+    font-size: medium;
+    font-weight: bolder;
+    border-radius: 30px;
+    background-color: var(--purple)!important;
+    color: white;
+    border: medium none;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.dropdown:focus{
+    outline: none;
+}
+
+.container.drop {
+    text-align: center;
+}
+
+.dropdown-item {
+    color: white;
+    font-weight: 600;
+}
