@@ -137,6 +137,5 @@ end %>
 </form>
 
 <div class="d-flex justify-content-center py-2 pb-5">
-  <span class="btn btn-round"><%= link_to "Télécharger", viewautoeval_path(format: 'pdf') %></span>
-
+  <span class="btn btn-round" onclick="window.open('<%= viewautoeval_path(format: 'pdf') %>', '_blank');">Télécharger</span>
 </div>

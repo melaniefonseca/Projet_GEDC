@@ -5,11 +5,18 @@
       <div class="col-auto">
         <div class="container pb-4">
           <h5>RESPONSABLE DES STAGES</h5>
-          <span class="mb-2"><i class="fas fa-user"></i> M MANSART Claude</span>
+          <%
+            require 'json'
+            my_hash = ''
+            File.open(Rails.root.to_s + '/app/assets/config/responsable.json') do |f|
+              my_hash = JSON.parse(f.read)
+            end
+          %>
+          <span class="mb-2"><i class="fas fa-user"></i> <%= my_hash['nom'] %></span>
           <br/>
-          <span class="mb-2"><i class="fas fa-envelope"></i> claude.mansart@u-bordeaux.fr</span>
+          <span class="mb-2"><i class="fas fa-envelope"></i> <%= my_hash['email'] %></span>
           <br/>
-          <span class="mb-2"><i class="fas fa-phone-alt"></i> 06 79 10 73 40</span>
+          <span class="mb-2"><i class="fas fa-phone-alt"></i> <%= my_hash['telephone'] %></span>
         </div>
       </div>
       <div class="col" style="text-align: center">

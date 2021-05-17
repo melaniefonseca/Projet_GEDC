@@ -45,6 +45,10 @@
 .text-left          {text-align: left!important;}
 .text-center        {text-align: center!important;}
 
+.font-normal {
+    font-weight: normal !important;
+}
+
 .btn-round {
     border-radius: 20px!important;
     padding-right: 3rem!important;
@@ -53,13 +57,27 @@
     color: #FFFFFF!important;
     background-color: var(--purple)!important;
 }
+.btn-round {
+    border-radius: 20px !important;
+    padding-right: 3rem !important;
+    padding-left: 3rem !important;
+    font-weight: bold !important;
+    color: #FFFFFF !important;
+    background-color: var(--purple) !important;
+}
+
+.btn-round a, .btn-square a {
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+}
 
 .btn-square {
     border-radius: 20px!important;
-    padding: 2rem!important;
+    padding: 1.5rem!important;
     font-weight: bold!important;
     color: #FFFFFF!important;
     background-color: var(--purple)!important;
+    width: 15rem;
 }
 
 input[type='radio']:after {
