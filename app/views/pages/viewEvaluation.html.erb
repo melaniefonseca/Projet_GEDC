@@ -1,7 +1,7 @@
-<%= stylesheet_link_tag "showForm" %>
+<%= stylesheet_link_tag "evaluation" %>
 
 <div class="bandeauSuperieur d-flex justify-content-center">
-  <span class="mx-4 uppercase font-bold">Consultation de la grille d'évaluation</span>
+  <span class="mx-4 uppercase font-bold">Visualisation de votre fiche d'auto-évaluation</span>
 </div>
 
 <form>
@@ -10,14 +10,14 @@
     <div class="section">
       <div class="block">
         <div class="sous-titre">
-          <span class="uppercase font-bold text-darkgrey">Instructions</span>
+          <span class="uppercase font-bold text-darkgrey">Légende</span>
         </div>
         <div class="d-flex flex-column">
           <div class="d-flex my-1">
             <div class="requis px-5">
               <input type="radio" disabled>
             </div>
-            <label class="formLabel mx-2"> Compétence requise </label>
+            <label class="formLabel mx-2 w-auto"> Niveau de compétence requis </label>
           </div>
         </div>
       </div>
@@ -33,8 +33,8 @@
 <% @data.each do |key, value|
   if (key != 'sections' && key != 'commentaire') then %>
 
-          <div class="my-2">
-            <label for="<%=key %>" class="capitalized formLabel text-mediumblue mx-3"> <%=key %> : </label>
+          <div class="my-2 px-3">
+            <label class="capitalized formLabel text-mediumblue"> <%=key %> : </label>
             <label class=""> <%=value %> </label> <br/>
           </div>
 
@@ -76,7 +76,7 @@ end %>
 
               <td class="text-center">
                 <div class="requis">
-                  <input type="radio" checked disabled name="<%= valueComp['intitule'] %>">
+                  <input type="radio" disabled checked name="<%= valueComp['intitule'] %>">
                 </div>
               </td>
 
@@ -88,7 +88,7 @@ end %>
                 </div>
               </td>
 
-        <% end
+      <% end
       else
         if index == valueComp['selection'] then %>
 
@@ -116,8 +116,8 @@ end %>
     </div>
 
 <% }
-
- if @data.has_key?('commentaire') then %>
+if @data.has_key?('commentaire') then
+  if @data['commentaire'] != '' then %>
 
     <div class="section">
       <div class="block">
@@ -130,11 +130,12 @@ end %>
       </div>
     </div>
 
-<% end %>
+  <% end
+end %>
 
   </div>
 </form>
 
 <div class="d-flex justify-content-center py-2 pb-5">
-  <span class="btn btn-round">Télécharger</span>
+  <span class="btn btn-round" onclick="window.open('<%= viewautoeval_path(format: 'pdf') %>', '_blank');">Télécharger</span>
 </div>
