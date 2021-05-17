@@ -1,4 +1,4 @@
-<%= stylesheet_link_tag "showForm" %>
+<%= stylesheet_link_tag "evaluation" %>
 
 <div class="bandeauSuperieur d-flex justify-content-center">
   <span class="mx-4 uppercase font-bold">Remplissage de votre fiche d'auto-évaluation</span>
@@ -133,7 +133,53 @@ end %>
     </div>
 
 <% end %>
+    <div class="section">
+      <div class="block">
+        <div class="sous-titre">
+          <span class="uppercase font-bold text-darkgrey">Note de stage</span>
+        </div>
 
+        <table class="table">
+          <thead>
+          <tr>
+            <th class="text-center text-mediumblue font-normal">Un stage durant lequel des problèmes se sont manifestés du fait de l'étudiant</th>
+            <th class="text-center text-mediumblue font-normal">Aucun véritable problème ne s’est manifesté mais les résultats  escomptés n’ont pas été atteints </th>
+            <th class="text-center text-mediumblue font-normal">Stage moyen, sans reproche particulier à faire à l’étudiant</th>
+            <th class="text-center text-mediumblue font-normal">Stage de bonne qualité, les objectifs ont été atteints et les résultats sont  utiles à l’entreprise</th>
+            <th class="text-center text-mediumblue font-normal">Stage excellent où les résultats dépassent les objectifs assignés</th>
+          </tr>
+          </thead>
+
+          <tbody>
+
+          <tr>
+
+            <td class="text-center">
+              <input type="radio" disabled name="E">
+            </td>
+
+            <td class="text-center">
+              <input type="radio" disabled name="D">
+            </td>
+
+            <td class="text-center">
+              <input type="radio" disabled name="C">
+            </td>
+
+            <td class="text-center">
+              <input type="radio" disabled name="B">
+            </td>
+
+            <td class="text-center">
+              <input type="radio" disabled name="A">
+            </td>
+
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
   </div>
 
   <div class="d-flex justify-content-center py-2 pb-4">
