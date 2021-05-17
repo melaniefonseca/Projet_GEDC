@@ -4,10 +4,62 @@
   <span class="mx-4 uppercase font-bold">Menu évaluation</span>
 </div>
 
-<div class="d-flex justify-content-around my-5 py-5 mx-4">
-  <span class="btn btn-square mx-2" onclick="window.location.assign('./grillevierge');">Consulter / télécharger une fiche d'évaluation vierge</span>
-  <span class="btn btn-square mx-2" onclick="window.location.assign('./autoeval');">Consulter / remplir la grille d'auto-évaluation</span>
-  <span class="btn btn-square mx-2" onclick="window.location.assign('./viewgrille');">Consulter / télécharger la grille d'évaluation de visite</span>
+<!--
+  Si l'auto-évaluation n'est pas encore réalisée :
+    le bouton 'M'auto-évaluer' est actif, les deux autres sont inactifs
+  Sinon
+    le bouton 'M'auto-évaluer' est inactif, les deux autres sont actifs
+-->
+<div class="mx-3 mt-4">
+  <span class="uppercase font-bold text-darkgrey">Auto-évaluation</span>
+</div>
+<div class="d-flex justify-content-around my-2 mx-4">
+  <span class="btn btn-square mx-2" onclick="window.location.assign('./autoeval');">M'auto-évaluer</span>
+  <span class="btn btn-square mx-2" onclick="window.location.assign('./viewautoeval');">Consulter</span>
+  <span class="btn btn-square mx-2" onclick="window.open('<%= viewautoeval_path(format: 'pdf') %>', '_blank');">Télécharger</span>
 </div>
 
+<!--
+  Si l'évaluation n'est pas encore réalisée :
+    le bouton 'Télécharger le template' est actif, les deux autres sont inactifs
+  Sinon
+    les trois bouton sont actifs
+-->
+<div class="mx-3 mt-4">
+  <span class="uppercase font-bold text-darkgrey">Grille d'évaluation</span>
+</div>
+<div class="d-flex justify-content-around my-2 mx-4">
+  <span class="btn btn-square mx-2" onclick="window.location.assign('./viewgrille');">Consulter</span>
+  <span class="btn btn-square mx-2" onclick="window.open('<%= viewautoeval_path(format: 'pdf') %>', '_blank');">Télécharger</span>
+  <span class="btn btn-square mx-2" onclick="window.location.assign('./grillevierge');">Télécharger le template</span>
+</div>
 
+<!--
+  Si l'auto-évaluation finale n'est pas encore réalisée :
+    le bouton 'M'auto-évaluer' est actif, les deux autres sont inactifs
+  Sinon
+    le bouton 'M'auto-évaluer' est inactif, les deux autres sont actifs
+-->
+<div class="mx-3 mt-4">
+  <span class="uppercase font-bold text-darkgrey">Auto-évaluation finale</span>
+</div>
+<div class="d-flex justify-content-around my-2 mx-4">
+  <span class="btn btn-square mx-2" onclick="window.location.assign('./autoeval');">M'auto-évaluer</span>
+  <span class="btn btn-square mx-2" onclick="window.location.assign('./viewautoeval');">Consulter</span>
+  <span class="btn btn-square mx-2" onclick="window.open('<%= viewautoeval_path(format: 'pdf') %>', '_blank');">Télécharger</span>
+</div>
+
+<!--
+  Si la notation finale n'est pas encore réalisée :
+    le bouton 'Télécharger le template' est actif, les deux autres sont inactifs
+  Sinon
+    les trois bouton sont actifs
+-->
+<div class="mx-3 mt-4">
+  <span class="uppercase font-bold text-darkgrey">Grille de notation finale</span>
+</div>
+<div class="d-flex justify-content-around my-2 mx-4 pb-5">
+  <span class="btn btn-square mx-2" onclick="window.location.assign('./viewgrille');">Consulter</span>
+  <span class="btn btn-square mx-2" onclick="window.open('<%= viewautoeval_path(format: 'pdf') %>', '_blank');">Télécharger</span>
+  <span class="btn btn-square mx-2" onclick="window.location.assign('./grillevierge');">Télécharger le template</span>
+</div>
