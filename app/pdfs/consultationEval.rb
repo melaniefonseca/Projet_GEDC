@@ -20,10 +20,14 @@ class ConsultationEval < Prawn::Document
         move_down(5)
       end
     end
+    move_down(10)
+    text "En bleu : le niveau de compétences attendu à l’obtention du diplôme de Master."
+    move_down(10)
 
     dataTable = []
     ligne = 0
-    colonne = 0
+    colonne = 1
+    nbcolonne = 0
     indiceRequis = []
 
     data['sections'].each_with_index do |valueData, indexData|
@@ -34,11 +38,11 @@ class ConsultationEval < Prawn::Document
       end
 
       dataTable.push(dataTableHead)
-      ligne += 1
+
       valueData['competences'].each do |valueComp|
         dataCompetence = []
         dataCompetence = dataCompetence.push(valueComp['intitule'])
-
+        ligne += 1
         valueData['choix'].each_with_index do |val, index|
 
           if index == valueComp['requis'] then
@@ -58,22 +62,42 @@ class ConsultationEval < Prawn::Document
           colonne += 1
         end
 
-        colonne = 0
+        colonne = 1
         dataTable.push(dataCompetence)
+        nbcolonne = dataCompetence.length
+        puts(dataCompetence.length)
       end
-
-      puts(indiceRequis)
 
       table(dataTable, :cell_style => { :inline_format => true }) do
         self.row(0).font_style = :bold
-        columns(1..5).align = :center
-        self.row(1).column(3).background_color = '005C89'
-        self.row(1).column(3).text_color = "FFFFFF"
+        cells.column(0).width = 350
+
+        columns(1..nbcolonne).width = 230/nbcolonne
+        # row(0).columns(1..nbcolonne).rotate = 90
+        # row(0).columns(1..nbcolonne).rotate_around = :center
+        # row(0).height = 100
+
+        cells.style.background_color = "FFFFFF"
+        columns(1..nbcolonne).align = :center
+
+        for i in indiceRequis
+          self.row(i[0]).column(i[1]).background_color = '23BCDE'
+          self.row(i[0]).column(i[1]).text_color = "FFFFFF"
+        end
       end
       move_down(10)
       dataTable = []
       ligne = 0
+      indiceRequis = []
+      start_new_page
     end
+
+    text "D’autres compétences peuvent être également développées pendant le stage.
+    Liste non exhaustive :
+    - Favoriser l’amélioration et l’innovation
+    - Coordonner l’activité d’une équipe
+    - Intégrer l’ensemble des outils informatiques dans un système cohérent
+    - Concevoir l’architecture informatique de l’entreprise..."
     move_down(10)
     if data.has_key?('commentaire') then
       if data['commentaire'] != '' then
