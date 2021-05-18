@@ -1,0 +1,63 @@
+<%= stylesheet_link_tag "tableauDeBord" %>
+
+<div class="bandeauSuperieur d-flex justify-content-center">
+  <span class="mx-4 uppercase font-bold">Evolution</span>
+</div>
+
+<div class="container drop pt-5 pb-3">
+  <select class="dropdown" name="promo" required>
+    <option value="" disabled selected>Filtrer par</option>
+    <option class="dropdown-item">L3 MIAGE</option>
+    <option class="dropdown-item">M1 MIAGE</option>
+    <option class="dropdown-item">M2 MIAGE</option>
+    <option class="dropdown-item">Mes étudiants</option>
+  </select>
+</div>
+
+<div class="card-body p-2">
+  <div class="table-responsive">
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <thead>
+      <tr>
+        <th>Nom/Prénom de l'étudiant</th>
+        <th>Promotion</th>
+        <th>Entreprise</th>
+        <th>Savoir Etre</th>
+        <th>Compétences transverses</th>
+        <th>Compétences disciplinaires</th>
+        <th>Global</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @data['etudiants'].each do |valueData| %>
+        <tr>
+          <% valueData.each do |key, val| %>
+            <% if key == 'savoiretre' || key == 'competencestransverses' || key == 'competencesdisciplinaire' || key == 'global' %>
+              <% if val == nil %>
+                <td>
+                  <span class="not-completed">/</span>
+                <% elsif val == 1 %>
+                 <td>
+                  <i class="fas fa-arrow-down" style="color:red"></i>
+                 </td>
+                <% elsif val == 2 %>
+                  <td>
+                    <i class="fas fa-arrow-up" style="color:green"></i>
+                  </td>
+              <% elsif val == 3 %>
+                <td>
+                  <i class="fas fa-arrow-right" style="color:orange"></i>
+                </td>
+                <%end %>
+              <% else %>
+                <td>
+                  <%= val %>
+                </td>
+              <%end %>
+        <% end %>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

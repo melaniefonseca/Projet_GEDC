@@ -23,9 +23,16 @@ table {
 
 .table-bordered th,
 .table-bordered td {
-    border: 1px solid #dddfeb !important;
     text-align: center;
     vertical-align:middle;
+    border:1px solid black;
+}
+.table-bordered th {
+    background-color: white;
+}
+
+.table-bordered td {
+    color: #181552;
 }
 
 .card-body {
@@ -39,7 +46,7 @@ table {
 }
 
 .completed {
-    color: darkolivegreen;
+    color: green;
 }
 
 span {
@@ -55,7 +62,7 @@ span {
     position: relative;
     align-items: stretch;
     width: 100%;
-    max-width: 150px;
+    max-width: 170px;
     padding: 15px 19px;
     font-size: medium;
     font-weight: bolder;
