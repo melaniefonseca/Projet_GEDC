@@ -5,7 +5,7 @@
 </div>
 
 <form method="post">
-  <div class="m-4">
+  <div class="m-4 pt-3">
 
     <div class="section">
       <div class="block">
@@ -14,16 +14,16 @@
         </div>
         <div class="d-flex flex-column align-items-start">
           <div class="my-2 px-3">
-            <label class="formLabel text-mediumblue"> <%=@nomEtudiant %> : </label>
-            <label class=""> Durand Charles </label> <br/>
+            <label class="formLabel text-mediumblue"> Nom du stagiaire : </label>
+            <label class="font-bold text-mediumblue"> <%=@nomEtudiant %> </label> <br/>
           </div>
           <div class="my-2 px-3">
-            <label class="formLabel text-mediumblue"> <%=@promotionEtudiant %> : </label>
-            <label class=""> M2 Miage </label> <br/>
+            <label class="formLabel text-mediumblue"> Promotion : </label>
+            <label class="font-bold text-mediumblue"> <%=@promotionEtudiant %> </label> <br/>
           </div>
           <div class="my-2 px-3">
-            <label class="formLabel text-mediumblue"> <%=@entrepriseEtudiant %> : </label>
-            <label class=""> ATOS </label> <br/>
+            <label class="formLabel text-mediumblue"> Entreprise : </label>
+            <label class="font-bold text-mediumblue"> <%=@entrepriseEtudiant %> </label> <br/>
           </div>
         </div>
       </div>
@@ -41,7 +41,9 @@
 
 <% @data['bareme'].each_with_index { |valueData, indexData|%>
 
-              <th class="text-center text-mediumblue font-normal"><%= valueData['libelle'] %></th>
+              <th class="text-center text-mediumblue font-normal">
+                <label for="<%= indexData %>"><%= valueData['libelle'] %></label>
+              </th>
 
 <% } %>
 
@@ -55,7 +57,7 @@
 <% @data['bareme'].each_with_index { |valueData, indexData|%>
 
               <td class="text-center">
-                <input type="radio" name="note">
+                <input id="<%= indexData %>" type="radio" name="note">
               </td>
 
 <% } %>
@@ -70,7 +72,7 @@
     <div class="section">
       <div class="block">
         <div class="sous-titre">
-          <span class="uppercase font-bold text-darkgrey">Commentaire</span>
+          <span class="uppercase font-bold text-darkgrey">Espace de commentaire</span>
         </div>
         <div class="d-flex">
           <textarea cols="500"></textarea>

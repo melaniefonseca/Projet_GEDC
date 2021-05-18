@@ -5,7 +5,7 @@
   <span class="mx-4 uppercase font-bold">Tableau de bord</span>
 </div>
 
-<div class="container drop pt-5 pb-3">
+<div class="container drop py-3">
   <select class="dropdown" name="promo" required>
   <option value="" disabled selected>Filtrer par</option>
     <option class="dropdown-item">L3 MIAGE</option>
@@ -39,14 +39,14 @@
                     <span class="not-completed">Non Completée</span>
                   <% if key != 'autoevaluation' && key != 'autoevaluationfinale' %>
                     <br/>
-                    <button type="button" class="btn btn-round tab">Remplir</button>
+                    <button type="button" class="btn btn-round btn-sm px-3 mt-2">Remplir</button>
                   <% end %>
                   </td>
                 <% else %>
                   <td>
                     <span class="completed">Completée</span>
                     <br/>
-                    <button type="button" class="btn btn-round tab">Consulter</button>
+                    <button type="button" class="btn btn-round btn-sm px-3 mt-2">Consulter</button>
                   </td>
                 <% end %>
               <% elsif key == 'note'%>
@@ -54,13 +54,13 @@
                 <td>
                   <span>-</span>
                   <br/>
-                  <button type="button" class="btn btn-round tab">Noter</button>
+                  <button type="button" class="btn btn-round btn-sm px-3 mt-2">Noter</button>
                 </td>
                 <% else %>
                   <td>
                     <span><%= val %></span>
                     <br/>
-                    <button type="button" class="btn btn-round tab">Consulter</button>
+                    <button type="button" class="btn btn-round btn-sm px-3 mt-2">Consulter</button>
                   </td>
                 <% end %>
               <% else %>
@@ -76,7 +76,7 @@
   </div>
 </div>
 
-<div class="container m-2 pt-5">
-  <button class="btn btn-round">Télécharger le template grille d'évaluation</button>
-  <button class="btn btn-round">Télécharger la grille de notation finale</button>
+<div class="d-flex justify-content-center m-2 pt-3">
+  <button class="btn btn-square btn-sm mx-3">Télécharger le template grille d'évaluation</button>
+  <button class="btn btn-square btn-sm mx-3">Télécharger la grille de notation finale</button>
 </div>
