@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   get '/tableaudebord', to: 'pages#tableauDeBord'
   get '/menuetudiant', to: 'pages#menuEtudiant'
   get '/menurespstage', to: 'pages#menuRespStage'
+  get '/notation', to: 'pages#notation'
+  get '/notation/view', to: 'pages#viewNotation'
 end
