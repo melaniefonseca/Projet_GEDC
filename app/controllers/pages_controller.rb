@@ -83,6 +83,31 @@ class PagesController < ApplicationController
 
   end
 
+  def notation
+    require 'json'
+    text =  '{"bareme":[{"libelle": "Un stage durant lequel des problèmes se sont manifestés du fait de l\'étudiant","valeur": "E"}, {"libelle": "Aucun véritable problème ne s’est manifesté mais les résultats  escomptés n’ont pas été atteints","valeur": "D"},{"libelle": "Stage moyen, sans reproche particulier à faire à l’étudiant","valeur": "C"},{"libelle": "Stage de bonne qualité, les objectifs ont été atteints et les résultats sont  utiles à l’entreprise","valeur": "B"},{"libelle": "Stage excellent où les résultats dépassent les objectifs assignés","valeur": "A"}]}'
+
+    @data = JSON.parse(text)
+
+    @nomEtudiant = 'Durand Charles'
+    @promotionEtudiant = 'M2 Miage'
+    @entrepriseEtudiant = 'ATOS'
+  end
+
+  def viewNotation
+    require 'json'
+    text =  '{"bareme":[{"libelle": "Un stage durant lequel des problèmes se sont manifestés du fait de l\'étudiant","valeur": "E"}, {"libelle": "Aucun véritable problème ne s’est manifesté mais les résultats  escomptés n’ont pas été atteints","valeur": "D"},{"libelle": "Stage moyen, sans reproche particulier à faire à l’étudiant","valeur": "C"},{"libelle": "Stage de bonne qualité, les objectifs ont été atteints et les résultats sont  utiles à l’entreprise","valeur": "B"},{"libelle": "Stage excellent où les résultats dépassent les objectifs assignés","valeur": "A"}]}'
+
+    @data = JSON.parse(text)
+
+    @nomEtudiant = 'Durand Charles'
+    @promotionEtudiant = 'M2 Miage'
+    @entrepriseEtudiant = 'ATOS'
+
+    @note = 'C'
+    @commentaire = 'Très bon stage dans l\'ensemble, étudiant très volontaire'
+  end
+  
   def evolution
     require 'json'
     text =  '{"etudiants":[{"nom": "Marie Danede","promotion": "M2 Miage", "entreprise": "Bordeaux Metropole", "savoiretre": 1, "competencestransverses": 2, "competencesdisciplinaire": 2, "global": 3}, {"nom": "Nawel Ouadhour","promotion": "M2 Miage", "entreprise": "Atos", "savoiretre": 1, "competencestransverses": 2, "competencesdisciplinaire": 1, "global": 3}]}'
@@ -141,6 +166,7 @@ class PagesController < ApplicationController
     end
 
     puts(tabEvolution)
+
   end
 end
 
