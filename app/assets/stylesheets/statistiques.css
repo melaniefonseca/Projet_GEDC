@@ -1,0 +1,30 @@
+.sous-titre {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--darkgrey);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: darkgray;
+    width: 50%;
+    margin-bottom: 1rem;
+    padding-bottom: .5rem;
+}
+.img {
+    display: inline-block;
+    width:100px;
+    height: 100px;
+}
+
+.row{
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+.text-primary{
+    font-size: 60px!important;
+    padding-top: 20px!important;
+}
+.card{
+    border-radius: 50px;
+}
+
