@@ -71,6 +71,12 @@
     text-decoration: none !important;
 }
 
+.btn.disabled {
+    color: #FFFFFF !important;
+    background-color: var(--mediumgrey) !important;
+    opacity: 1 !important;
+}
+
 .btn-square {
     border-radius: 20px!important;
     padding: 1.5rem!important;
