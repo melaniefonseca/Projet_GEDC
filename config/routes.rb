@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   get '/notation', to: 'pages#notation'
   get '/notation/view', to: 'pages#viewNotation'
   get '/evolution', to: 'pages#evolution'
+  get '/statistiques', to: 'pages#statistiques'
 end
