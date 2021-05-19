@@ -1,0 +1,88 @@
+<%= stylesheet_link_tag "evaluation" %>
+
+<div class="bandeauSuperieur d-flex justify-content-center">
+  <span class="mx-4 uppercase font-bold">Espace de notation</span>
+</div>
+
+<form method="post">
+  <div class="m-4 pt-3">
+
+    <div class="section">
+      <div class="block">
+        <div class="sous-titre">
+          <span class="uppercase font-bold text-darkgrey">Etudiant</span>
+        </div>
+        <div class="d-flex flex-column align-items-start">
+          <div class="my-2 px-3">
+            <label class="formLabel text-mediumblue"> Nom du stagiaire : </label>
+            <label class="font-bold text-mediumblue"> <%=@nomEtudiant %> </label> <br/>
+          </div>
+          <div class="my-2 px-3">
+            <label class="formLabel text-mediumblue"> Promotion : </label>
+            <label class="font-bold text-mediumblue"> <%=@promotionEtudiant %> </label> <br/>
+          </div>
+          <div class="my-2 px-3">
+            <label class="formLabel text-mediumblue"> Entreprise : </label>
+            <label class="font-bold text-mediumblue"> <%=@entrepriseEtudiant %> </label> <br/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="block">
+        <div class="sous-titre">
+          <span class="uppercase font-bold text-darkgrey">Note de l'entreprise</span>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+
+<% @data['bareme'].each_with_index { |valueData, indexData|%>
+
+              <th class="text-center text-mediumblue font-normal">
+                <label for="<%= indexData %>"><%= valueData['libelle'] %></label>
+              </th>
+
+<% } %>
+
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr>
+
+<% @data['bareme'].each_with_index { |valueData, indexData|%>
+
+              <td class="text-center">
+                <input id="<%= indexData %>" type="radio" name="note">
+              </td>
+
+<% } %>
+
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="block">
+        <div class="sous-titre">
+          <span class="uppercase font-bold text-darkgrey">Espace de commentaire</span>
+        </div>
+        <div class="d-flex">
+          <textarea cols="500"></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="d-flex justify-content-center py-2 pb-4">
+    <button type="submit" class="btn btn-round">Soumettre</button>
+  </div>
+</form>

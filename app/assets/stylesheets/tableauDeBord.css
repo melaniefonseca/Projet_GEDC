@@ -23,9 +23,25 @@ table {
 
 .table-bordered th,
 .table-bordered td {
-    border: 1px solid #dddfeb !important;
     text-align: center;
     vertical-align:middle;
+    border:1px solid black;
+}
+.table-bordered th {
+    background-color: var(--mediumgrey);
+}
+
+.table-bordered td {
+    color: #181552;
+    background-color: white;
+}
+
+.table-bordered .btn {
+    font-weight: normal !important;
+}
+
+.table-bordered .svg-inline--fa {
+    font-size: large !important;
 }
 
 .card-body {
@@ -39,7 +55,7 @@ table {
 }
 
 .completed {
-    color: darkolivegreen;
+    color: green;
 }
 
 span {
@@ -55,8 +71,8 @@ span {
     position: relative;
     align-items: stretch;
     width: 100%;
-    max-width: 150px;
-    padding: 15px 19px;
+    max-width: 170px;
+    padding: 6px 19px;
     font-size: medium;
     font-weight: bolder;
     border-radius: 30px;
@@ -74,7 +90,12 @@ span {
     text-align: center;
 }
 
-.dropdown-item {
-    color: white;
-    font-weight: 600;
+select option {
+    color: var(--purple) !important;
+    font-weight: 600 !important;
+    background-color: var(--lightgrey) !important;
+}
+
+select option:disabled {
+    background-color: rgb(170, 170, 170) !important;
 }

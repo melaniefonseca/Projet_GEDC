@@ -1,0 +1,91 @@
+<%= stylesheet_link_tag "evaluation" %>
+
+<div class="bandeauSuperieur d-flex justify-content-center">
+  <span class="mx-4 uppercase font-bold">Espace de notation</span>
+</div>
+
+<form method="post">
+  <div class="m-4 pt-3">
+
+    <div class="section">
+      <div class="block">
+        <div class="sous-titre">
+          <span class="uppercase font-bold text-darkgrey">Etudiant</span>
+        </div>
+        <div class="d-flex flex-column align-items-start">
+          <div class="my-2 px-3">
+            <label class="formLabel text-mediumblue"> Nom du stagiaire : </label>
+            <label class="font-bold text-mediumblue"> <%=@nomEtudiant %> </label> <br/>
+          </div>
+          <div class="my-2 px-3">
+            <label class="formLabel text-mediumblue"> Promotion : </label>
+            <label class="font-bold text-mediumblue"> <%=@promotionEtudiant %> </label> <br/>
+          </div>
+          <div class="my-2 px-3">
+            <label class="formLabel text-mediumblue"> Entreprise : </label>
+            <label class="font-bold text-mediumblue"> <%=@entrepriseEtudiant %> </label> <br/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="block">
+        <div class="sous-titre">
+          <span class="uppercase font-bold text-darkgrey">Note de l'entreprise</span>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+
+<% @data['bareme'].each_with_index { |valueData, indexData|%>
+
+              <th class="text-center text-mediumblue font-normal"><%= valueData['libelle'] %></th>
+
+<% } %>
+
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr>
+
+<% @data['bareme'].each_with_index { |valueData, indexData|
+  if valueData['valeur'] == @note then %>
+
+              <td class="text-center">
+                <input type="radio" checked disabled name="note">
+              </td>
+
+  <% else %>
+
+              <td class="text-center">
+                <input type="radio" disabled name="note">
+              </td>
+
+  <% end
+} %>
+
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="block">
+        <div class="sous-titre">
+          <span class="uppercase font-bold text-darkgrey">Espace de commentaire</span>
+        </div>
+        <div class="d-flex">
+          <label><%= @commentaire %></label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</form>
+

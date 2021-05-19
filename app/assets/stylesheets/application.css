@@ -49,6 +49,10 @@
     font-weight: normal !important;
 }
 
+.btn:hover {
+    background-color: var(--darkblue) !important;
+}
+
 .btn-round {
     border-radius: 20px!important;
     padding-right: 3rem!important;
@@ -71,6 +75,12 @@
     text-decoration: none !important;
 }
 
+.btn.disabled {
+    color: #FFFFFF !important;
+    background-color: var(--mediumgrey) !important;
+    opacity: 1 !important;
+}
+
 .btn-square {
     border-radius: 20px!important;
     padding: 1.5rem!important;
@@ -78,6 +88,14 @@
     color: #FFFFFF!important;
     background-color: var(--purple)!important;
     width: 15rem;
+}
+
+.btn-square.btn-xl {
+    font-size: large;
+}
+
+.btn-square.btn-sm {
+    padding: 0.75rem!important;
 }
 
 input[type='radio']:after {
