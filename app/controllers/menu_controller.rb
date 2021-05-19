@@ -10,7 +10,7 @@ class MenuController < ApplicationController
 
   end
 
-  def require_login
+  def redirection
     if (@bool_test == false)
       redirect_to(menuetudiant_path)
     else
