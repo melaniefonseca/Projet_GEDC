@@ -1,0 +1,3 @@
+class StatistiquesController < ApplicationController
+
+end
