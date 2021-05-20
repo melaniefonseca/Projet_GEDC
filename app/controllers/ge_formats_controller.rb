@@ -3,7 +3,7 @@ class GeFormatsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    redirect_to action: "show", id: GeFormats.last.id
+    redirect_to action: "show", id: GeFormats.first.nil? ? 0 : GeFormats.last.id
   end
 
   def new
@@ -13,7 +13,7 @@ class GeFormatsController < ApplicationController
   def show
     @ge_id = params[:id]
     @ge_formats = if GeFormats.exists?(params[:id])
-                    JSON.parse GeFormats.find(params[:id]).content.to_s
+                    JSON.parse GeFormats.find(params[:id]).contenu.to_s
     else
       @ge_id = "new"
       JSON.parse '{"sections":[]}'
@@ -23,7 +23,7 @@ class GeFormatsController < ApplicationController
 
   def create
     @GeFormats_to_save = GeFormats.new
-    @GeFormats_to_save.content = params[:ge_format].to_s.gsub("=>", ":")
+    @GeFormats_to_save.contenu = params[:ge_format].to_s.gsub("=>", ":")
 
     if @GeFormats_to_save.save
       redirect_to @GeFormats_to_save
