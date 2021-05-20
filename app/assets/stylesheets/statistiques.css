@@ -15,7 +15,7 @@
     height: 100px;
 }
 
-.row{
+.wrapperStatistiques .row{
     text-align: center;
     padding-top: 20px;
     padding-bottom: 10px;
@@ -36,7 +36,6 @@
     width: 100%;
     max-width: 270px;
     padding: 6px 19px;
-    font-size: x-large;
     font-weight: bolder;
     border-radius: 30px;
     background-color: var(--purple)!important;
@@ -61,19 +60,19 @@ select option {
 select option:disabled {
     background-color: rgb(170, 170, 170) !important;
 }
-#wrapperStatistiques span{
-    font-size: x-large;
-}
-.pourcentage{
+
+.wrapperStatistiques .pourcentage{
     color: #181552!important;
     font-weight: bold;
     text-align: left;
+    font-size: 5rem;
 }
+
+.wrapperStatistiques .titre{
+    font-size: x-large;
+}
+
 .card-header{
     border-top-left-radius: 50px!important;
     border-top-right-radius: 50px!important;
-}
-.description{
-    text-align: left;
-    padding-bottom: 100px;
 }
