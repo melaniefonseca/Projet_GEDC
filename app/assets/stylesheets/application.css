@@ -45,6 +45,8 @@
 .text-left          {text-align: left!important;}
 .text-center        {text-align: center!important;}
 
+.w-80               {width: 80%;}
+
 .font-normal {
     font-weight: normal !important;
 }
@@ -57,6 +59,7 @@
     color: #FFFFFF!important;
     background-color: var(--purple)!important;
 }
+
 .btn-round {
     border-radius: 20px !important;
     padding-right: 3rem !important;
