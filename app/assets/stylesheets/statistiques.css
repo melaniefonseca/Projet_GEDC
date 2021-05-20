@@ -61,7 +61,7 @@ select option {
 select option:disabled {
     background-color: rgb(170, 170, 170) !important;
 }
-span{
+#wrapperStatistiques span{
     font-size: x-large;
 }
 .pourcentage{

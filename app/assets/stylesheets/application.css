@@ -20,6 +20,7 @@
     --darkgrey: #172026;
     --purple: #8B0146;
     --purple-transparent: #8B0146BB;
+    --purple-transparent-more: #8B014655;
     --mediumblue: #231d99;
     --darkblue: #181552;
 }
@@ -127,4 +128,19 @@ input[type='radio']:checked:after {
     display: inline-block;
     visibility: visible;
     border: 2px solid darkgrey;
+}
+
+.form-check-input:checked {
+    background-color: var(--purple) !important;
+    border-color: var(--purple) !important;;
+}
+
+.form-check-input:focus {
+    border-color: var(--purple-transparent) !important;
+    box-shadow: 0 0 0 0.25rem var(--purple-transparent-more) !important;
+}
+
+.form-switch .form-check-input:focus:not(:checked) {
+    border-color: var(--purple-transparent) !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%238B014655'/%3e%3c/svg%3e") !important;
 }

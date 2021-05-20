@@ -50,6 +50,10 @@ table {
     margin-right: 1rem;
 }
 
+.formLabel-large {
+    width: 200px !important;
+}
+
 .formInput {
     width: 300px;
 }
@@ -66,4 +70,8 @@ table {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     padding: 1rem;
     width: 80%;
+}
+
+.block-large {
+    width: 90% !important;
 }

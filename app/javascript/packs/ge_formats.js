@@ -25,7 +25,7 @@ function add_input_to_parent(key, parent, i) {
 
     let newInput = document.createElement("input");
     newInput.value = key;
-    newInput.className = "capitalized formLabel text-mediumblue";
+    newInput.className = "capitalized formLabel formLabel-large text-mediumblue";
     newInput.onchange = function() {
         let current_val = this.value;
         let current_id = labelle_table[i];
@@ -56,7 +56,7 @@ function add_section_to_parent(data, section_id, parent) {
     newdiv.className = "section";
 
     let newdivBlock = document.createElement("div");
-    newdivBlock.className = "block";
+    newdivBlock.className = "block block-large";
 
     let newdivst = document.createElement("div");
     newdivst.className = "sous-titre";
@@ -64,7 +64,7 @@ function add_section_to_parent(data, section_id, parent) {
     let newInput = document.createElement("input");
     newInput.value = data["titre"];
     newInput.id = data["titre"];
-    newInput.className = "capitalized formLabel text-mediumblue";
+    newInput.className = "capitalized formLabel formLabel-large text-mediumblue";
     newInput.onchange = function() {
         let current_val = this.value;
         let already_exist = false;
@@ -160,6 +160,7 @@ function add_section_to_parent(data, section_id, parent) {
         newtr.append(newth);
     }
     newth = document.createElement("th");
+    newth.className = "text-right";
     let newAddChoixButton = document.createElement("button");
     newAddChoixButton.className = "btn btn-round btn-sm px-3 mt-2";
     newAddChoixButton.type = "button";
