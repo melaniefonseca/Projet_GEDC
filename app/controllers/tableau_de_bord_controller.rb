@@ -16,47 +16,45 @@ class TableauDeBordController < ApplicationController
     @stages = ActiveRecord::Base.connection.execute(sqlStage)
     text = '{"etudiants":['
     @stages.each do |stage|
-        sqlautoevaluation = "SELECT id FROM evaluations where evaluations.stage_id = " + stage['id'].to_s + ' AND auto_evalution = 1 AND finale = 0'
-        autoevaluation = ActiveRecord::Base.connection.execute(sqlautoevaluation)
-        if !autoevaluation.present?
-          autoevaluation = nil
-        else
-          autoevaluation = autoevaluation[0]['id'].to_s
-        end
 
-        sqlautoevaluationfinal = "SELECT id FROM evaluations where evaluations.stage_id = " + stage['id'].to_s + ' AND auto_evalution = 1 AND finale = 1'
-        autoevaluationfinal = ActiveRecord::Base.connection.execute(sqlautoevaluationfinal)
-        if !autoevaluationfinal.present?
-          autoevaluationfinal = nil
-        else
-          autoevaluationfinal = autoevaluationfinal[0]['id'].to_s
+      autoEval  = 'null'
+      autoEvalFinal = 'null'
+      grille = 'null'
+      grilleFinal = 'null'
+      sqleval = "SELECT id,
+      COUNT(CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 0 THEN id END)END) as autoEval,
+      COUNT(CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 1 THEN id END)END) as autoEvalFinal,
+      COUNT(CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 0 THEN id END)END) as grille,
+      COUNT(CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 1 THEN id END)END) as grilleFinal
+      FROM evaluations
+      WHERE evaluations.stage_id = " + stage['id'].to_s
+      eval = ActiveRecord::Base.connection.execute(sqleval)
+      if eval.present?
+        if (eval[0]['autoEval'].to_s != 0)
+          autoEval  = eval[0]['autoEval'].to_s
         end
-
-        sqlgrilleevaluation = "SELECT id FROM evaluations where evaluations.stage_id = " + stage['id'].to_s + ' AND auto_evalution = 0 AND finale = 0'
-        grilleevaluation = ActiveRecord::Base.connection.execute(sqlgrilleevaluation)
-        if !grilleevaluation.present?
-          grilleevaluation = 'null'
-        else
-          grilleevaluation = grilleevaluation[0]['id'].to_s
+        if (eval[0]['autoEvalFinal'].to_s != 0)
+          autoEvalFinal = eval[0]['autoEvalFinal'].to_s
         end
-
-        sqlgrilleevaluationfinal = "SELECT id FROM evaluations where evaluations.stage_id = " + stage['id'].to_s + ' AND auto_evalution = 0 AND finale = 1'
-        grilleevaluationfinal = ActiveRecord::Base.connection.execute(sqlgrilleevaluationfinal)
-        if !grilleevaluationfinal.present?
-          grilleevaluationfinal = 'null'
-        else
-          grilleevaluationfinal = grilleevaluationfinal[0]['id'].to_s
+        if (eval[0]['grille'].to_s != 0)
+          grille = eval[0]['grille'].to_s
         end
-
-        sqlnotation = "SELECT note FROM notations where notations.stage_id = " + stage['id'].to_s
-        notation = ActiveRecord::Base.connection.execute(sqlnotation)
-        if !notation.present?
-          notation = 'null'
-        else
-          notation = notation[0]['note'].to_s
+        if (eval[0]['grilleFinal'] != 0)
+          grilleFinal = eval[0]['grilleFinal'].to_s
         end
+      end
+      puts(eval)
 
-        text += '{"nom": "'+stage['nom'] +' '+ stage['prenom'] +'","promotion": "'+stage['mention']+'", "entreprise": "'+stage['raison_sociale']+'", "autoevaluation": '+autoevaluation+', "grilleevaluation": '+grilleevaluation+', "autoevaluationfinale": '+autoevaluationfinal+', "grilleevaluationfinale": '+grilleevaluationfinal+',  "note": "'+notation+'"}'
+      sqlnotation = "SELECT note FROM notations where notations.stage_id = " + stage['id'].to_s
+      notation = ActiveRecord::Base.connection.execute(sqlnotation)
+      if !notation.present?
+        notation = 'null'
+      else
+        notation = notation[0]['note'].to_s
+      end
+
+      text += '{"nom": "'+stage['nom'] +' '+ stage['prenom'] +'","promotion": "'+stage['mention']+'", "entreprise": "'+stage['raison_sociale']+'", "autoevaluation": '+autoEval+', "grilleevaluation": '+grille+', "autoevaluationfinale": '+autoEvalFinal+', "grilleevaluationfinale": '+grilleFinal+',  "note": '+notation+'}'
+
     end
     text += ']}'
     @data = JSON.parse(text)

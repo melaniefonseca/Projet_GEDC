@@ -29,7 +29,7 @@
                     <img class="img" <%= image_tag(image_url('check.PNG'), class: 'image') %>
                   </div>
                   <div class="d-flex justify-content-start align-items-center">
-                    <span class="pourcentage">10%</span>
+                    <span class="pourcentage"><%= @pourcentageEtudiantAutoEvaluation %>%</span>
                   </div>
                 </div>
                 <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des etudiants qui ne l'ont pas effectué</a>
@@ -47,7 +47,7 @@
                     <img class="img" <%= image_tag(image_url('check.PNG'), class: 'image') %>
                   </div>
                   <div class="d-flex justify-content-start align-items-center">
-                    <span class="pourcentage">2%</span>
+                    <span class="pourcentage"><%= @pourcentageEtudiantAutoEvaluationFinal %>%</span>
                   </div>
                 </div>
                 <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des etudiants qui ne l'ont pas effectué</a>
@@ -72,7 +72,7 @@
                     <img class="img" <%= image_tag(image_url('check.PNG'), class: 'image') %>
                   </div>
                   <div class="d-flex justify-content-start align-items-center">
-                    <span class="pourcentage">70%</span>
+                    <span class="pourcentage"><%= @pourcentageEtudiantGrilleEvaluation %>%</span>
                   </div>
                 </div>
                 <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des responsables qui ne l'ont pas effectué</a>
@@ -90,7 +90,7 @@
                     <img class="img" <%= image_tag(image_url('check.PNG'), class: 'image') %>
                   </div>
                   <div class="d-flex justify-content-start align-items-center">
-                    <span class="pourcentage">70%</span>
+                    <span class="pourcentage"><%= @pourcentageEtudiantGrilleEvaluationFinal %>%</span>
                   </div>
                 </div>
                 <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des responsables qui ne l'ont pas effectué</a>
@@ -113,7 +113,7 @@
                     <img class="img" <%= image_tag(image_url('check.PNG'), class: 'image') %>
                   </div>
                   <div class="d-flex justify-content-start align-items-center">
-                    <span class="pourcentage">10%</span>
+                    <span class="pourcentage"><%= @pourcentageEtudiantNotation %>%</span>
                   </div>
                 </div>
                 <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des responsables qui ne l'ont pas effectué</a>
