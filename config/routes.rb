@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/menu', to: 'menu#redirection'
   get '/notation', to: 'notations#notation'
   get '/notation/view', to: 'notations#viewNotation'
+  get '/editnotation', to: 'notations#editNotation'
   get '/evolution', to: 'evolutions#evolution'
   get '/statistiques', to: 'statistiques#statistiques'
   resources :ge_formats

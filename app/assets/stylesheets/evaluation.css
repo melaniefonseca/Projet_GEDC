@@ -43,6 +43,17 @@ table {
     margin-bottom: 1rem;
     padding-bottom: .5rem;
 }
+.sous-titre-com {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--darkgrey);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: darkgray;
+    width: 100%;
+    margin-bottom: 1rem;
+    padding-bottom: .5rem;
+}
 
 .formLabel {
     width: 150px;
@@ -67,3 +78,8 @@ table {
     padding: 1rem;
     width: 80%;
 }
+.toggle{
+    background-color:  var(--purple-transparent);
+    float: right!important;
+}
+
