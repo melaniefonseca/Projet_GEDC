@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 2021_05_19_102706) do
     t.string "poste"
     t.string "taches"
     t.string "statut"
-    t.string "type"
+    t.string "type_fiche_stage"
     t.string "mention"
     t.date "date_debut"
     t.date "date_fin"
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 2021_05_19_102706) do
     t.index ["offre_id"], name: "index_fiche_stages_on_offre_id"
     t.check_constraint "mention IN (\"L3\",\"M1\", \"M2\")"
     t.check_constraint "statut IN (\"VALIDEE\",\"NON_VALIDEE\", \"NON_TRAITEE\")"
-    t.check_constraint "type IN (\"ALTERNANCE\",\"STAGE\")"
+    t.check_constraint "type_fiche_stage IN (\"ALTERNANCE\",\"STAGE\")"
   end
 
   create_table "formations", force: :cascade do |t|
@@ -131,7 +131,7 @@ ActiveRecord::Schema.define(version: 2021_05_19_102706) do
 
   create_table "offres", force: :cascade do |t|
     t.string "titre"
-    t.string "type"
+    t.string "type_offres"
     t.string "lien_url"
     t.string "mention"
     t.binary "pdf"
@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 2021_05_19_102706) do
     t.integer "entreprise_id"
     t.index ["entreprise_id"], name: "index_offres_on_entreprise_id"
     t.check_constraint "mention IN (\"L3\",\"M1\", \"M2\")"
-    t.check_constraint "type IN (\"STAGE\",\"ALTERNANCE\")"
+    t.check_constraint "type_offres IN (\"STAGE\",\"ALTERNANCE\")"
   end
 
   create_table "offres_technologies", id: false, force: :cascade do |t|
@@ -159,7 +159,7 @@ ActiveRecord::Schema.define(version: 2021_05_19_102706) do
     t.string "sujet"
     t.date "date_ratification_convention"
     t.float "gratification"
-    t.string "type"
+    t.string "type_stage"
     t.string "commentaire"
     t.integer "etudiant_id"
     t.integer "formation_id"
@@ -171,7 +171,7 @@ ActiveRecord::Schema.define(version: 2021_05_19_102706) do
     t.index ["formation_id"], name: "index_stages_on_formation_id"
     t.index ["tuteur_entreprise_id"], name: "index_stages_on_tuteur_entreprise_id"
     t.index ["tuteur_universitaire_id"], name: "index_stages_on_tuteur_universitaire_id"
-    t.check_constraint "type IN (\"STAGE\", \"ALTERNANCE\")"
+    t.check_constraint "type_stage IN (\"STAGE\", \"ALTERNANCE\")"
   end
 
   create_table "technologies", force: :cascade do |t|
