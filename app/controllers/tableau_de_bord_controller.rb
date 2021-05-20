@@ -16,7 +16,7 @@ class TableauDeBordController < ApplicationController
     @stages = ActiveRecord::Base.connection.execute(sqlStage)
     text = '{"etudiants":['
     @stages.each do |stage|
-        sqlautoevaluation = "SELECT id FROM evaluations where evaluations.stage_id = " + stage['id'].to_s + ' AND auto_evalution = 1 AND finale = 0 GROUP BY id'
+        sqlautoevaluation = "SELECT id FROM evaluations where evaluations.stage_id = " + stage['id'].to_s + ' AND auto_evalution = 1 AND finale = 0'
         autoevaluation = ActiveRecord::Base.connection.execute(sqlautoevaluation)
         if !autoevaluation.present?
           autoevaluation = nil
@@ -24,7 +24,7 @@ class TableauDeBordController < ApplicationController
           autoevaluation = autoevaluation[0]['id'].to_s
         end
 
-        sqlautoevaluationfinal = "SELECT id FROM evaluations where evaluations.stage_id = " + stage['id'].to_s + ' AND auto_evalution = 1 AND finale = 1 GROUP BY id'
+        sqlautoevaluationfinal = "SELECT id FROM evaluations where evaluations.stage_id = " + stage['id'].to_s + ' AND auto_evalution = 1 AND finale = 1'
         autoevaluationfinal = ActiveRecord::Base.connection.execute(sqlautoevaluationfinal)
         if !autoevaluationfinal.present?
           autoevaluationfinal = nil
@@ -32,7 +32,7 @@ class TableauDeBordController < ApplicationController
           autoevaluationfinal = autoevaluationfinal[0]['id'].to_s
         end
 
-        sqlgrilleevaluation = "SELECT id FROM evaluations where evaluations.stage_id = " + stage['id'].to_s + ' AND auto_evalution = 0 AND finale = 0 GROUP BY id'
+        sqlgrilleevaluation = "SELECT id FROM evaluations where evaluations.stage_id = " + stage['id'].to_s + ' AND auto_evalution = 0 AND finale = 0'
         grilleevaluation = ActiveRecord::Base.connection.execute(sqlgrilleevaluation)
         if !grilleevaluation.present?
           grilleevaluation = 'null'
@@ -40,7 +40,7 @@ class TableauDeBordController < ApplicationController
           grilleevaluation = grilleevaluation[0]['id'].to_s
         end
 
-        sqlgrilleevaluationfinal = "SELECT id FROM evaluations where evaluations.stage_id = " + stage['id'].to_s + ' AND auto_evalution = 0 AND finale = 1 GROUP BY id'
+        sqlgrilleevaluationfinal = "SELECT id FROM evaluations where evaluations.stage_id = " + stage['id'].to_s + ' AND auto_evalution = 0 AND finale = 1'
         grilleevaluationfinal = ActiveRecord::Base.connection.execute(sqlgrilleevaluationfinal)
         if !grilleevaluationfinal.present?
           grilleevaluationfinal = 'null'
@@ -48,7 +48,15 @@ class TableauDeBordController < ApplicationController
           grilleevaluationfinal = grilleevaluationfinal[0]['id'].to_s
         end
 
-        text += '{"nom": "'+stage['nom'] +' '+ stage['prenom'] +'","promotion": "'+stage['mention']+'", "entreprise": "'+stage['raison_sociale']+'", "autoevaluation": '+autoevaluation+', "grilleevaluation": '+grilleevaluation+', "autoevaluationfinale": '+autoevaluationfinal+', "grilleevaluationfinale": '+grilleevaluationfinal+',  "note": "B"}'
+        sqlnotation = "SELECT note FROM notations where notations.stage_id = " + stage['id'].to_s
+        notation = ActiveRecord::Base.connection.execute(sqlnotation)
+        if !notation.present?
+          notation = 'null'
+        else
+          notation = notation[0]['note'].to_s
+        end
+
+        text += '{"nom": "'+stage['nom'] +' '+ stage['prenom'] +'","promotion": "'+stage['mention']+'", "entreprise": "'+stage['raison_sociale']+'", "autoevaluation": '+autoevaluation+', "grilleevaluation": '+grilleevaluation+', "autoevaluationfinale": '+autoevaluationfinal+', "grilleevaluationfinale": '+grilleevaluationfinal+',  "note": "'+notation+'"}'
     end
     text += ']}'
     @data = JSON.parse(text)
