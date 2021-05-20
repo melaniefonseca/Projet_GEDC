@@ -4,23 +4,22 @@
   <span class="mx-4 uppercase font-bold"><%= @ge_id != "new" ? "Edition de la fiche d'évaluation n°" + @ge_id : "Création grille d'évaluation" %></span>
 </div>
 
-<div class="container drop pt-5 pb-3">
-  <label for="ver">Charger une version : </label>
-  <select class="dropdown btn-sm px-3 mt-2 btn-round" name="Editer une version" required id="ver">
+<div class="d-flex justify-content-center align-items-center drop py-3">
+  <label class="mx-2" for="ver">Charger une version : </label>
+  <select class="dropdown btn-sm px-3 mx-2 btn-round" name="Editer une version" required id="ver">
     <option value="" disabled selected>Version</option>
     <% for option in @ge_ids %>
       <option class="dropdown-item" <%= @ge_id.to_s == option.to_s ? "selected" : "" %>><%= option %></option>
     <% end %>
   </select>
-  <p class="mt-4">OU</p>
-  <%= button_to "Creer un nouveau formulaire", new_ge_format_path, method: :get, class: "btn btn-round btn-sm px-3 mt-2" %>
+  <p class="my-2 mx-4">OU</p>
+  <%= button_to "Creer un nouveau formulaire", new_ge_format_path, method: :get, class: "btn btn-round btn-sm px-3 mx-2" %>
 </div>
 
 <form>
-  <div class="m-4 pt-4">
-
+  <div class="m-4">
     <div class="section">
-      <div class="block">
+      <div class="block block-large">
         <div class="sous-titre">
           <span class="uppercase font-bold text-darkgrey">Légende</span>
         </div>
@@ -36,7 +35,7 @@
     </div>
 
     <div class="section">
-      <div class="block">
+      <div class="block block-large">
         <div class="sous-titre">
           <span class="uppercase font-bold text-darkgrey">Informations générales</span>
         </div>
@@ -52,7 +51,7 @@
     </div>
     <br>
     <div class="section">
-      <div class="block">
+      <div class="block block-large">
         <div class="sous-titre">
           <span class="uppercase font-bold text-darkgrey">Ajouter une section</span>
         </div>
@@ -61,7 +60,7 @@
     </div>
 
     <div class="section">
-      <div class="block">
+      <div class="block block-large">
         <div class="sous-titre">
           <span class="uppercase font-bold text-darkgrey">Commentaire</span>
         </div>
@@ -77,11 +76,8 @@
   </div>
 </form>
 
-<br>
-<br>
-
 <div class="container drop pb-5">
-  <button id="send_button" class="btn btn-round btn-sm px-3 mt-2" value="<%= ge_formats_path %>">Send Json</button>
+  <button id="send_button" class="btn btn-round btn-sm px-3 mt-2" value="<%= ge_formats_path %>">Envoyer le Json</button>
 </div>
 
 <%= javascript_pack_tag 'ge_formats' %>
