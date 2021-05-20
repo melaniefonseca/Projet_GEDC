@@ -1,0 +1,3 @@
+class GeFormats < ApplicationRecord
+
+end

@@ -1,0 +1,87 @@
+<p style="display:none" id="mydata"><%= @ge_formats.to_json %></p>
+
+<div class="bandeauSuperieur d-flex justify-content-center">
+  <span class="mx-4 uppercase font-bold"><%= @ge_id != "new" ? "Edition de la fiche d'évaluation n°" + @ge_id : "Création grille d'évaluation" %></span>
+</div>
+
+<div class="container drop pt-5 pb-3">
+  <label for="ver">Charger une version : </label>
+  <select class="dropdown btn-sm px-3 mt-2 btn-round" name="Editer une version" required id="ver">
+    <option value="" disabled selected>Version</option>
+    <% for option in @ge_ids %>
+      <option class="dropdown-item" <%= @ge_id.to_s == option.to_s ? "selected" : "" %>><%= option %></option>
+    <% end %>
+  </select>
+  <p class="mt-4">OU</p>
+  <%= button_to "Creer un nouveau formulaire", new_ge_format_path, method: :get, class: "btn btn-round btn-sm px-3 mt-2" %>
+</div>
+
+<form>
+  <div class="m-4 pt-4">
+
+    <div class="section">
+      <div class="block">
+        <div class="sous-titre">
+          <span class="uppercase font-bold text-darkgrey">Légende</span>
+        </div>
+        <div class="d-flex flex-column">
+          <div class="d-flex my-1">
+            <div class="px-5">
+              <input type="radio" class="requis" checked disabled>
+            </div>
+            <label class="formLabel mx-2 w-auto"> Niveau de compétence requis en fin de Master 2 </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="block">
+        <div class="sous-titre">
+          <span class="uppercase font-bold text-darkgrey">Informations générales</span>
+        </div>
+        <div class="d-flex flex-column align-items-start" id="libelle">
+          <!-- Insertion automatique des composants libelle par JS -->
+        </div>
+          <button type="button" class="btn btn-round btn-sm px-3 mt-2" id="add_label_button">+</button>
+      </div>
+    </div>
+
+    <div id="sections">
+
+    </div>
+    <br>
+    <div class="section">
+      <div class="block">
+        <div class="sous-titre">
+          <span class="uppercase font-bold text-darkgrey">Ajouter une section</span>
+        </div>
+        <button type="button" class="btn btn-round btn-sm px-3 mt-2" id="add_section_button">+</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="block">
+        <div class="sous-titre">
+          <span class="uppercase font-bold text-darkgrey">Commentaire</span>
+        </div>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="commentaire" />
+        </div>
+        <div class="d-flex">
+          <textarea class="form-control" id="exampleFormControlTextarea5" rows="3" disabled></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</form>
+
+<br>
+<br>
+
+<div class="container drop pb-5">
+  <button id="send_button" class="btn btn-round btn-sm px-3 mt-2" value="<%= ge_formats_path %>">Send Json</button>
+</div>
+
+<%= javascript_pack_tag 'ge_formats' %>
