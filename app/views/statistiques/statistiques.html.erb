@@ -2,7 +2,7 @@
 <div class="bandeauSuperieur d-flex justify-content-center">
   <span class="mx-4 uppercase font-bold">Statistiques</span>
 </div>
-<div class="container drop pt-5 pb-3">
+<div class="container drop py-3">
   <select class="dropdown" name="promo" required>
     <option value="" disabled selected>FILTRER PAR</option>
     <option class="dropdown-item">L3 MIAGE</option>
@@ -10,47 +10,47 @@
     <option class="dropdown-item">M2 MIAGE</option>
   </select>
 </div>
-<div id="wrapper wrapperStatistiques">
+<div id="wrapper" class="wrapperStatistiques">
   <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
       <div class="container-fluid">
         <div class="mx-3 mt-4 mb-3">
-          <span class="uppercase font-bold text-darkgrey" style="font-size: xx-large!important;">Auto Evaluation</span>
+          <span class="titre uppercase font-bold text-darkgrey">Auto Evaluation</span>
         </div>
         <div class="row">
-          <div class="col-lg-6 mb-4 px-5">
+          <div class="col-lg-6 mb-4 d-flex justify-content-center">
             <div class="card shadow mb-4 mx-5">
               <div class="card-header py-3">
-                <h6 class="font-bold " style="font-size: larger">Pourcentage des étudiants ayant déjà rempli la fiche d'auto-evaluation</h6>
+                <span class="font-bold">Etudiants ayant rempli la fiche d'auto-evaluation</span>
               </div>
-              <div class="card-body">
-                <div class="row py-5" style="font-size: 30px">
-                  <div class="col-lg-6 mb-4 d-flex justify-content-end align-items-center">
+              <div class="card-body d-flex flex-column justify-content-between">
+                <div class="d-flex justify-content-center py-5">
+                  <div class="d-flex justify-content-end align-items-center">
                     <img class="img" <%= image_tag(image_url('check.PNG'), class: 'image') %>
                   </div>
-                  <div class="col-lg-6 mb-4 d-flex justify-content-start align-items-center">
-                    <span class="m-0 font-weight-bold" style="font-size: 80px;">10%</span>
+                  <div class="d-flex justify-content-start align-items-center">
+                    <span class="pourcentage">10%</span>
                   </div>
                 </div>
-                <a target="_blank" rel="nofollow" href="">Voir la liste des etudiants qui ne l'ont pas effectué</a>
+                <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des etudiants qui ne l'ont pas effectué</a>
               </div>
             </div>
           </div>
-          <div class="col-lg-6 mb-4 px-5">
+          <div class="col-lg-6 mb-4 d-flex justify-content-center">
             <div class="card shadow mb-4 mx-5">
               <div class="card-header py-3">
-                <h6 class="font-bold " style="font-size: larger">Pourcentage des étudiants ayant déjà rempli la fiche d'auto-evaluation finale</h6>
+                <span class="font-bold">Etudiants ayant rempli la fiche d'auto-evaluation finale</span>
               </div>
-              <div class="card-body">
-                <div class="row py-5" style="font-size: 30px">
-                  <div class="col-lg-6 mb-4 d-flex justify-content-end align-items-center">
+              <div class="card-body d-flex flex-column justify-content-between">
+                <div class="d-flex justify-content-center py-5">
+                  <div class="d-flex justify-content-end align-items-center">
                     <img class="img" <%= image_tag(image_url('check.PNG'), class: 'image') %>
                   </div>
-                  <div class="col-lg-6 mb-4 d-flex justify-content-start align-items-center">
-                    <span class="m-0 font-weight-bold" style="font-size: 80px;">2%</span>
+                  <div class="d-flex justify-content-start align-items-center">
+                    <span class="pourcentage">2%</span>
                   </div>
                 </div>
-                <a target="_blank" rel="nofollow" href="">Voir la liste des etudiants qui ne l'ont pas effectué</a>
+                <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des etudiants qui ne l'ont pas effectué</a>
               </div>
             </div>
           </div>
@@ -58,87 +58,91 @@
       </div>
       <div class="container-fluid">
         <div class="mx-3 mt-4 mb-3">
-          <span class="uppercase font-bold text-darkgrey"style="font-size: xx-large!important;">Visite En entreprise- Grille d'évaluation et de notation finale </span>
+          <span class="titre uppercase font-bold text-darkgrey">Visites en entreprise - Grille d'évaluation</span>
         </div>
         <div class="row">
-          <div class="col-lg-6 mb-4 px-5">
+          <div class="col-lg-6 mb-4 d-flex justify-content-center">
             <div class="card shadow mb-4 mx-5">
               <div class="card-header py-3">
-                <h6 class="font-bold " style="font-size: larger">Pourcentage des visite en entreprise effectuées (grilles d'évaluation remplies)</h6>
+                <span class="font-bold">Visites en entreprise effectuées (grilles d'évaluation remplies)</span>
               </div>
-              <div class="card-body">
-                <div class="row py-5" style="font-size: 30px">
-                  <div class="col-lg-6 mb-4 d-flex justify-content-end align-items-center">
+              <div class="card-body d-flex flex-column justify-content-between">
+                <div class="d-flex justify-content-center py-5">
+                  <div class="d-flex justify-content-end align-items-center">
                     <img class="img" <%= image_tag(image_url('check.PNG'), class: 'image') %>
                   </div>
-                  <div class="col-lg-6 mb-4 d-flex justify-content-start align-items-center">
-                    <span class="m-0 font-weight-bold" style="font-size: 80px;">70%</span>
+                  <div class="d-flex justify-content-start align-items-center">
+                    <span class="pourcentage">70%</span>
                   </div>
                 </div>
-                <a target="_blank" rel="nofollow" href="">Voir la liste des responsables qui ne l'ont pas effectué</a>
+                <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des responsables qui ne l'ont pas effectué</a>
               </div>
             </div>
           </div>
-          <div class="col-lg-6 mb-4 px-5">
+          <div class="col-lg-6 mb-4 d-flex justify-content-center">
             <div class="card shadow mb-4 mx-5">
               <div class="card-header py-3">
-                <h6 class="font-bold " style="font-size: larger">Pourcentage des responsables pédagogiques ayant soumis la grille de notation finale</h6>
+                <span class="font-bold">Visites en entreprise finale effectuées (grilles d'évaluation remplies)</span>
               </div>
-              <div class="card-body">
-                <div class="row py-5" style="font-size: 30px">
-                  <div class="col-lg-6 mb-4 d-flex justify-content-end align-items-center">
+              <div class="card-body d-flex flex-column justify-content-between">
+                <div class="d-flex justify-content-center py-5">
+                  <div class="d-flex justify-content-end align-items-center">
                     <img class="img" <%= image_tag(image_url('check.PNG'), class: 'image') %>
                   </div>
-                  <div class="col-lg-6 mb-4 d-flex justify-content-start align-items-center">
-                    <span class="m-0 font-weight-bold" style="font-size: 80px;">70%</span>
+                  <div class="d-flex justify-content-start align-items-center">
+                    <span class="pourcentage">70%</span>
                   </div>
                 </div>
-                <a target="_blank" rel="nofollow" href="">Voir la liste des responsables qui ne l'ont pas effectué</a>
+                <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des responsables qui ne l'ont pas effectué</a>
               </div>
             </div>
           </div>
         </div>
         <div class="mx-3 mt-4 mb-3">
-          <span class="uppercase font-bold text-darkgrey"style="font-size: xx-large!important;">Notation d'entreprise </span>
+          <span class="titre uppercase font-bold text-darkgrey">Notation d'entreprise </span>
         </div>
         <div class="row">
-          <div class="col-lg-6 mb-4 px-5">
+          <div class="col-lg-6 mb-4 d-flex justify-content-center">
             <div class="card shadow mb-4 mx-5">
               <div class="card-header py-3">
-                <h6 class="font-bold " style="font-size: larger">Poucentage des etudiants dont les notes d’entreprise ont été attribuées</h6>
+                <span class="font-bold">Etudiants dont la note d’entreprise a été attribuée</span>
               </div>
-              <div class="card-body">
-                <div class="row py-5" style="font-size: 30px">
-                  <div class="col-lg-6 mb-4 d-flex justify-content-end align-items-center">
+              <div class="card-body d-flex flex-column justify-content-between">
+                <div class="d-flex justify-content-center py-5">
+                  <div class="d-flex justify-content-end align-items-center">
                     <img class="img" <%= image_tag(image_url('check.PNG'), class: 'image') %>
                   </div>
-                  <div class="col-lg-6 mb-4 d-flex justify-content-start align-items-center">
-                    <span class="m-0 font-weight-bold" style="font-size: 80px;">10%</span>
+                  <div class="d-flex justify-content-start align-items-center">
+                    <span class="pourcentage">10%</span>
                   </div>
                 </div>
-                <a target="_blank" rel="nofollow" href="">Voir la liste des responsables qui ne l'ont pas effectué</a>
+                <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des responsables qui ne l'ont pas effectué</a>
               </div>
             </div>
           </div>
-          <div class="col-lg-6 mb-4 px-5">
+          <div class="col-lg-6 mb-4 d-flex justify-content-center">
             <div class="card shadow mb-4 mx-5">
               <div class="card-header py-3">
-                <h6 class="font-bold " style="font-size: larger">Statistiques sur les notes des étudiants</h6>
+                <span class="font-bold">Statistiques sur les notes des étudiants</span>
               </div>
+              <div class="card-body d-flex flex-column justify-content-between">
               <%= pie_chart @data, colors: ['#F17E4C', '#FFAB87', '#AC9083','#DFD7D3', '#DE7070']%>
-              <a target="_blank" rel="nofollow" href="">Voir la liste des étudiants qui n'ont pas reçu de note</a>
+              <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des étudiants qui n'ont pas reçu de note</a>
+              </div>
             </div>
           </div>
-          <div class="col-lg-6 mb-4 px-5">
+          <div class="col-lg-6 mb-4">
           </div>
-          <div class="col-lg-6 mb-4 px-5">
-            <div class="description">
-              <h3>Legende sur les statistiques des notes des étudiants</h3>
-              - A: Stage excellent où les résultats dépassent les objectifs assignés<br>
-              - B: Stage de bonne qualité, les objectifs ont été atteints et les résultats sont  utiles à l’entreprise<br>
-              - C: Stage moyen, sans reproche particulier à faire à l’étudiant<br>
-              - D: Aucun véritable problème ne s’est manifesté mais les résultats  escomptés n’ont pas été atteints<br>
-              - E: Un stage dans lequel des problèmes se sont manifestés du fait de l’étudiant<br>
+          <div class="col-lg-6 mb-4 d-flex flex-column text-left">
+            <div class="ml-5 pl-3">
+              <span>Légende : </span>
+            </div>
+            <div class="ml-5 pl-3">
+              • A : Stage excellent où les résultats dépassent les objectifs assignés<br>
+              • B : Stage de bonne qualité, les objectifs ont été atteints et les résultats sont  utiles à l’entreprise<br>
+              • C : Stage moyen, sans reproche particulier à faire à l’étudiant<br>
+              • D : Aucun véritable problème ne s’est manifesté mais les résultats  escomptés n’ont pas été atteints<br>
+              • E : Un stage dans lequel des problèmes se sont manifestés du fait de l’étudiant<br>
             </div>
           </div>
         </div>
