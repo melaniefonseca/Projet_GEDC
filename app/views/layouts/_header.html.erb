@@ -1,19 +1,66 @@
-<!-- Navbar -->
+<!--
+Roles :
+      1 : responsable
+      2 : tuteur
+      3 : étudiant
+-->
+<% role = 1 %>
+
+<%
+  offres =
+    '<li class="nav-item">
+      <a class="nav-link" href="#"><p>OFFRES</p></a>
+    </li>'.html_safe
+  evaluation =
+    '<li class="nav-item">
+      <a class="nav-link" href="menuetudiant"><p>EVALUATION</p></a>
+    </li>'.html_safe
+  statistiques =
+    '<li class="nav-item">
+      <a class="nav-link" href="statistiques"><p>STATISTIQUES</p></a>
+    </li>'.html_safe
+  evolution =
+    '<li class="nav-item">
+      <a class="nav-link" href="evolution"><p>EVOLUTION</p></a>
+    </li>'.html_safe
+  tableaudebord =
+    '<li class="nav-item">
+      <a class="nav-link" href="tableaudebord"><p>TABLEAU DE BORD</p></a>
+    </li>'.html_safe
+  grilleevaluation =
+    '<li class="nav-item">
+      <a class="nav-link" href="menurespstage"><p>GRILLE D\'EVALUATION</p></a>
+    </li>'.html_safe
+%>
+
 <nav class="navbar navbar-expand-md">
   <div class="container-fluid pb-4">
     <img class="logo" <%= image_tag(image_url('miage.png'), class: 'image') %>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
-        <li class="nav-item">
-          <a class="nav-link" href="#"><p>OFFRES</p></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/evaluation"><p>EVALUATION</p></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"><p>STATISTIQUES</p></a>
-        </li>
-        <li class="nav-item">
+
+<% case role %>
+  <% when 1 %>
+
+        <%= offres %>
+        <%= tableaudebord %>
+        <%= statistiques %>
+        <%= evolution %>
+        <%= grilleevaluation %>
+
+  <% when 2 %>
+
+        <%= tableaudebord %>
+        <%= evolution %>
+
+  <% when 3 %>
+
+        <%= offres %>
+        <%= evaluation %>
+
+<% end %>
+
+      <li class="nav-item">
           <a href="#">
             <i class="fas fa-user-circle fa-2x text-purple"></i>
           </a>
