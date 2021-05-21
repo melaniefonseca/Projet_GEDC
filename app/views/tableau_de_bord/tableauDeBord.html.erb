@@ -6,15 +6,36 @@
 </div>
 
 <div class="container drop py-3">
-  <select class="dropdown" name="promo" required>
-  <option value="" disabled selected>Filtrer par</option>
-    <option class="dropdown-item">L3 MIAGE</option>
-    <option class="dropdown-item">M1 MIAGE</option>
-    <option class="dropdown-item">M2 MIAGE</option>
+  <select class="dropdown" name="promo" required onChange="window.location.href=this.value">
+
+  <% if @filtre == 'tout' then %>
+    <option selected class="dropdown-item" value="./tableaudebord">Toutes les promotions</option>
+  <% else %>
+      <option class="dropdown-item" value="./tableaudebord">Toutes les promotions</option>
+  <% end %>
+  <% if @filtre == 'L3' then %>
+    <option selected class="dropdown-item" value="./tableaudebord?filtre=L3">L3 MIAGE</option>
+  <% else %>
+    <option class="dropdown-item" value="./tableaudebord?filtre=L3">L3 MIAGE</option>
+  <% end %>
+  <% if @filtre == 'M1' then %>
+    <option selected class="dropdown-item" value="./tableaudebord?filtre=M1">M1 MIAGE</option>
+  <% else %>
+    <option class="dropdown-item" value="./tableaudebord?filtre=M1">M1 MIAGE</option>
+  <% end %>
+  <% if @filtre == 'M2' then %>
+    <option selected class="dropdown-item" value="./tableaudebord?filtre=M2">M2 MIAGE</option>
+  <% else %>
+    <option class="dropdown-item" value="./tableaudebord?filtre=M2">M2 MIAGE</option>
+  <% end %>
+
   </select>
 </div>
 
 <div class="card-body p-2">
+
+  <% if @data['etudiants'].length > 0 then %>
+
   <div class="table-responsive">
     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
       <thead>
@@ -75,6 +96,14 @@
       </tbody>
     </table>
   </div>
+
+  <% else %>
+
+  <span class="my-5">Aucun étudiant n'est présent dans cette promotion</span>
+  <br><br><br>
+
+  <% end %>
+
 </div>
 
 <div class="d-flex justify-content-center m-2 pt-3">
