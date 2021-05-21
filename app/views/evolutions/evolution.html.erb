@@ -16,48 +16,64 @@
 
 <div class="card-body p-2">
   <div class="table-responsive">
-    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-      <thead>
-      <tr>
-        <th>Nom/Prénom de l'étudiant</th>
-        <th>Promotion</th>
-        <th>Entreprise</th>
-        <th>Savoir Etre</th>
-        <th>Compétences transverses</th>
-        <th>Compétences disciplinaires</th>
-        <th>Global</th>
-      </tr>
-      </thead>
-      <tbody>
+    <TABLE class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <% i = 0 %>
       <% @data['etudiants'].each do |valueData| %>
+
+        <% if i == 0 %>
+          <thead>
+          <tr>
+            <th>Nom/Prénom de l'étudiant</th>
+            <th>Promotion</th>
+            <th>Entreprise</th>
+            <% @enteteTab.each do |entete| %>
+              <th><%= entete %></th>
+            <% end %>
+          </tr>
+          </thead>
+        <% end %>
         <tr>
-          <% valueData.each do |key, val| %>
-            <% if key == 'savoiretre' || key == 'competencestransverses' || key == 'competencesdisciplinaire' || key == 'global' %>
-              <% if val == nil %>
-                <td>
-                  <span class="not-completed">/</span>
-                <% elsif val == 1 %>
-                 <td>
-                  <i class="fas fa-arrow-down" style="color:red"></i>
-                 </td>
-                <% elsif val == 2 %>
-                  <td>
-                    <i class="fas fa-arrow-up" style="color:green"></i>
-                  </td>
-              <% elsif val == 3 %>
-                <td>
-                  <i class="fas fa-arrow-right" style="color:orange"></i>
-                </td>
-                <%end %>
-              <% else %>
-                <td>
-                  <%= val %>
-                </td>
-              <%end %>
+        <% valueData.each do |key, val| %>
+            <% if key != 'competences' %>
+              <TD width="50%"><%= val %></TD>
+            <% else %>
+              <% valueData['competences'].each do |valCompetence| %>
+                <% valCompetence.each do |libelle, num| %>
+                  <% if num == nil %>
+                    <td>
+                      <span class="not-completed">/</span>
+                    </td>
+                  <% elsif num == 1 %>
+                    <td>
+                      <i class="fas fa-arrow-down" style="color:red"></i>
+                    </td>
+                  <% elsif num == 2 %>
+                    <td>
+                      <i class="fas fa-arrow-up" style="color:green"></i>
+                    </td>
+                  <% elsif num == 3 %>
+                    <td>
+                      <i class="fas fa-arrow-right" style="color:orange"></i>
+                    </td>
+                  <%end %>
+                <% end %>
+              <% end %>
+            <% end %>
+        <% end %>
+        <% if valueData['competences'][0].length==0 %>
+            <% j = 0 %>
+            <% while j<@nbEntete %>
+              <td>
+                <span class="not-completed">/</span>
+              </td>
+            <% j += 1 %>
+            <% end %>
         <% end %>
         </tr>
+
+        <% i += 1 %>
       <% end %>
-      </tbody>
-    </table>
+    </TABLE>
+
   </div>
 </div>
