@@ -1,62 +1,112 @@
 class EvolutionsController < ApplicationController
   def evolution
     require 'json'
-    text =  '{"etudiants":[{"nom": "Marie Danede","promotion": "M2 Miage", "entreprise": "Bordeaux Metropole", "savoiretre": 1, "competencestransverses": 2, "competencesdisciplinaire": 2, "global": 3}, {"nom": "Nawel Ouadhour","promotion": "M2 Miage", "entreprise": "Atos", "savoiretre": 1, "competencestransverses": 2, "competencesdisciplinaire": 1, "global": 3}]}'
 
-    @data = JSON.parse(text)
+    idTuteur = 1
 
-    grille =  '{"année": "2020-2021","nom": "Dumas Richard","entreprise": "SAS Entreprise","poste": "Développeur web","activité": "Développement de modules pour ERP web","date":"26/02/2021","sections":[{"titre": "Savoir-être","choix": ["Non évalué", "A travailler", "Acquis"],"competences":[{"intitule": "Investi et motivé","requis": 2,"selection": 2},{"intitule": "Anglais","requis": 1,"selection": 2}]},{"titre": "Compétences transverses","choix": ["Non évalué", "Avec aide", "Autonome", "Niveau professionnel"],"competences":[{"intitule": "Organisé","requis": 3,"selection": 1}]}],"commentaire": "Test de commentaire Test de commentaire Test de commentaire Test de commentaire"}'
-    grillefinal = '{"année": "2020-2021","nom": "Dumas Richard","entreprise": "SAS Entreprise","poste": "Développeur web","activité": "Développement de modules pour ERP web","date":"26/02/2021","sections":[{"titre": "Savoir-être","choix": ["Non évalué", "A travailler", "Acquis"],"competences":[{"intitule": "Investi et motivé","requis": 2,"selection": 1},{"intitule": "Anglais","requis": 1,"selection": 2}]},{"titre": "Compétences transverses","choix": ["Non évalué", "Avec aide", "Autonome", "Niveau professionnel"],"competences":[{"intitule": "Organisé","requis": 3,"selection": 3}]}],"commentaire": "Test de commentaire Test de commentaire Test de commentaire Test de commentaire"}'
+    sqlevol = "SELECT stages.id, sujet, type_stage, nom, prenom, mention, raison_sociale " +
+      " FROM stages, formations, promotions, etudiants, entreprises " +
+      " WHERE tuteur_universitaire_id == " + idTuteur.to_s +
+      " AND stages.formation_id = formations.id" +
+      " AND formations.promotion_id = promotions.id" +
+      " AND stages.etudiant_id = etudiants.id" +
+      " AND stages.entreprise_id = entreprises.id " +
+      " AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"
+    @evol = ActiveRecord::Base.connection.execute(sqlevol)
+    i=0
+    text = '{"etudiants":['
+      @evol.each do |evol|
+        sqlgrille = "select contenu"+
+                    "from evaluations"+
+                    "WHERE stage_id = " +evol['id']+
+                    "AND auto_evalution = 0"+
+                    "AND finale =0"
+        grille = ActiveRecord::Base.connection.execute(sqlgrille)
 
-    @dataGrille = JSON.parse(grille)
-    @dataGrilleFinal =JSON.parse(grillefinal)
+        sqlgrillefinal = "select contenu"+
+          "from evaluations"+
+          "WHERE stage_id = " +evol['id']+
+          "AND auto_evalution = 0"+
+          "AND finale =1"
+        grillefinal = ActiveRecord::Base.connection.execute(sqlgrillefinal)
 
-    tabGrilleSelection = []
-    @dataGrille['sections'].each_with_index do |valueData, indexData|
-      valueData['competences'].each do |valueComp|
-        tabGrilleSelection.append([valueData['titre'], valueComp['selection']])
-      end
-    end
-    # puts(tabGrilleSelection)
-    tabGrilleFinalSelection = []
-    @dataGrilleFinal['sections'].each_with_index do |valueData, indexData|
-      valueData['competences'].each do |valueComp|
-        tabGrilleFinalSelection.append([valueData['titre'], valueComp['selection']])
-      end
-    end
-    # puts(tabGrilleFinalSelection)
 
-    sections = ''
-    tabEvolution = []
-    progression = 0
-    indice = 0
-    multipleSection = false
-    for i in tabGrilleSelection
-      if (sections != i[0])
-        if (sections != '')
+
+
+
+
+
+
+
+
+
+        @dataGrille = JSON.parse(grille)
+        @dataGrilleFinal =JSON.parse(grillefinal)
+
+        tabGrilleSelection = []
+        @dataGrille['sections'].each_with_index do |valueData, indexData|
+          valueData['competences'].each do |valueComp|
+            tabGrilleSelection.append([valueData['titre'], valueComp['selection']])
+          end
+        end
+        # puts(tabGrilleSelection)
+        tabGrilleFinalSelection = []
+        @dataGrilleFinal['sections'].each_with_index do |valueData, indexData|
+          valueData['competences'].each do |valueComp|
+            tabGrilleFinalSelection.append([valueData['titre'], valueComp['selection']])
+          end
+        end
+        # puts(tabGrilleFinalSelection)
+
+        sections = ''
+        tabEvolution = []
+        progression = 0
+        indice = 0
+        multipleSection = false
+        for i in tabGrilleSelection
+          if (sections != i[0])
+            if (sections != '')
+              tabEvolution.append([sections, progression])
+            end
+            multipleSection = true
+            sections = i[0]
+            progression = 0
+          end
+
+          if(i[1] < tabGrilleFinalSelection[indice][1])
+            progression += 1
+          else
+            if(i[1] > tabGrilleFinalSelection[indice][1])
+              progression -= 1
+            end
+          end
+
+          indice +=1
+        end
+
+        if (multipleSection)
           tabEvolution.append([sections, progression])
         end
-        multipleSection = true
-        sections = i[0]
-        progression = 0
-      end
 
-      if(i[1] < tabGrilleFinalSelection[indice][1])
-        progression += 1
-      else
-        if(i[1] > tabGrilleFinalSelection[indice][1])
-          progression -= 1
+        puts(tabEvolution)
+
+
+
+
+
+
+
+
+
+        if(i>0)
+          text += ','
         end
+        text += '{"nom": "'+evol['nom']+ ' '+evol['prenom'] +'","promotion": "'+evol['mention']+'", "entreprise": "'+evol['raison_sociale']+'", "savoiretre": 1, "competencestransverses": 2, "competencesdisciplinaire": 1, "global": 3}'
+        i += 1
       end
+    text += ']}'
+    @data = JSON.parse(text)
 
-      indice +=1
-    end
-
-    if (multipleSection)
-      tabEvolution.append([sections, progression])
-    end
-
-    puts(tabEvolution)
 
   end
 end
