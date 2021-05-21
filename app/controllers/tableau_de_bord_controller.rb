@@ -4,16 +4,17 @@ class TableauDeBordController < ApplicationController
 
     idTuteur = 1
 
-    sqlStage = "SELECT stages.id, sujet, type_stage, nom, prenom, mention, raison_sociale, " +
-      " MAX(promotions.id) " +
+    sqlStage = "SELECT stages.id, sujet, type_stage, nom, prenom, mention, raison_sociale " +
       " FROM stages, formations, promotions, etudiants, entreprises " +
       " WHERE tuteur_universitaire_id == " + idTuteur.to_s +
       " AND stages.formation_id = formations.id" +
       " AND formations.promotion_id = promotions.id" +
       " AND stages.etudiant_id = etudiants.id" +
-      " AND stages.entreprise_id = entreprises.id"
-      " GROUP BY stages.id, sujet, type_stage"
+      " AND stages.entreprise_id = entreprises.id " +
+      " AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"
     @stages = ActiveRecord::Base.connection.execute(sqlStage)
+    i = 0
+    # puts(@stages)
     text = '{"etudiants":['
     @stages.each do |stage|
 
@@ -43,7 +44,7 @@ class TableauDeBordController < ApplicationController
           grilleFinal = eval[0]['grilleFinal'].to_s
         end
       end
-      puts(eval)
+      # puts(eval)
 
       sqlnotation = "SELECT note FROM notations where notations.stage_id = " + stage['id'].to_s
       notation = ActiveRecord::Base.connection.execute(sqlnotation)
@@ -52,9 +53,11 @@ class TableauDeBordController < ApplicationController
       else
         notation = notation[0]['note'].to_s
       end
-
-      text += '{"nom": "'+stage['nom'] +' '+ stage['prenom'] +'","promotion": "'+stage['mention']+'", "entreprise": "'+stage['raison_sociale']+'", "autoevaluation": '+autoEval+', "grilleevaluation": '+grille+', "autoevaluationfinale": '+autoEvalFinal+', "grilleevaluationfinale": '+grilleFinal+',  "note": '+notation+'}'
-
+      if(i>0)
+        text += ','
+      end
+      text += '{"nom": "'+stage['nom'] +' '+ stage['prenom'] +'","promotion": "'+stage['mention']+'", "entreprise": "'+stage['raison_sociale']+'", "type": "'+stage['type_stage']+'", "autoevaluation": '+autoEval+', "grilleevaluation": '+grille+', "autoevaluationfinale": '+autoEvalFinal+', "grilleevaluationfinale": '+grilleFinal+',  "note": '+notation+'}'
+      i += 1
     end
     text += ']}'
     @data = JSON.parse(text)
