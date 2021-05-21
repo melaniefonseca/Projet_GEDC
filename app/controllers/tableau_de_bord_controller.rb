@@ -4,32 +4,60 @@ class TableauDeBordController < ApplicationController
 
     idTuteur = 1
 
-    sqlStage = "SELECT stages.id, sujet, type_stage, nom, prenom, mention, raison_sociale " +
-      " FROM stages, formations, promotions, etudiants, entreprises " +
-      " WHERE tuteur_universitaire_id == " + idTuteur.to_s +
-      " AND stages.formation_id = formations.id" +
-      " AND formations.promotion_id = promotions.id" +
-      " AND stages.etudiant_id = etudiants.id" +
-      " AND stages.entreprise_id = entreprises.id " +
-      " AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"
+
+    @filtre = 'tout'
+    url = request.original_url
+    if url.include? "filtre=" then
+      uri    = URI.parse(url)
+      params = CGI.parse(uri.query)
+      @filtre = params['filtre'][0].to_s
+    end
+
+    if @filtre == 'tout' then
+      sqlStage =
+        " SELECT stages.id, sujet, type_stage, nom, prenom, mention, raison_sociale " +
+        " FROM stages, formations, promotions, etudiants, entreprises " +
+        " WHERE tuteur_universitaire_id == " + idTuteur.to_s +
+        " AND stages.formation_id = formations.id" +
+        " AND formations.promotion_id = promotions.id" +
+        " AND stages.etudiant_id = etudiants.id" +
+        " AND stages.entreprise_id = entreprises.id " +
+        " AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"
+    else
+      sqlStage =
+        " SELECT stages.id, sujet, type_stage, nom, prenom, mention, raison_sociale " +
+          " FROM stages, formations, promotions, etudiants, entreprises " +
+          " WHERE tuteur_universitaire_id == " + idTuteur.to_s +
+          " AND stages.formation_id = formations.id" +
+          " AND formations.promotion_id = promotions.id" +
+          " AND stages.etudiant_id = etudiants.id" +
+          " AND stages.entreprise_id = entreprises.id " +
+          " AND formations.mention = '" + @filtre + "'" +
+          " AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"
+    end
+
     @stages = ActiveRecord::Base.connection.execute(sqlStage)
     i = 0
     # puts(@stages)
     text = '{"etudiants":['
-    @stages.each do |stage|
 
+    @stages.each do |stage|
       autoEval  = 'null'
       autoEvalFinal = 'null'
       grille = 'null'
       grilleFinal = 'null'
-      sqleval = "SELECT id,
-      COUNT(CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 0 THEN id END)END) as autoEval,
-      COUNT(CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 1 THEN id END)END) as autoEvalFinal,
-      COUNT(CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 0 THEN id END)END) as grille,
-      COUNT(CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 1 THEN id END)END) as grilleFinal
-      FROM evaluations
-      WHERE evaluations.stage_id = " + stage['id'].to_s
+
+      sqleval =
+        "SELECT id,
+        COUNT(CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 0 THEN id END)END) as autoEval,
+        COUNT(CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 1 THEN id END)END) as autoEvalFinal,
+        COUNT(CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 0 THEN id END)END) as grille,
+        COUNT(CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 1 THEN id END)END) as grilleFinal
+        FROM evaluations
+        WHERE evaluations.stage_id = " + stage['id'].to_s
+
       eval = ActiveRecord::Base.connection.execute(sqleval)
+
       if eval.present?
         if (eval[0]['autoEval'].to_s != 0)
           autoEval  = eval[0]['autoEval'].to_s
