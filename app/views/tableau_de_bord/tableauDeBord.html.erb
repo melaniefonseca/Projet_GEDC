@@ -1,6 +1,5 @@
 <%= stylesheet_link_tag "tableauDeBord" %>
 
-
 <div class="bandeauSuperieur d-flex justify-content-center">
   <span class="mx-4 uppercase font-bold">Tableau de bord</span>
 </div>
@@ -8,91 +7,136 @@
 <div class="container drop py-3">
   <select class="dropdown" name="promo" required onChange="window.location.href=this.value">
 
-  <% if @filtre == 'tout' then %>
+    <% if @filtre == 'tout' then %>
     <option selected class="dropdown-item" value="./tableaudebord">Toutes les promotions</option>
-  <% else %>
-      <option class="dropdown-item" value="./tableaudebord">Toutes les promotions</option>
-  <% end %>
-  <% if @filtre == 'L3' then %>
+    <% else %>
+    <option class="dropdown-item" value="./tableaudebord">Toutes les promotions</option>
+    <% end %>
+    <% if @filtre == 'L3' then %>
     <option selected class="dropdown-item" value="./tableaudebord?filtre=L3">L3 MIAGE</option>
-  <% else %>
+    <% else %>
     <option class="dropdown-item" value="./tableaudebord?filtre=L3">L3 MIAGE</option>
-  <% end %>
-  <% if @filtre == 'M1' then %>
+    <% end %>
+    <% if @filtre == 'M1' then %>
     <option selected class="dropdown-item" value="./tableaudebord?filtre=M1">M1 MIAGE</option>
-  <% else %>
+    <% else %>
     <option class="dropdown-item" value="./tableaudebord?filtre=M1">M1 MIAGE</option>
-  <% end %>
-  <% if @filtre == 'M2' then %>
+    <% end %>
+    <% if @filtre == 'M2' then %>
     <option selected class="dropdown-item" value="./tableaudebord?filtre=M2">M2 MIAGE</option>
-  <% else %>
+    <% else %>
     <option class="dropdown-item" value="./tableaudebord?filtre=M2">M2 MIAGE</option>
-  <% end %>
+    <% end %>
 
   </select>
 </div>
 
-<div class="card-body p-2">
+<div class="card-body p-0">
 
   <% if @data['etudiants'].length > 0 then %>
 
-  <div class="table-responsive">
-    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+  <div class="table-responsive p-2">
+    <table class="table table-bordered tableaudebord" id="dataTable" width="100%" cellspacing="0" cellpadding="0">
       <thead>
         <tr>
-          <th>Nom/Prénom de l'étudiant</th>
+          <th>Etudiant</th>
           <th>Promotion</th>
           <th>Entreprise</th>
           <th>Type</th>
-          <th>Auto evaluation (Élève)</th>
+          <th>Auto-évaluation</th>
           <th>Grille d'évaluation</th>
-          <th>Auto evaluation finale (Élève)</th>
-          <th>Grille de notation finale</th>
+          <th>Auto-évaluation finale</th>
+          <th>Grille d'évaluation finale</th>
           <th>Note entreprise</th>
         </tr>
       </thead>
       <tbody>
-        <% @data['etudiants'].each do |valueData| %>
-          <tr>
-          <% valueData.each do |key, val| %>
-              <% if key == 'autoevaluation' || key == 'grilleevaluation' || key == 'grilleevaluationfinale' || key == 'autoevaluationfinale' %>
-                <% if val == nil %>
-                  <td>
-                    <span class="not-completed">Non Completée</span>
-                  <% if key != 'autoevaluation' && key != 'autoevaluationfinale' %>
-                    <br/>
-                    <button type="button" class="btn btn-round btn-sm px-3 mt-2">Remplir</button>
-                  <% end %>
-                  </td>
-                <% else %>
-                  <td>
-                    <span class="completed">Completée</span>
-                    <br/>
-                    <button type="button" class="btn btn-round btn-sm px-3 mt-2">Consulter</button>
-                  </td>
-                <% end %>
-              <% elsif key == 'note'%>
-                <% if val == nil %>
-                <td>
-                  <span>-</span>
-                  <br/>
-                  <button type="button" class="btn btn-round btn-sm px-3 mt-2">Noter</button>
-                </td>
-                <% else %>
-                  <td>
-                    <span><%= val %></span>
-                    <br/>
-                    <button type="button" class="btn btn-round btn-sm px-3 mt-2">Consulter</button>
-                  </td>
-                <% end %>
+      <% @data['etudiants'].each do |valueData| %>
+
+        <tr>
+          <td>
+            <div class="d-flex flex-column justify-content-between">
+              <span><%= valueData['nom'] %></span>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex flex-column justify-content-between">
+              <span><%= valueData['promotion'] %></span>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex flex-column justify-content-between">
+              <span><%= valueData['entreprise'] %></span>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex flex-column justify-content-between">
+              <span><%= valueData['type'] %></span>
+            </div>
+          </td>
+
+          <td>
+            <div class="d-flex flex-column justify-content-between">
+              <% if valueData['autoevaluation'] == 1 then %>
+              <span class="completed">Completée</span>
+              <button type="button" class="btn btn-round btn-sm px-3 mt-2">Consulter</button>
               <% else %>
-                <td>
-                  <%= val %>
-                </td>
+              <span class="not-completed">Non Completée</span>
+              <button type="button" class="btn btn-round btn-sm px-3 mt-2">Remplir</button>
               <% end %>
-          <% end %>
-          </tr>
-        <% end %>
+            </div>
+          </td>
+
+          <td>
+            <div class="d-flex flex-column justify-content-between">
+              <% if valueData['autoevaluationfinale'] == 1 then %>
+              <span class="completed">Completée</span>
+              <button type="button" class="btn btn-round btn-sm px-3 mt-2">Consulter</button>
+              <% else %>
+              <span class="not-completed">Non Completée</span>
+              <button type="button" class="btn btn-round btn-sm px-3 mt-2">Remplir</button>
+              <% end %>
+            </div>
+          </td>
+
+          <td>
+            <div class="d-flex flex-column justify-content-between">
+              <% if valueData['grilleevaluation'] == 1 then %>
+              <span class="completed">Completée</span>
+              <button type="button" class="btn btn-round btn-sm px-3 mt-2">Consulter</button>
+              <% else %>
+              <span class="not-completed">Non Completée</span>
+              <button type="button" class="btn btn-round btn-sm px-3 mt-2">Remplir</button>
+              <% end %>
+            </div>
+          </td>
+
+          <td>
+            <div class="d-flex flex-column justify-content-between">
+              <% if valueData['grilleevaluationfinale'] == 1 then %>
+              <span class="completed">Completée</span>
+              <button type="button" class="btn btn-round btn-sm px-3 mt-2">Consulter</button>
+              <% else %>
+              <span class="not-completed">Non Completée</span>
+              <button type="button" class="btn btn-round btn-sm px-3 mt-2">Remplir</button>
+              <% end %>
+            </div>
+          </td>
+
+          <td>
+            <div class="d-flex flex-column justify-content-between">
+              <% if valueData['note'] == 1 then %>
+              <span class="completed">Completée</span>
+              <button type="button" class="btn btn-round btn-sm px-3 mt-2">Consulter</button>
+              <% else %>
+              <span class="not-completed">Non Completée</span>
+              <button type="button" class="btn btn-round btn-sm px-3 mt-2">Remplir</button>
+              <% end %>
+            </div>
+          </td>
+
+        </tr>
+      <% end %>
       </tbody>
     </table>
   </div>
@@ -106,6 +150,6 @@
 
 </div>
 
-<div class="d-flex justify-content-center m-2 pt-3">
+<div class="d-flex justify-content-center m-2 pt-5">
   <button class="btn btn-square btn-sm mx-3">Télécharger le template grille d'évaluation</button>
 </div>
