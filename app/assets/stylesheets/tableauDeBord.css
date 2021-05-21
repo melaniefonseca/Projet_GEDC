@@ -8,6 +8,22 @@
 
 table {
     border-collapse: collapse;
+    box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table thead tr {
+    background: var(--darkblue-transparent);
+    color: white;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: white;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: var(--lightgrey);
 }
 
 .table-responsive {
@@ -21,19 +37,19 @@ table {
     border: 0;
 }
 
-.table-bordered th,
-.table-bordered td {
+table.table-bordered th,
+table.table-bordered td {
     text-align: center;
     vertical-align:middle;
-    border:1px solid black;
-}
-.table-bordered th {
-    background-color: var(--mediumgrey);
+    border-bottom: 1px solid var(--mediumgrey) !important;
 }
 
-.table-bordered td {
-    color: #181552;
-    background-color: white;
+table .table-bordered td {
+    color: #181552 !important;
+}
+
+tr, td, th{
+    border: none !important;
 }
 
 .table-bordered .btn {

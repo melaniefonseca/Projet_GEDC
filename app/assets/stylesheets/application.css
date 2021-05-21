@@ -23,6 +23,7 @@
     --purple-transparent-more: #8B014655;
     --mediumblue: #231d99;
     --darkblue: #181552;
+    --darkblue-transparent: #181552DD;
 }
 
 /* Charte graphique */
@@ -111,7 +112,7 @@
 }
 
 .btn.btn-sm {
-    padding: 0.75rem!important;
+    padding: 0.25rem 0.75rem !important;
 }
 .btn.btn-xl {
     font-size: large;
