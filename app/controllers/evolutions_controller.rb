@@ -87,7 +87,7 @@ class EvolutionsController < ApplicationController
         remplirEntete = true
       end
       dataGrille['sections'].each_with_index do |valueData, indexData|
-        if (remplirEntete = true)
+        if (remplirEntete == true)
           @enteteTab.append(valueData['titre'])
           @nbEntete += 1
         end
