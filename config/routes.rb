@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   get '/', to: 'pages#home'
   get '/evaluation', to: 'evaluations#evaluation'
   post '/evaluation/save', to: 'evaluations#save'
-  get '/evaluation/view', to: 'evaluations#viewEvaluation'
+  get '/evaluation/view/(:id)', to: 'evaluations#viewEvaluation'
   get '/tableaudebord', to: 'tableau_de_bord#tableauDeBord'
   get '/menuetudiant', to: 'menu#menuEtudiant'
   get '/menurespstage', to: 'menu#menuRespStage'

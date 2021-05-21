@@ -2,12 +2,10 @@ class EvaluationsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def evaluation
-    require 'json'
-    text =  '{"annee": "","nom": "","entreprise": "","poste": "","activité": "","date":"","sections":[{"titre": "Savoir-être","choix": ["Non évalué", "A travailler", "Acquis"],"competences":[{"intitule": "Investi et motivé","requis": 2,"selection": -1},{"intitule": "Anglais","requis": 1,"selection": -1}]},{"titre": "Compétences transverses","choix": ["Non évalué", "Avec aide", "Autonome", "Niveau professionnel"],"competences":[{"intitule": "Organisé","requis": 3,"selection": -1}]}],"commentaire": ""}'
+    sql = "Select * from ge_formats ORDER BY id DESC LIMIT 1 "
+    @res = ActiveRecord::Base.connection.execute(sql)
 
-    @data = JSON.parse(text)  # <--- no `to_json`
-    # => {"one"=>1, "two"=>2}
-    puts @data.class
+    @data = JSON.parse(@res[0]["contenu"])
 
     respond_to do |format|
       format.html
@@ -21,9 +19,10 @@ class EvaluationsController < ApplicationController
   end
 
   def save
-    text =  '{"annee": "","nom": "","entreprise": "","poste": "","activité": "","date":"","sections":[{"titre": "Savoir-être","choix": ["Non évalué", "A travailler", "Acquis"],"competences":[{"intitule": "Investi et motivé","requis": 2,"selection": 2},{"intitule": "Anglais","requis": 1,"selection": -1}]},{"titre": "Compétences transverses","choix": ["Non évalué", "Avec aide", "Autonome", "Niveau professionnel"],"competences":[{"intitule": "Organisé","requis": 3,"selection": 1}]}],"commentaire": ""}'
+    sql = "Select * from ge_formats ORDER BY id DESC LIMIT 1 "
+    @res = ActiveRecord::Base.connection.execute(sql)
 
-    @text_json = JSON.parse(text)
+    @text_json = JSON.parse(@res[0]["contenu"])
 
     params.delete('action')
     params.delete('controller')
@@ -44,17 +43,19 @@ class EvaluationsController < ApplicationController
 
     @json_add_to_db = Evaluation.new
     @json_add_to_db.contenu = @text_json.to_json
-    @json_add_to_db.est_auto_evaluation = true
+    @json_add_to_db.auto_evaluation = true
     @json_add_to_db.save
   end
 
   def viewEvaluation
-    require 'json'
-    text =  '{"année": "2020-2021","nom": "Dumas Richard","entreprise": "SAS Entreprise","poste": "Développeur web","activité": "Développement de modules pour ERP web","date":"26/02/2021","sections":[{"titre": "Savoir-être","choix": ["Non évalué", "A travailler", "Acquis"],"competences":[{"intitule": "Investi et motivé","requis": 2,"selection": 2},{"intitule": "Anglais","requis": 1,"selection": 2}]},{"titre": "Compétences transverses","choix": ["Non évalué", "Avec aide", "Autonome", "Niveau professionnel"],"competences":[{"intitule": "Organisé","requis": 3,"selection": 1}]}],"commentaire": "Test de commentaire Test de commentaire Test de commentaire Test de commentaire"}'
+    if params[:id] == nil
+      redirect_to(evaluation_path)
+    else
+      sql = "Select * from evaluations where id == " + params[:id]
+      @res = ActiveRecord::Base.connection.execute(sql)
 
-    @data = JSON.parse(text)  # <--- no `to_json`
-    # => {"one"=>1, "two"=>2}
-    puts @data.class
+      @data = JSON.parse(@res[0]["contenu"])
+    end
 
     respond_to do |format|
       format.html

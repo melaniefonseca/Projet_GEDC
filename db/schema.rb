@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_19_102706) do
+ActiveRecord::Schema.define(version: 2021_05_20_131323) do
 
   create_table "aides", force: :cascade do |t|
     t.boolean "cv_recu"
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 2021_05_19_102706) do
 
   create_table "evaluations", force: :cascade do |t|
     t.text "contenu"
-    t.boolean "auto_evalution"
+    t.boolean "auto_evaluation"
     t.integer "stage_id"
     t.integer "ge_format_id"
     t.datetime "created_at", precision: 6, null: false
@@ -116,6 +116,10 @@ ActiveRecord::Schema.define(version: 2021_05_19_102706) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "maitres_stage", primary_key: "id_personne", force: :cascade do |t|
+    t.integer "id_entreprise"
+  end
+
   create_table "notation_formats", force: :cascade do |t|
     t.string "contenu"
     t.datetime "created_at", precision: 6, null: false
@@ -150,9 +154,20 @@ ActiveRecord::Schema.define(version: 2021_05_19_102706) do
     t.index ["technology_id"], name: "index_offres_technologies_on_technology_id"
   end
 
+  create_table "personnes", force: :cascade do |t|
+    t.string "nom"
+    t.string "prenom"
+    t.string "email"
+    t.string "telephone"
+    t.boolean "est_utilisateur"
+  end
+
   create_table "promotions", force: :cascade do |t|
     t.string "annee", limit: 4
     t.index ["annee"], name: "index_promotions_on_annee", unique: true
+  end
+
+  create_table "responsables_stage", primary_key: "id_personne", force: :cascade do |t|
   end
 
   create_table "stages", force: :cascade do |t|
@@ -203,6 +218,9 @@ ActiveRecord::Schema.define(version: 2021_05_19_102706) do
     t.check_constraint "statut_encadrant IN (\"INDUSTRIE\", \"UNIVERSITAIRE\")"
   end
 
+  create_table "tuteurs_pedagogique", primary_key: "id_personne", force: :cascade do |t|
+  end
+
   create_table "visites", force: :cascade do |t|
     t.date "date"
     t.string "statut"
@@ -219,14 +237,18 @@ ActiveRecord::Schema.define(version: 2021_05_19_102706) do
   add_foreign_key "fiche_stages", "etudiants"
   add_foreign_key "fiche_stages", "offres"
   add_foreign_key "formations", "promotions"
+  add_foreign_key "maitres_stage", "entreprises", column: "id_entreprise"
+  add_foreign_key "maitres_stage", "personnes", column: "id_personne"
   add_foreign_key "notations", "notation_formats"
   add_foreign_key "notations", "stages"
   add_foreign_key "offres", "entreprises"
+  add_foreign_key "responsables_stage", "personnes", column: "id_personne"
   add_foreign_key "stages", "entreprises"
   add_foreign_key "stages", "etudiants"
   add_foreign_key "stages", "formations"
   add_foreign_key "stages", "tuteur_entreprises"
   add_foreign_key "stages", "tuteur_universitaires"
   add_foreign_key "tuteur_entreprises", "entreprises"
+  add_foreign_key "tuteurs_pedagogique", "personnes", column: "id_personne"
   add_foreign_key "visites", "stages"
 end
