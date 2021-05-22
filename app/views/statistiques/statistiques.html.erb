@@ -3,11 +3,29 @@
   <span class="mx-4 uppercase font-bold">Statistiques</span>
 </div>
 <div class="container drop py-3">
-  <select class="dropdown" name="promo" required>
-    <option value="" disabled selected>FILTRER PAR</option>
-    <option class="dropdown-item">L3 MIAGE</option>
-    <option class="dropdown-item">M1 MIAGE</option>
-    <option class="dropdown-item">M2 MIAGE</option>
+  <select class="dropdown" name="promo" required onChange="window.location.href=this.value">
+
+    <% if @filtre == 'tout' then %>
+      <option selected class="dropdown-item" value="./statistiques">Toutes les promotions</option>
+    <% else %>
+      <option class="dropdown-item" value="./statistiques">Toutes les promotions</option>
+    <% end %>
+    <% if @filtre == 'L3' then %>
+      <option selected class="dropdown-item" value="./statistiques?filtre=L3">L3 MIAGE</option>
+    <% else %>
+      <option class="dropdown-item" value="./statistiques?filtre=L3">L3 MIAGE</option>
+    <% end %>
+    <% if @filtre == 'M1' then %>
+      <option selected class="dropdown-item" value="./statistiques?filtre=M1">M1 MIAGE</option>
+    <% else %>
+      <option class="dropdown-item" value="./statistiques?filtre=M1">M1 MIAGE</option>
+    <% end %>
+    <% if @filtre == 'M2' then %>
+      <option selected class="dropdown-item" value="./statistiques?filtre=M2">M2 MIAGE</option>
+    <% else %>
+      <option class="dropdown-item" value="./statistiques?filtre=M2">M2 MIAGE</option>
+    <% end %>
+
   </select>
 </div>
 <div id="wrapper" class="wrapperStatistiques">

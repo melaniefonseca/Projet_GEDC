@@ -1,6 +1,13 @@
 class StatistiquesController < ApplicationController
   def statistiques
 
+    @filtre = 'tout'
+    url = request.original_url
+    if url.include? "filtre=" then
+      uri    = URI.parse(url)
+      params = CGI.parse(uri.query)
+      @filtre = params['filtre'][0].to_s
+    end
 
     @pourcentageEtudiantAutoEvaluation = 0
     @pourcentageEtudiantAutoEvaluationFinal = 0
@@ -14,54 +21,119 @@ class StatistiquesController < ApplicationController
     etudiantNotationGrapheD = 0
     etudiantNotationGrapheE = 0
 
-    sqlnbTotalEtudiant = "SELECT stages.id, nom, prenom, count(*) as nbEtudiant
-    FROM stages, etudiants
-    WHERE stages.etudiant_id = etudiants.id
-    GROUP BY stages.id, nom, prenom	"
-    nbTotalEtudiant = ActiveRecord::Base.connection.execute(sqlnbTotalEtudiant)
+    if @filtre == 'tout' then
+      sqlnbTotalEtudiant = "SELECT count(*) as nbEtudiant
+      FROM stages, etudiants, formations, promotions
+      WHERE stages.etudiant_id = etudiants.id
+      AND stages.formation_id = formations.id
+      AND formations.promotion_id = promotions.id
+      AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"
+    else
+      sqlnbTotalEtudiant = "SELECT count(*) as nbEtudiant
+      FROM stages, etudiants, formations, promotions
+      WHERE stages.etudiant_id = etudiants.id
+      AND stages.formation_id = formations.id
+      AND formations.promotion_id = promotions.id
+      AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)" +
+      " AND formations.mention = '" + @filtre + "'"
 
+    end
+
+    nbTotalEtudiant = ActiveRecord::Base.connection.execute(sqlnbTotalEtudiant)
+    puts(nbTotalEtudiant)
     if nbTotalEtudiant.present?
 
-      sqletudiant = "SELECT stages.id, nom, prenom,
-      COUNT (CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuAutoEval,
-      COUNT (CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 1 THEN stages.id END)END) as EtuAutoEvalFinal,
-      COUNT (CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuGrille,
-      COUNT (CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 1 THEN stages.id END)END) as EtuGrilleFinal
-      FROM stages, etudiants, evaluations
-      WHERE stages.etudiant_id = etudiants.id
-      AND evaluations.stage_id = stages.id
-      GROUP BY stages.id, nom, prenom	"
+      if @filtre == 'tout' then
+        sqletudiant = "SELECT stages.id, nom, prenom,
+        COUNT (CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuAutoEval,
+        COUNT (CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 1 THEN stages.id END)END) as EtuAutoEvalFinal,
+        COUNT (CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuGrille,
+        COUNT (CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 1 THEN stages.id END)END) as EtuGrilleFinal
+        FROM stages, etudiants, evaluations, formations, promotions
+        WHERE stages.etudiant_id = etudiants.id
+        AND evaluations.stage_id = stages.id
+        AND stages.formation_id = formations.id
+        AND formations.promotion_id = promotions.id
+        AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)
+        GROUP BY stages.id, nom, prenom	"
+      else
+        sqletudiant = "SELECT stages.id, nom, prenom,
+        COUNT (CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuAutoEval,
+        COUNT (CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 1 THEN stages.id END)END) as EtuAutoEvalFinal,
+        COUNT (CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuGrille,
+        COUNT (CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 1 THEN stages.id END)END) as EtuGrilleFinal
+        FROM stages, etudiants, evaluations, formations, promotions
+        WHERE stages.etudiant_id = etudiants.id
+        AND evaluations.stage_id = stages.id
+        AND stages.formation_id = formations.id
+        AND formations.promotion_id = promotions.id
+        AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"+
+        " AND formations.mention = '" + @filtre + "'" +
+        " GROUP BY stages.id, nom, prenom	"
+      end
       etudiant = ActiveRecord::Base.connection.execute(sqletudiant)
       if etudiant.present?
-        @pourcentageEtudiantAutoEvaluation = (etudiant[0]['EtuAutoEval']/nbTotalEtudiant[0]['nbEtudiant'])*100
-        @pourcentageEtudiantAutoEvaluationFinal = (etudiant[0]['EtuAutoEvalFinal']/nbTotalEtudiant[0]['nbEtudiant'])*100
-        @pourcentageEtudiantGrilleEvaluation = (etudiant[0]['EtuGrille']/nbTotalEtudiant[0]['nbEtudiant'])*100
-        @pourcentageEtudiantGrilleEvaluationFinal = (etudiant[0]['EtuGrilleFinal']/nbTotalEtudiant[0]['nbEtudiant'])*100
+        @pourcentageEtudiantAutoEvaluation = ((etudiant[0]['EtuAutoEval'].fdiv(nbTotalEtudiant[0]['nbEtudiant']))*100).round
+        @pourcentageEtudiantAutoEvaluationFinal = ((etudiant[0]['EtuAutoEvalFinal'].fdiv(nbTotalEtudiant[0]['nbEtudiant']))*100).round
+        @pourcentageEtudiantGrilleEvaluation = ((etudiant[0]['EtuGrille'].fdiv(nbTotalEtudiant[0]['nbEtudiant']))*100).round
+        @pourcentageEtudiantGrilleEvaluationFinal = ((etudiant[0]['EtuGrilleFinal'].fdiv(nbTotalEtudiant[0]['nbEtudiant']))*100).round
       end
 
-      sqletudiantNotation = "SELECT stages.id, nom, prenom, count(*) as nbEtudiant
-      FROM stages, etudiants, notations
-      WHERE stages.etudiant_id = etudiants.id
-      AND notations.stage_id = stages.id
-      GROUP BY stages.id, nom, prenom	"
+      if @filtre == 'tout' then
+        sqletudiantNotation = "SELECT count(*) as nbEtudiant
+        FROM stages, etudiants, notations, formations, promotions
+        WHERE stages.etudiant_id = etudiants.id
+        AND notations.stage_id = stages.id
+        AND stages.formation_id = formations.id
+        AND formations.promotion_id = promotions.id
+        AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"
+      else
+        sqletudiantNotation = "SELECT count(*) as nbEtudiant
+        FROM stages, etudiants, notations, formations, promotions
+        WHERE stages.etudiant_id = etudiants.id
+        AND notations.stage_id = stages.id
+        AND stages.formation_id = formations.id
+        AND formations.promotion_id = promotions.id
+        AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"+
+        " AND formations.mention = '" + @filtre + "'"
+      end
       etudiantNotation = ActiveRecord::Base.connection.execute(sqletudiantNotation)
       etudiantNotationNb = 0
       if etudiantNotation.present?
         etudiantNotationNb = etudiantNotation[0]['nbEtudiant']
       end
       @pourcentageEtudiantNotation = (etudiantNotationNb/nbTotalEtudiant[0]['nbEtudiant'])*100
-      puts(@pourcentageEtudiantNotation)
 
-      sqletudiantNotationGraphe = "SELECT stages.id, nom, prenom,
-      COUNT (CASE WHEN note = 'A' THEN note END) as noteA,
-      COUNT (CASE WHEN note = 'B' THEN note END) as noteB,
-      COUNT (CASE WHEN note = 'C' THEN note END) as noteC,
-      COUNT (CASE WHEN note = 'D' THEN note END) as noteD,
-      COUNT (CASE WHEN note = 'E' THEN note END) as noteE
-      FROM stages, etudiants, notations
-      WHERE stages.etudiant_id = etudiants.id
-      AND notations.stage_id = stages.id
-      GROUP BY stages.id, nom, prenom	"
+
+
+      if @filtre == 'tout' then
+        sqletudiantNotationGraphe = "SELECT
+        COUNT (CASE WHEN note = 'A' THEN note END) as noteA,
+        COUNT (CASE WHEN note = 'B' THEN note END) as noteB,
+        COUNT (CASE WHEN note = 'C' THEN note END) as noteC,
+        COUNT (CASE WHEN note = 'D' THEN note END) as noteD,
+        COUNT (CASE WHEN note = 'E' THEN note END) as noteE
+        FROM stages, etudiants, notations, formations, promotions
+        WHERE stages.etudiant_id = etudiants.id
+        AND stages.formation_id = formations.id
+        AND formations.promotion_id = promotions.id
+        AND notations.stage_id = stages.id	"+
+        " AND formations.mention = '" + @filtre + "'"
+      else
+        sqletudiantNotationGraphe = "SELECT
+        COUNT (CASE WHEN note = 'A' THEN note END) as noteA,
+        COUNT (CASE WHEN note = 'B' THEN note END) as noteB,
+        COUNT (CASE WHEN note = 'C' THEN note END) as noteC,
+        COUNT (CASE WHEN note = 'D' THEN note END) as noteD,
+        COUNT (CASE WHEN note = 'E' THEN note END) as noteE
+        FROM stages, etudiants, notations, formations, promotions
+        WHERE stages.etudiant_id = etudiants.id
+        AND stages.formation_id = formations.id
+        AND formations.promotion_id = promotions.id
+        AND notations.stage_id = stages.id	"+
+        " AND formations.mention = '" + @filtre + "'"
+      end
+
       etudiantNotationGraphe = ActiveRecord::Base.connection.execute(sqletudiantNotationGraphe)
 
       if etudiantNotationGraphe.present?
