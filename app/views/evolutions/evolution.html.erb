@@ -5,59 +5,123 @@
 </div>
 
 <div class="container drop py-3">
-  <select class="dropdown" name="promo" required>
-    <option value="" disabled selected>Filtrer par</option>
-    <option class="dropdown-item">L3 MIAGE</option>
-    <option class="dropdown-item">M1 MIAGE</option>
-    <option class="dropdown-item">M2 MIAGE</option>
-    <option class="dropdown-item">Mes étudiants</option>
+  <select class="dropdown" name="promo" required onChange="window.location.href=this.value">
+    <% if @filtre == 'tout' then %>
+      <option selected class="dropdown-item" value="./evolution">Toutes les promotions</option>
+    <% else %>
+      <option class="dropdown-item" value="./evolution">Toutes les promotions</option>
+    <% end %>
+    <% if @filtre == 'L3' then %>
+      <option selected class="dropdown-item" value="./evolution?filtre=L3">L3 MIAGE</option>
+    <% else %>
+      <option class="dropdown-item" value="./evolution?filtre=L3">L3 MIAGE</option>
+    <% end %>
+    <% if @filtre == 'M1' then %>
+      <option selected class="dropdown-item" value="./evolution?filtre=M1">M1 MIAGE</option>
+    <% else %>
+      <option class="dropdown-item" value="./evolution?filtre=M1">M1 MIAGE</option>
+    <% end %>
+    <% if @filtre == 'M2' then %>
+      <option selected class="dropdown-item" value="./evolution?filtre=M2">M2 MIAGE</option>
+    <% else %>
+      <option class="dropdown-item" value="./evolution?filtre=M2">M2 MIAGE</option>
+    <% end %>
   </select>
 </div>
 
 <div class="card-body p-2">
-  <div class="table-responsive">
-    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-      <thead>
-      <tr>
-        <th>Nom/Prénom de l'étudiant</th>
-        <th>Promotion</th>
-        <th>Entreprise</th>
-        <th>Savoir Etre</th>
-        <th>Compétences transverses</th>
-        <th>Compétences disciplinaires</th>
-        <th>Global</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @data['etudiants'].each do |valueData| %>
-        <tr>
-          <% valueData.each do |key, val| %>
-            <% if key == 'savoiretre' || key == 'competencestransverses' || key == 'competencesdisciplinaire' || key == 'global' %>
-              <% if val == nil %>
-                <td>
-                  <span class="not-completed">/</span>
-                <% elsif val == 1 %>
-                 <td>
-                  <i class="fas fa-arrow-down" style="color:red"></i>
-                 </td>
-                <% elsif val == 2 %>
-                  <td>
-                    <i class="fas fa-arrow-up" style="color:green"></i>
-                  </td>
-              <% elsif val == 3 %>
-                <td>
-                  <i class="fas fa-arrow-right" style="color:orange"></i>
-                </td>
-                <%end %>
+  <% if @data['etudiants'].length > 0 then %>
+    <div class="table-responsive">
+      <TABLE class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <% i = 0 %>
+        <% @data['etudiants'].each do |valueData| %>
+
+          <% if i == 0 %>
+            <thead>
+            <tr>
+              <th>Nom/Prénom de l'étudiant</th>
+              <th>Promotion</th>
+              <th>Entreprise</th>
+              <% @enteteTab.each do |entete| %>
+                <th><%= entete %></th>
+              <% end %>
+            </tr>
+            </thead>
+          <% end %>
+          <tr>
+            <% valueData.each do |key, val| %>
+              <% if key != 'competences' %>
+                <TD width="50%"><%= val %></TD>
               <% else %>
+                <% valueData['competences'].each do |valCompetence| %>
+                  <% valCompetence.each do |libelle, num| %>
+                    <% if num == nil %>
+                      <td>
+                        <span class="not-completed">/</span>
+                      </td>
+                    <% elsif num == 1 %>
+                      <td>
+                        <i class="fas fa-arrow-down" style="color:red"></i>
+                      </td>
+                    <% elsif num == 2 %>
+                      <td>
+                        <i class="fas fa-arrow-up" style="color:green"></i>
+                      </td>
+                    <% elsif num == 3 %>
+                      <td>
+                        <i class="fas fa-arrow-right" style="color:orange"></i>
+                      </td>
+                    <%end %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+            <% if valueData['competences'][0].length==0 %>
+              <% j = 0 %>
+              <% while j<@nbEntete %>
                 <td>
-                  <%= val %>
+                  <span class="not-completed" style="color: #181552">/</span>
                 </td>
-              <%end %>
+                <% j += 1 %>
+              <% end %>
+            <% end %>
+          </tr>
+
+          <% i += 1 %>
         <% end %>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
+      </TABLE>
+
+    </div>
+  <% else %>
+
+    <span class="my-5">Aucun étudiant n'est présent dans cette promotion</span>
+    <br><br><br>
+
+  <% end %>
+
+
+  <div class="m-4 pt-3">
+
+    <div class="section">
+      <div class="block">
+        <div class="sous-titre">
+          <span class="uppercase font-bold text-darkgrey">Explication de l'algorithme </span>
+        </div>
+        <div style="color: #181552">
+        <span class="my-5">L'algorithme fonctionne en 2 temps :</span><br><br>
+
+        Premièrement, pour chaque Catégories (ex: savoir être, compétences transverses..), l'algorithme va comparer chaque ligne de compétence (ex: l'étudiant est autonome)
+        entre la première et la deuxième grille d'évaluation. Il attribuera une note en fonction de l'évolution de l'étudiant :
+        <br>- 1 si l'étudiant a progressé.
+        <br>- 0 si l'étudiant n'a pas progressé.
+        <br>- -1 si l'étudiant a régréssé.
+
+        <br><br>Puis, pour chaque catégories, l'algorithme va faire une somme :
+        <br>- Si la somme est posistif, l'étudiant aura progressé. Une flèche verte sera affichée. <i class="fas fa-arrow-up" style="color:green"></i>
+        <br>- Si la somme est nulle, l'étudiant n'aura pas progressé. Une flèche orange sera affichée. <i class="fas fa-arrow-right" style="color:orange"></i>
+        <br>- Si la sommes est négatif, l'étudiant aura regréssé. Une flèche rouge sera affichée. <i class="fas fa-arrow-down" style="color:red"></i>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

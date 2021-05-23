@@ -1,30 +1,130 @@
 class EvolutionsController < ApplicationController
   def evolution
     require 'json'
-    text =  '{"etudiants":[{"nom": "Marie Danede","promotion": "M2 Miage", "entreprise": "Bordeaux Metropole", "savoiretre": 1, "competencestransverses": 2, "competencesdisciplinaire": 2, "global": 3}, {"nom": "Nawel Ouadhour","promotion": "M2 Miage", "entreprise": "Atos", "savoiretre": 1, "competencestransverses": 2, "competencesdisciplinaire": 1, "global": 3}]}'
 
+    idTuteur = 1
+
+    @enteteTab = []
+    @nbEntete = 0
+
+    @filtre = 'tout'
+    url = request.original_url
+    if url.include? "filtre=" then
+      uri    = URI.parse(url)
+      params = CGI.parse(uri.query)
+      @filtre = params['filtre'][0].to_s
+    end
+
+    if @filtre == 'tout' then
+      sqlevol = "SELECT stages.id, sujet, type_stage, nom, prenom, mention, raison_sociale " +
+        " FROM stages, formations, promotions, etudiants, entreprises " +
+        " WHERE tuteur_universitaire_id == " + idTuteur.to_s +
+        " AND stages.formation_id = formations.id" +
+        " AND formations.promotion_id = promotions.id" +
+        " AND stages.etudiant_id = etudiants.id" +
+        " AND stages.entreprise_id = entreprises.id " +
+        " AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"
+    else
+      sqlevol = "SELECT stages.id, sujet, type_stage, nom, prenom, mention, raison_sociale " +
+        " FROM stages, formations, promotions, etudiants, entreprises " +
+        " WHERE tuteur_universitaire_id == " + idTuteur.to_s +
+        " AND stages.formation_id = formations.id" +
+        " AND formations.promotion_id = promotions.id" +
+        " AND stages.etudiant_id = etudiants.id" +
+        " AND stages.entreprise_id = entreprises.id " +
+        " AND formations.mention = '" + @filtre + "'" +
+        " AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"
+    end
+    evolutions = ActiveRecord::Base.connection.execute(sqlevol)
+    i=0
+    text = '{"etudiants":['
+    evolutions.each do |evol|
+
+        if(i>0)
+          text += ','
+        end
+        text += '{"nom": "'+evol['nom']+ ' '+evol['prenom'] +'","promotion": "'+evol['mention']+'", "entreprise": "'+evol['raison_sociale']+'"'
+
+        sqlgrille = "select contenu"+
+                    " from evaluations"+
+                    " WHERE stage_id = " +evol['id'].to_s +
+                    " AND auto_evaluation = 0"+
+                    " AND finale =0"
+        grilleExe = ActiveRecord::Base.connection.execute(sqlgrille)
+        grille = '{}'
+        if grilleExe.present?
+          grille = grilleExe[0]['contenu']
+        end
+
+        sqlgrillefinal = "select contenu"+
+          " FROM evaluations"+
+          " WHERE stage_id = " +evol['id'].to_s+
+          " AND auto_evaluation = 0"+
+          " AND finale =1"
+        grillefinalExe = ActiveRecord::Base.connection.execute(sqlgrillefinal)
+        grillefinal = '{}'
+        if grillefinalExe.present?
+          grillefinal = grillefinalExe[0]['contenu'].to_s
+        end
+
+
+        tabEvolution = []
+        if (grille!= '{}' && grillefinal!='{}')
+          tabEvolution = algoComparaisonJson(JSON.parse(grille), JSON.parse(grillefinal))
+        end
+
+        text += ', "competences" : [{'
+        y=0
+        tabEvolution.each do |comptenceEvol|
+          val = 3
+          if comptenceEvol[1]>0
+            val= 2
+          else
+            if comptenceEvol[1]<0
+              val= 1
+            end
+          end
+          if y>0
+            text += ', '
+          end
+          text += '"'+comptenceEvol[0]+'": '+val.to_s
+          y += 1
+        end
+        text += '}]}'
+
+        i += 1
+    end
+    text += ']}'
     @data = JSON.parse(text)
 
-    grille =  '{"année": "2020-2021","nom": "Dumas Richard","entreprise": "SAS Entreprise","poste": "Développeur web","activité": "Développement de modules pour ERP web","date":"26/02/2021","sections":[{"titre": "Savoir-être","choix": ["Non évalué", "A travailler", "Acquis"],"competences":[{"intitule": "Investi et motivé","requis": 2,"selection": 2},{"intitule": "Anglais","requis": 1,"selection": 2}]},{"titre": "Compétences transverses","choix": ["Non évalué", "Avec aide", "Autonome", "Niveau professionnel"],"competences":[{"intitule": "Organisé","requis": 3,"selection": 1}]}],"commentaire": "Test de commentaire Test de commentaire Test de commentaire Test de commentaire"}'
-    grillefinal = '{"année": "2020-2021","nom": "Dumas Richard","entreprise": "SAS Entreprise","poste": "Développeur web","activité": "Développement de modules pour ERP web","date":"26/02/2021","sections":[{"titre": "Savoir-être","choix": ["Non évalué", "A travailler", "Acquis"],"competences":[{"intitule": "Investi et motivé","requis": 2,"selection": 1},{"intitule": "Anglais","requis": 1,"selection": 2}]},{"titre": "Compétences transverses","choix": ["Non évalué", "Avec aide", "Autonome", "Niveau professionnel"],"competences":[{"intitule": "Organisé","requis": 3,"selection": 3}]}],"commentaire": "Test de commentaire Test de commentaire Test de commentaire Test de commentaire"}'
+  end
 
-    @dataGrille = JSON.parse(grille)
-    @dataGrilleFinal =JSON.parse(grillefinal)
 
+  def algoComparaisonJson (dataGrille, dataGrilleFinal)
+    remplirEntete = false
     tabGrilleSelection = []
-    @dataGrille['sections'].each_with_index do |valueData, indexData|
-      valueData['competences'].each do |valueComp|
-        tabGrilleSelection.append([valueData['titre'], valueComp['selection']])
+    if dataGrille.present?
+      if (@enteteTab.length == 0)
+        remplirEntete = true
+      end
+      dataGrille['sections'].each_with_index do |valueData, indexData|
+        if (remplirEntete == true)
+          @enteteTab.append(valueData['titre'])
+          @nbEntete += 1
+        end
+        valueData['competences'].each do |valueComp|
+          tabGrilleSelection.append([valueData['titre'], valueComp['selection']])
+        end
       end
     end
-    # puts(tabGrilleSelection)
     tabGrilleFinalSelection = []
-    @dataGrilleFinal['sections'].each_with_index do |valueData, indexData|
-      valueData['competences'].each do |valueComp|
-        tabGrilleFinalSelection.append([valueData['titre'], valueComp['selection']])
+    if dataGrilleFinal.present?
+      dataGrilleFinal['sections'].each_with_index do |valueData, indexData|
+        valueData['competences'].each do |valueComp|
+          tabGrilleFinalSelection.append([valueData['titre'], valueComp['selection']])
+        end
       end
     end
-    # puts(tabGrilleFinalSelection)
 
     sections = ''
     tabEvolution = []
@@ -48,7 +148,6 @@ class EvolutionsController < ApplicationController
           progression -= 1
         end
       end
-
       indice +=1
     end
 
@@ -56,7 +155,6 @@ class EvolutionsController < ApplicationController
       tabEvolution.append([sections, progression])
     end
 
-    puts(tabEvolution)
-
+    return tabEvolution
   end
 end
