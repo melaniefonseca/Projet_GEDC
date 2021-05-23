@@ -49,10 +49,10 @@ class TableauDeBordController < ApplicationController
 
       sqleval =
         "SELECT id,
-        COUNT(CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 0 THEN id END)END) as autoEval,
-        COUNT(CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 1 THEN id END)END) as autoEvalFinal,
-        COUNT(CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 0 THEN id END)END) as grille,
-        COUNT(CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 1 THEN id END)END) as grilleFinal
+        COUNT(CASE WHEN auto_evaluation = 1 THEN (CASE WHEN finale = 0 THEN id END)END) as autoEval,
+        COUNT(CASE WHEN auto_evaluation = 1 THEN (CASE WHEN finale = 1 THEN id END)END) as autoEvalFinal,
+        COUNT(CASE WHEN auto_evaluation = 0 THEN (CASE WHEN finale = 0 THEN id END)END) as grille,
+        COUNT(CASE WHEN auto_evaluation = 0 THEN (CASE WHEN finale = 1 THEN id END)END) as grilleFinal
         FROM evaluations
         WHERE evaluations.stage_id = " + stage['id'].to_s
 

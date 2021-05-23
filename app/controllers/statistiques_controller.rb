@@ -45,10 +45,10 @@ class StatistiquesController < ApplicationController
       if nbTotalEtudiant[0]['nbEtudiant']>0
         if @filtre == 'tout' then
           sqletudiant = "SELECT stages.id, nom, prenom,
-        COUNT (CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuAutoEval,
-        COUNT (CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 1 THEN stages.id END)END) as EtuAutoEvalFinal,
-        COUNT (CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuGrille,
-        COUNT (CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 1 THEN stages.id END)END) as EtuGrilleFinal
+        COUNT (CASE WHEN auto_evaluation = 1 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuAutoEval,
+        COUNT (CASE WHEN auto_evaluation = 1 THEN (CASE WHEN finale = 1 THEN stages.id END)END) as EtuAutoEvalFinal,
+        COUNT (CASE WHEN auto_evaluation = 0 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuGrille,
+        COUNT (CASE WHEN auto_evaluation = 0 THEN (CASE WHEN finale = 1 THEN stages.id END)END) as EtuGrilleFinal
         FROM stages, etudiants, evaluations, formations, promotions
         WHERE stages.etudiant_id = etudiants.id
         AND evaluations.stage_id = stages.id
@@ -58,10 +58,10 @@ class StatistiquesController < ApplicationController
         GROUP BY stages.id, nom, prenom	"
         else
           sqletudiant = "SELECT stages.id, nom, prenom,
-        COUNT (CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuAutoEval,
-        COUNT (CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 1 THEN stages.id END)END) as EtuAutoEvalFinal,
-        COUNT (CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuGrille,
-        COUNT (CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 1 THEN stages.id END)END) as EtuGrilleFinal
+        COUNT (CASE WHEN auto_evaluation = 1 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuAutoEval,
+        COUNT (CASE WHEN auto_evaluation = 1 THEN (CASE WHEN finale = 1 THEN stages.id END)END) as EtuAutoEvalFinal,
+        COUNT (CASE WHEN auto_evaluation = 0 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuGrille,
+        COUNT (CASE WHEN auto_evaluation = 0 THEN (CASE WHEN finale = 1 THEN stages.id END)END) as EtuGrilleFinal
         FROM stages, etudiants, evaluations, formations, promotions
         WHERE stages.etudiant_id = etudiants.id
         AND evaluations.stage_id = stages.id

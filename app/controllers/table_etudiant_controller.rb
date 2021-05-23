@@ -47,7 +47,7 @@ class TableEtudiantController < ApplicationController
         AND formations.promotion_id = promotions.id
         AND promotions.id = (SELECT MAX(promotions.id) FROM promotions) "
         if auto != -1
-          sqletudiants += " AND auto_evalution = "+auto
+          sqletudiants += " AND auto_evaluation = "+auto
         end
         if final != -1
           sqletudiants += " AND finale = "+final

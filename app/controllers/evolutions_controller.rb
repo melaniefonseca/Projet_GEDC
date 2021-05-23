@@ -48,7 +48,7 @@ class EvolutionsController < ApplicationController
         sqlgrille = "select contenu"+
                     " from evaluations"+
                     " WHERE stage_id = " +evol['id'].to_s +
-                    " AND auto_evalution = 0"+
+                    " AND auto_evaluation = 0"+
                     " AND finale =0"
         grilleExe = ActiveRecord::Base.connection.execute(sqlgrille)
         grille = '{}'
@@ -59,7 +59,7 @@ class EvolutionsController < ApplicationController
         sqlgrillefinal = "select contenu"+
           " FROM evaluations"+
           " WHERE stage_id = " +evol['id'].to_s+
-          " AND auto_evalution = 0"+
+          " AND auto_evaluation = 0"+
           " AND finale =1"
         grillefinalExe = ActiveRecord::Base.connection.execute(sqlgrillefinal)
         grillefinal = '{}'
