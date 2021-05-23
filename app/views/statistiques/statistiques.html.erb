@@ -50,7 +50,19 @@
                     <span class="pourcentage"><%= @pourcentageEtudiantAutoEvaluation %>%</span>
                   </div>
                 </div>
-                <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des etudiants qui ne l'ont pas effectué</a>
+                <% if @filtre == 'L3' then %>
+                  <a class="mb-2"  href="./tableEtudiant?auto=1&final=0&mention=L3">Liste des etudiants qui ne l'ont pas effectué</a>
+                <% else %>
+                  <% if @filtre == 'M1' then %>
+                    <a class="mb-2"  href="./tableEtudiant?auto=1&final=0&mention=M1">Liste des etudiants qui ne l'ont pas effectué</a>
+                  <% else %>
+                    <% if @filtre == 'M2' then %>
+                      <a class="mb-2"  href="./tableEtudiant?auto=1&final=0&mention=M2">Liste des etudiants qui ne l'ont pas effectué</a>
+                    <% else %>
+                      <a class="mb-2"  href="./tableEtudiant?auto=1&final=0">Liste des etudiants qui ne l'ont pas effectué</a>
+                    <% end %>
+                  <% end %>
+                <% end %>
               </div>
             </div>
           </div>
@@ -68,7 +80,19 @@
                     <span class="pourcentage"><%= @pourcentageEtudiantAutoEvaluationFinal %>%</span>
                   </div>
                 </div>
-                <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des etudiants qui ne l'ont pas effectué</a>
+                <% if @filtre == 'L3' then %>
+                  <a class="mb-2"  href="./tableEtudiant?auto=1&final=1&mention=L3">Liste des etudiants qui ne l'ont pas effectué</a>
+                <% else %>
+                  <% if @filtre == 'M1' then %>
+                    <a class="mb-2"  href="./tableEtudiant?auto=1&final=1&mention=M1">Liste des etudiants qui ne l'ont pas effectué</a>
+                  <% else %>
+                    <% if @filtre == 'M2' then %>
+                      <a class="mb-2"  href="./tableEtudiant?auto=1&final=1&mention=M2">Liste des etudiants qui ne l'ont pas effectué</a>
+                    <% else %>
+                      <a class="mb-2"  href="./tableEtudiant?auto=1&final=1">Liste des etudiants qui ne l'ont pas effectué</a>
+                    <% end %>
+                  <% end %>
+                <% end %>
               </div>
             </div>
           </div>
@@ -93,7 +117,19 @@
                     <span class="pourcentage"><%= @pourcentageEtudiantGrilleEvaluation %>%</span>
                   </div>
                 </div>
-                <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des responsables qui ne l'ont pas effectué</a>
+                <% if @filtre == 'L3' then %>
+                  <a class="mb-2"  href="./tableEtudiant?auto=0&final=0&mention=L3">Liste des responsables qui ne l'ont pas effectué</a>
+                <% else %>
+                  <% if @filtre == 'M1' then %>
+                    <a class="mb-2"  href="./tableEtudiant?auto=0&final=0&mention=M1">Liste des responsables qui ne l'ont pas effectué</a>
+                  <% else %>
+                    <% if @filtre == 'M2' then %>
+                      <a class="mb-2"  href="./tableEtudiant?auto=0&final=0&mention=M2">Liste des responsables qui ne l'ont pas effectué</a>
+                    <% else %>
+                      <a class="mb-2"  href="./tableEtudiant?auto=0&final=0">Liste des responsables qui ne l'ont pas effectué</a>
+                    <% end %>
+                  <% end %>
+                <% end %>
               </div>
             </div>
           </div>
@@ -111,7 +147,19 @@
                     <span class="pourcentage"><%= @pourcentageEtudiantGrilleEvaluationFinal %>%</span>
                   </div>
                 </div>
-                <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des responsables qui ne l'ont pas effectué</a>
+                <% if @filtre == 'L3' then %>
+                  <a class="mb-2"  href="./tableEtudiant?auto=0&final=1&mention=L3">Liste des responsables qui ne l'ont pas effectué</a>
+                <% else %>
+                  <% if @filtre == 'M1' then %>
+                    <a class="mb-2"  href="./tableEtudiant?auto=0&final=1&mention=M1">Liste des responsables qui ne l'ont pas effectué</a>
+                  <% else %>
+                    <% if @filtre == 'M2' then %>
+                      <a class="mb-2"  href="./tableEtudiant?auto=0&final=1&mention=M2">Liste des responsables qui ne l'ont pas effectué</a>
+                    <% else %>
+                      <a class="mb-2"  href="./tableEtudiant?auto=0&final=1">Liste des responsables qui ne l'ont pas effectué</a>
+                    <% end %>
+                  <% end %>
+                <% end %>
               </div>
             </div>
           </div>
@@ -134,7 +182,19 @@
                     <span class="pourcentage"><%= @pourcentageEtudiantNotation %>%</span>
                   </div>
                 </div>
-                <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des responsables qui ne l'ont pas effectué</a>
+                <% if @filtre == 'L3' then %>
+                  <a class="mb-2"  href="./tableEtudiant?note=1&mention=L3">Liste des responsables qui ne l'ont pas effectué</a>
+                <% else %>
+                  <% if @filtre == 'M1' then %>
+                    <a class="mb-2"  href="./tableEtudiant?note=1&mention=M1">Liste des responsables qui ne l'ont pas effectué</a>
+                  <% else %>
+                    <% if @filtre == 'M2' then %>
+                      <a class="mb-2"  href="./tableEtudiant?note=1&mention=M2">Liste des responsables qui ne l'ont pas effectué</a>
+                    <% else %>
+                      <a class="mb-2"  href="./tableEtudiant?note=1">Liste des responsables qui ne l'ont pas effectué</a>
+                    <% end %>
+                  <% end %>
+                <% end %>
               </div>
             </div>
           </div>
@@ -145,7 +205,19 @@
               </div>
               <div class="card-body d-flex flex-column justify-content-between">
               <%= pie_chart @data, colors: ['#F17E4C', '#FFAB87', '#AC9083','#DFD7D3', '#DE7070']%>
-              <a class="mb-2" target="_blank" rel="nofollow" href="">Liste des étudiants qui n'ont pas reçu de note</a>
+                <% if @filtre == 'L3' then %>
+                  <a class="mb-2"  href="./tableEtudiant?note=1&mention=L3">Liste des etudiants qui ne l'ont pas effectué</a>
+                <% else %>
+                  <% if @filtre == 'M1' then %>
+                    <a class="mb-2"  href="./tableEtudiant?note=1&mention=M1">Liste des etudiants qui ne l'ont pas effectué</a>
+                  <% else %>
+                    <% if @filtre == 'M2' then %>
+                      <a class="mb-2"  href="./tableEtudiant?note=1&mention=M2">Liste des etudiants qui ne l'ont pas effectué</a>
+                    <% else %>
+                      <a class="mb-2"  href="./tableEtudiant?note=1">Liste des etudiants qui ne l'ont pas effectué</a>
+                    <% end %>
+                  <% end %>
+                <% end %>
               </div>
             </div>
           </div>

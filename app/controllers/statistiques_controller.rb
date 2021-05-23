@@ -40,11 +40,11 @@ class StatistiquesController < ApplicationController
     end
 
     nbTotalEtudiant = ActiveRecord::Base.connection.execute(sqlnbTotalEtudiant)
-    puts(nbTotalEtudiant)
-    if nbTotalEtudiant.present?
 
-      if @filtre == 'tout' then
-        sqletudiant = "SELECT stages.id, nom, prenom,
+    if nbTotalEtudiant.present?
+      if nbTotalEtudiant[0]['nbEtudiant']>0
+        if @filtre == 'tout' then
+          sqletudiant = "SELECT stages.id, nom, prenom,
         COUNT (CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuAutoEval,
         COUNT (CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 1 THEN stages.id END)END) as EtuAutoEvalFinal,
         COUNT (CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuGrille,
@@ -56,8 +56,8 @@ class StatistiquesController < ApplicationController
         AND formations.promotion_id = promotions.id
         AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)
         GROUP BY stages.id, nom, prenom	"
-      else
-        sqletudiant = "SELECT stages.id, nom, prenom,
+        else
+          sqletudiant = "SELECT stages.id, nom, prenom,
         COUNT (CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuAutoEval,
         COUNT (CASE WHEN auto_evalution = 1 THEN (CASE WHEN finale = 1 THEN stages.id END)END) as EtuAutoEvalFinal,
         COUNT (CASE WHEN auto_evalution = 0 THEN (CASE WHEN finale = 0 THEN stages.id END)END) as EtuGrille,
@@ -68,46 +68,46 @@ class StatistiquesController < ApplicationController
         AND stages.formation_id = formations.id
         AND formations.promotion_id = promotions.id
         AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"+
-        " AND formations.mention = '" + @filtre + "'" +
-        " GROUP BY stages.id, nom, prenom	"
-      end
-      etudiant = ActiveRecord::Base.connection.execute(sqletudiant)
-      if etudiant.present?
-        @pourcentageEtudiantAutoEvaluation = ((etudiant[0]['EtuAutoEval'].fdiv(nbTotalEtudiant[0]['nbEtudiant']))*100).round
-        @pourcentageEtudiantAutoEvaluationFinal = ((etudiant[0]['EtuAutoEvalFinal'].fdiv(nbTotalEtudiant[0]['nbEtudiant']))*100).round
-        @pourcentageEtudiantGrilleEvaluation = ((etudiant[0]['EtuGrille'].fdiv(nbTotalEtudiant[0]['nbEtudiant']))*100).round
-        @pourcentageEtudiantGrilleEvaluationFinal = ((etudiant[0]['EtuGrilleFinal'].fdiv(nbTotalEtudiant[0]['nbEtudiant']))*100).round
-      end
+            " AND formations.mention = '" + @filtre + "'" +
+            " GROUP BY stages.id, nom, prenom	"
+        end
+        etudiant = ActiveRecord::Base.connection.execute(sqletudiant)
+        if etudiant.present?
+          @pourcentageEtudiantAutoEvaluation = ((etudiant[0]['EtuAutoEval'].fdiv(nbTotalEtudiant[0]['nbEtudiant']))*100).round
+          @pourcentageEtudiantAutoEvaluationFinal = ((etudiant[0]['EtuAutoEvalFinal'].fdiv(nbTotalEtudiant[0]['nbEtudiant']))*100).round
+          @pourcentageEtudiantGrilleEvaluation = ((etudiant[0]['EtuGrille'].fdiv(nbTotalEtudiant[0]['nbEtudiant']))*100).round
+          @pourcentageEtudiantGrilleEvaluationFinal = ((etudiant[0]['EtuGrilleFinal'].fdiv(nbTotalEtudiant[0]['nbEtudiant']))*100).round
+        end
 
-      if @filtre == 'tout' then
-        sqletudiantNotation = "SELECT count(*) as nbEtudiant
+        if @filtre == 'tout' then
+          sqletudiantNotation = "SELECT count(*) as nbEtudiant
         FROM stages, etudiants, notations, formations, promotions
         WHERE stages.etudiant_id = etudiants.id
         AND notations.stage_id = stages.id
         AND stages.formation_id = formations.id
         AND formations.promotion_id = promotions.id
         AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"
-      else
-        sqletudiantNotation = "SELECT count(*) as nbEtudiant
+        else
+          sqletudiantNotation = "SELECT count(*) as nbEtudiant
         FROM stages, etudiants, notations, formations, promotions
         WHERE stages.etudiant_id = etudiants.id
         AND notations.stage_id = stages.id
         AND stages.formation_id = formations.id
         AND formations.promotion_id = promotions.id
         AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"+
-        " AND formations.mention = '" + @filtre + "'"
-      end
-      etudiantNotation = ActiveRecord::Base.connection.execute(sqletudiantNotation)
-      etudiantNotationNb = 0
-      if etudiantNotation.present?
-        etudiantNotationNb = etudiantNotation[0]['nbEtudiant']
-      end
-      @pourcentageEtudiantNotation = (etudiantNotationNb/nbTotalEtudiant[0]['nbEtudiant'])*100
+            " AND formations.mention = '" + @filtre + "'"
+        end
+        etudiantNotation = ActiveRecord::Base.connection.execute(sqletudiantNotation)
+        etudiantNotationNb = 0
+        if etudiantNotation.present?
+          etudiantNotationNb = etudiantNotation[0]['nbEtudiant']
+        end
+        @pourcentageEtudiantNotation = (etudiantNotationNb/nbTotalEtudiant[0]['nbEtudiant'])*100
 
 
 
-      if @filtre == 'tout' then
-        sqletudiantNotationGraphe = "SELECT
+        if @filtre == 'tout' then
+          sqletudiantNotationGraphe = "SELECT
         COUNT (CASE WHEN note = 'A' THEN note END) as noteA,
         COUNT (CASE WHEN note = 'B' THEN note END) as noteB,
         COUNT (CASE WHEN note = 'C' THEN note END) as noteC,
@@ -118,9 +118,9 @@ class StatistiquesController < ApplicationController
         AND stages.formation_id = formations.id
         AND formations.promotion_id = promotions.id
         AND notations.stage_id = stages.id	"+
-        " AND formations.mention = '" + @filtre + "'"
-      else
-        sqletudiantNotationGraphe = "SELECT
+            " AND formations.mention = '" + @filtre + "'"
+        else
+          sqletudiantNotationGraphe = "SELECT
         COUNT (CASE WHEN note = 'A' THEN note END) as noteA,
         COUNT (CASE WHEN note = 'B' THEN note END) as noteB,
         COUNT (CASE WHEN note = 'C' THEN note END) as noteC,
@@ -131,19 +131,20 @@ class StatistiquesController < ApplicationController
         AND stages.formation_id = formations.id
         AND formations.promotion_id = promotions.id
         AND notations.stage_id = stages.id	"+
-        " AND formations.mention = '" + @filtre + "'"
-      end
+            " AND formations.mention = '" + @filtre + "'"
+        end
 
-      etudiantNotationGraphe = ActiveRecord::Base.connection.execute(sqletudiantNotationGraphe)
+        etudiantNotationGraphe = ActiveRecord::Base.connection.execute(sqletudiantNotationGraphe)
 
-      if etudiantNotationGraphe.present?
-        etudiantNotationGrapheA = (etudiantNotationGraphe[0]['noteA']/nbTotalEtudiant[0]['nbEtudiant'])*100
-        etudiantNotationGrapheB = (etudiantNotationGraphe[0]['noteB']/nbTotalEtudiant[0]['nbEtudiant'])*100
-        etudiantNotationGrapheC = (etudiantNotationGraphe[0]['noteC']/nbTotalEtudiant[0]['nbEtudiant'])*100
-        etudiantNotationGrapheD = (etudiantNotationGraphe[0]['noteD']/nbTotalEtudiant[0]['nbEtudiant'])*100
-        etudiantNotationGrapheE = (etudiantNotationGraphe[0]['noteE']/nbTotalEtudiant[0]['nbEtudiant'])*100
+        if etudiantNotationGraphe.present?
+          etudiantNotationGrapheA = (etudiantNotationGraphe[0]['noteA']/nbTotalEtudiant[0]['nbEtudiant'])*100
+          etudiantNotationGrapheB = (etudiantNotationGraphe[0]['noteB']/nbTotalEtudiant[0]['nbEtudiant'])*100
+          etudiantNotationGrapheC = (etudiantNotationGraphe[0]['noteC']/nbTotalEtudiant[0]['nbEtudiant'])*100
+          etudiantNotationGrapheD = (etudiantNotationGraphe[0]['noteD']/nbTotalEtudiant[0]['nbEtudiant'])*100
+          etudiantNotationGrapheE = (etudiantNotationGraphe[0]['noteE']/nbTotalEtudiant[0]['nbEtudiant'])*100
+        end
       end
+      @data = [["A", etudiantNotationGrapheA], ["B",  etudiantNotationGrapheB], ["C",  etudiantNotationGrapheC],["D",  etudiantNotationGrapheD], ["E",  etudiantNotationGrapheE]]
     end
-    @data = [["A", etudiantNotationGrapheA], ["B",  etudiantNotationGrapheB], ["C",  etudiantNotationGrapheC],["D",  etudiantNotationGrapheD], ["E",  etudiantNotationGrapheE]]
   end
 end
