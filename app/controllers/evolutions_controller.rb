@@ -106,7 +106,6 @@ class EvolutionsController < ApplicationController
       sections = jsonGrille['sections']
 
       sections.each do |section|
-        puts section['titre']
         @enteteTab.append(section['titre'])
         @nbEntete += 1
       end
