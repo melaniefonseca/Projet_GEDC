@@ -14,4 +14,5 @@ Rails.application.routes.draw do
   get '/statistiques', to: 'statistiques#statistiques'
   get '/tableEtudiant', to: 'table_etudiant#tableEtudiant'
   resources :ge_formats
+  resources :notation_formats
 end
