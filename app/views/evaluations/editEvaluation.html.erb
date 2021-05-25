@@ -1,0 +1,143 @@
+<%= stylesheet_link_tag "evaluation" %>
+
+<div class="bandeauSuperieur d-flex justify-content-center">
+  <span class="mx-4 uppercase font-bold">Remplissage de votre fiche d'auto-évaluation</span>
+</div>
+
+<form method="post" action="<%= @url_save %>">
+  <div class="m-4">
+
+    <div class="section">
+      <div class="block">
+        <div class="sous-titre">
+          <span class="uppercase font-bold text-darkgrey">Instructions</span>
+        </div>
+        <div class="d-flex flex-column">
+          <div class="d-flex my-1">
+            <div class="requis px-5">
+              <input type="radio" disabled>
+            </div>
+            <label class="formLabel text-mediumblue mx-2 w-auto"> Niveau de compétence requis </label>
+          </div>
+          <div class="d-flex my-1 mt-3">
+            <span>Vous devez évaluer chaque compétence en fonction du niveau que vous estimez avoir acquis</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="block">
+        <div class="sous-titre">
+          <span class="uppercase font-bold text-darkgrey">Informations générales</span>
+        </div>
+        <div class="d-flex flex-column align-items-start">
+
+          <% @data.each do |key, value|
+            if (key != 'sections' && key != 'commentaire') then %>
+
+              <div class="my-2">
+                <label for="<%=key %>" class="capitalized formLabel text-mediumblue mx-3"> <%=key %> : </label>
+                <input id="<%=key %>" name="<%=key %>" class="formInput" type="text" value="<%=value %>"> <br/>
+              </div>
+            <% end
+               end %>
+
+        </div>
+      </div>
+    </div>
+
+    <% @data['sections'].each_with_index { |valueData, indexData|%>
+
+      <div class="section">
+        <div class="block">
+          <div class="sous-titre">
+            <span class=""><%= valueData['titre'] %></span>
+          </div>
+          <table class="table">
+            <thead>
+            <tr>
+              <th></th>
+
+              <% valueData['choix'].each do |valueChoix| %>
+                <th class="text-center text-mediumblue"><%= valueChoix %></th>
+              <% end %>
+
+            </tr>
+            </thead>
+            <tbody>
+
+            <% valueData['competences'].each do |valueComp| %>
+
+              <tr>
+                <td class="text-mediumblue"> <%= valueComp['intitule'] %> </td>
+
+                <% valueData['choix'].each_with_index { |val, index|
+                  if index == valueComp['requis'] then
+                    if index == valueComp['selection'] then %>
+
+                      <td class="text-center">
+                        <div class="requis">
+                          <input type="radio" checked name="<%= valueComp['intitule'] %>">
+                        </div>
+                      </td>
+
+                    <% else %>
+
+                      <td class="text-center">
+                        <div class="requis">
+                          <input type="radio" name="<%= valueComp['intitule'] %>" value="<%= index%>">
+                        </div>
+                      </td>
+
+                    <% end
+                       else
+                         if index == valueComp['selection'] then %>
+
+                      <td class="text-center">
+                        <input type="radio" checked name="<%= valueComp['intitule'] %>">
+                      </td>
+
+                    <% else %>
+
+                      <td class="text-center">
+                        <input type="radio" name="<%= valueComp['intitule'] %>" value="<%= index%>">
+                      </td>
+
+                    <% end
+                       end
+                       } %>
+
+              </tr>
+
+            <% end %>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    <% }
+
+       if @data.has_key?('commentaire') then %>
+
+      <div class="section">
+        <div class="block">
+          <div class="sous-titre">
+            <span class="uppercase font-bold text-darkgrey">Espace de commentaire</span>
+          </div>
+          <div class="d-flex">
+            <textarea cols="500" name="commentaire"><%= @data['commentaire'] %></textarea>
+          </div>
+        </div>
+      </div>
+
+    <% end %>
+
+  </div>
+
+  <div class="d-flex justify-content-center py-2 pb-4">
+    <button type="submit" class="btn btn-round">Soumettre</button>
+  </div>
+</form>
+

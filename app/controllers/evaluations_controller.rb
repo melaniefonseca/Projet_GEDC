@@ -3,9 +3,13 @@ class EvaluationsController < ApplicationController
 
   def evaluation
     sql = "Select * from ge_formats ORDER BY id DESC LIMIT 1 "
-    @res = ActiveRecord::Base.connection.execute(sql)
+    res = ActiveRecord::Base.connection.execute(sql)
 
-    @data = JSON.parse(@res[0]["contenu"])
+    if res.present?
+      @data = JSON.parse(res[0]["contenu"])
+    else
+      @data = ""
+    end
 
     respond_to do |format|
       format.html
@@ -41,10 +45,9 @@ class EvaluationsController < ApplicationController
       end
     end
 
-    @json_add_to_db = Evaluation.new
-    @json_add_to_db.contenu = @text_json.to_json
-    @json_add_to_db.auto_evaluation = true
-    @json_add_to_db.save
+    sql = "Update evaluations set contenu = " +"'" + @text_json.to_json + "', rempli = 1 where id == " + params[:id]
+    ActiveRecord::Base.connection.execute(sql)
+
   end
 
   def viewEvaluation
@@ -52,9 +55,35 @@ class EvaluationsController < ApplicationController
       redirect_to(evaluation_path)
     else
       sql = "Select * from evaluations where id == " + params[:id]
-      @res = ActiveRecord::Base.connection.execute(sql)
+      res = ActiveRecord::Base.connection.execute(sql)
 
-      @data = JSON.parse(@res[0]["contenu"])
+      if res.present?
+        @data = JSON.parse(res[0]["contenu"])
+      end
+    end
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = ConsultationEval.new(@data)
+        # pdf = Prawn::Document.new
+        # pdf.text "Hello"
+        send_data pdf.render, filename: 'member.pdf', type: 'application/pdf', disposition: "inline"
+      end
+    end
+  end
+
+  def editEvaluation
+    if params[:id] == nil
+      redirect_to(evaluation_path)
+    else
+      @url_save = "/evaluation/save/" + params[:id]
+      sql = "Select * from evaluations where id == " + params[:id]
+      res = ActiveRecord::Base.connection.execute(sql)
+    end
+
+    if res.present?
+      @data = JSON.parse(res[0]["contenu"])
     end
 
     respond_to do |format|
