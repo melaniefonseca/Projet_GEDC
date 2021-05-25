@@ -95,8 +95,23 @@ class EvolutionsController < ApplicationController
         i += 1
     end
     text += ']}'
-    @data = JSON.parse(text)
 
+    if @nbEntete == 0 then
+      sqlFormatGrille = "select contenu"+
+        " FROM ge_formats"+
+        " WHERE id = (select MAX(id) FROM ge_formats)"
+      formatGrille = ActiveRecord::Base.connection.execute(sqlFormatGrille)
+
+      jsonGrille = JSON.parse(formatGrille[0]['contenu'])
+      sections = jsonGrille['sections']
+
+      sections.each do |section|
+        @enteteTab.append(section['titre'])
+        @nbEntete += 1
+      end
+    end
+
+    @data = JSON.parse(text)
   end
 
 
