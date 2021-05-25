@@ -55,6 +55,7 @@ class StatistiquesController < ApplicationController
         AND stages.formation_id = formations.id
         AND formations.promotion_id = promotions.id
         AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)
+        AND rempli = 1
         GROUP BY stages.id, nom, prenom	"
         else
           sqletudiant = "SELECT stages.id, nom, prenom,
@@ -67,6 +68,7 @@ class StatistiquesController < ApplicationController
         AND evaluations.stage_id = stages.id
         AND stages.formation_id = formations.id
         AND formations.promotion_id = promotions.id
+        AND rempli = 1
         AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"+
             " AND formations.mention = '" + @filtre + "'" +
             " GROUP BY stages.id, nom, prenom	"
@@ -86,6 +88,7 @@ class StatistiquesController < ApplicationController
         AND notations.stage_id = stages.id
         AND stages.formation_id = formations.id
         AND formations.promotion_id = promotions.id
+        AND rempli = 1
         AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"
         else
           sqletudiantNotation = "SELECT count(*) as nbEtudiant
@@ -94,6 +97,7 @@ class StatistiquesController < ApplicationController
         AND notations.stage_id = stages.id
         AND stages.formation_id = formations.id
         AND formations.promotion_id = promotions.id
+        AND rempli = 1
         AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"+
             " AND formations.mention = '" + @filtre + "'"
         end

@@ -45,6 +45,7 @@ class TableEtudiantController < ApplicationController
         WHERE evaluations.stage_id = stages.id
         AND stages.formation_id = formations.id
         AND formations.promotion_id = promotions.id
+        AND rempli = 1
         AND promotions.id = (SELECT MAX(promotions.id) FROM promotions) "
         if auto != -1
           sqletudiants += " AND auto_evaluation = "+auto
@@ -77,6 +78,7 @@ class TableEtudiantController < ApplicationController
         WHERE notations.stage_id = stages.id
         AND stages.formation_id = formations.id
         AND formations.promotion_id = promotions.id
+        AND rempli = 1
         AND promotions.id = (SELECT MAX(promotions.id) FROM promotions) "
         if mention != -1
           sqletudiants += " AND mention = '"+mention+"'"
