@@ -1,5 +1,6 @@
 class NotationsController < ApplicationController
   skip_before_action :verify_authenticity_token
+
   def notation
     require 'json'
     params.require(:id)
@@ -69,5 +70,15 @@ class NotationsController < ApplicationController
         redirect_to action: "viewNotation", id: @id
       end
     end
+  end
+
+  def template
+
+    sqlFormatNotation = "select contenu"+
+      " FROM notation_formats"+
+      " WHERE id = (select MAX(id) FROM notation_formats)"
+    formatNotation = ActiveRecord::Base.connection.execute(sqlFormatNotation)
+
+    @jsonGrille = JSON.parse(formatNotation[0]['contenu'])
   end
 end

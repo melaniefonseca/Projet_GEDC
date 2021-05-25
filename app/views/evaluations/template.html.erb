@@ -30,7 +30,7 @@
         </div>
         <div class="d-flex flex-column align-items-start">
 
-<% @data.each do |key, value|
+<% @jsonGrille.each do |key, value|
   if (key != 'sections' && key != 'commentaire') then %>
 
           <div class="my-2 px-3">
@@ -45,7 +45,7 @@ end %>
       </div>
     </div>
 
-<% @data['sections'].each_with_index { |valueData, indexData|%>
+<% @jsonGrille['sections'].each_with_index { |valueData, indexData|%>
 
     <div class="section">
       <div class="block">
@@ -116,8 +116,8 @@ end %>
     </div>
 
 <% }
-if @data.has_key?('commentaire') then
-  if @data['commentaire'] != '' then %>
+if @jsonGrille.has_key?('commentaire') then
+  if @jsonGrille['commentaire'] != '' then %>
 
     <div class="section">
       <div class="block">
@@ -125,7 +125,7 @@ if @data.has_key?('commentaire') then
           <span class="uppercase font-bold text-darkgrey">Espace de commentaire</span>
         </div>
         <div class="d-flex">
-          <label> <%= @data['commentaire'] %> </label>
+          <label> <%= @jsonGrille['commentaire'] %> </label>
         </div>
       </div>
     </div>

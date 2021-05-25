@@ -47,7 +47,7 @@ class EvaluationsController < ApplicationController
 
     sql = "Update evaluations set contenu = " +"'" + @text_json.to_json + "', rempli = 1 where id == " + params[:id]
     ActiveRecord::Base.connection.execute(sql)
-
+    redirect_to action: "viewEvaluation", id: params[:id]
   end
 
   def viewEvaluation
@@ -83,7 +83,11 @@ class EvaluationsController < ApplicationController
     end
 
     if res.present?
-      @data = JSON.parse(res[0]["contenu"])
+      if res[0]['rempli'] == 1
+        redirect_to action: "viewEvaluation", id: params[:id]
+      else
+        @data = JSON.parse(res[0]["contenu"])
+      end
     end
 
     respond_to do |format|
@@ -95,5 +99,15 @@ class EvaluationsController < ApplicationController
         send_data pdf.render, filename: 'member.pdf', type: 'application/pdf', disposition: "inline"
       end
     end
+  end
+
+  def template
+    sqlFormatGrille = "select contenu"+
+      " FROM ge_formats"+
+      " WHERE id = (select MAX(id) FROM ge_formats)"
+    formatGrille = ActiveRecord::Base.connection.execute(sqlFormatGrille)
+
+    @jsonGrille = JSON.parse(formatGrille[0]['contenu'])
+
   end
 end

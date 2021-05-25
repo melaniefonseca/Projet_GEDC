@@ -82,19 +82,6 @@
                     <button type="button" class="btn btn-round btn-sm px-3 mt-2" onclick="window.location.assign('./evaluation/view/<%= valueData['idautoevaluation'] %>');">Consulter</button>
                   <% else %>
                     <span class="not-completed">Non Completée</span>
-                    <button type="button" class="btn btn-round btn-sm px-3 mt-2" onclick="window.location.assign('./evaluation/edit/<%= valueData['idautoevaluation'] %>');">Remplir</button>
-                  <% end %>
-                </div>
-              </td>
-
-              <td>
-                <div class="d-flex flex-column justify-content-between">
-                  <% if valueData['autoevaluationfinale'] == 1 then %>
-                    <span class="completed">Completée</span>
-                    <button type="button" class="btn btn-round btn-sm px-3 mt-2" onclick="window.location.assign('./evaluation/view/<%= valueData['idautoevaluationfinale'] %>');">Consulter</button>
-                  <% else %>
-                    <span class="not-completed">Non Completée</span>
-                    <button type="button" class="btn btn-round btn-sm px-3 mt-2" onclick="window.location.assign('./evaluation/edit/<%= valueData['idautoevaluationfinale'] %>');">Remplir</button>
                   <% end %>
                 </div>
               </td>
@@ -107,6 +94,17 @@
                   <% else %>
                     <span class="not-completed">Non Completée</span>
                     <button type="button" class="btn btn-round btn-sm px-3 mt-2" onclick="window.location.assign('./evaluation/edit/<%= valueData['idevaluation'] %>');">Remplir</button>
+                  <% end %>
+                </div>
+              </td>
+
+              <td>
+                <div class="d-flex flex-column justify-content-between">
+                  <% if valueData['autoevaluationfinale'] == 1 then %>
+                    <span class="completed">Completée</span>
+                    <button type="button" class="btn btn-round btn-sm px-3 mt-2" onclick="window.location.assign('./evaluation/view/<%= valueData['idautoevaluationfinale'] %>');">Consulter</button>
+                  <% else %>
+                    <span class="not-completed">Non Completée</span>
                   <% end %>
                 </div>
               </td>
