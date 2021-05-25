@@ -25,7 +25,7 @@ class EvolutionsController < ApplicationController
         " AND stages.entreprise_id = entreprises.id " +
         " AND promotions.id = (SELECT MAX(promotions.id) FROM promotions)"
     else
-      sqlevol = "SELECT stages.id, sujet, type_stage, nom, prenom, mention, raison_sociale " +
+      sqlevol = "SELECT stages.id, sujet, raison_sociale, nom, prenom, mention, raison_sociale " +
         " FROM stages, formations, promotions, etudiants, entreprises " +
         " WHERE tuteur_universitaire_id == " + idTuteur.to_s +
         " AND stages.formation_id = formations.id" +
