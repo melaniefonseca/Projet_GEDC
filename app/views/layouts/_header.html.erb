@@ -10,29 +10,55 @@ Roles :
 <% role = 1 %>
 
 <%
+  link = [
+    {
+      "path": "#",
+      "libelle": "OFFRES"
+    },
+    {
+      "path": "/menuetudiant",
+      "libelle": "EVALUATION"
+    },
+    {
+      "path": "/statistiques",
+      "libelle": "STATISTIQUES"
+    },
+    {
+      "path": "/evolution",
+      "libelle": "EVOLUTION"
+    },
+    {
+      "path": "/tableaudebord",
+      "libelle": "TABLEAU DE BORD"
+    },
+    {
+      "path": "/menurespstage",
+      "libelle": "GRILLE D'EVALUATION"
+    },
+  ]
   offres =
     '<li class="nav-item">
       <a class="nav-link" href="#"><p>OFFRES</p></a>
     </li>'.html_safe
   evaluation =
     '<li class="nav-item">
-      <a class="nav-link" href="menuetudiant"><p>EVALUATION</p></a>
+      <a class="nav-link" href="/menuetudiant"><p>EVALUATION</p></a>
     </li>'.html_safe
   statistiques =
     '<li class="nav-item">
-      <a class="nav-link" href="statistiques"><p>STATISTIQUES</p></a>
+      <a class="nav-link" href="/statistiques"><p>STATISTIQUES</p></a>
     </li>'.html_safe
   evolution =
     '<li class="nav-item">
-      <a class="nav-link" href="evolution"><p>EVOLUTION</p></a>
+      <a class="nav-link" href="/evolution"><p>EVOLUTION</p></a>
     </li>'.html_safe
   tableaudebord =
     '<li class="nav-item">
-      <a class="nav-link" href="tableaudebord"><p>TABLEAU DE BORD</p></a>
+      <a class="nav-link" href="/tableaudebord"><p>TABLEAU DE BORD</p></a>
     </li>'.html_safe
   grilleevaluation =
     '<li class="nav-item">
-      <a class="nav-link" href="menurespstage"><p>GRILLE D\'EVALUATION</p></a>
+      <a class="nav-link" href="/menurespstage"><p>GRILLE D\'EVALUATION</p></a>
     </li>'.html_safe
 %>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">

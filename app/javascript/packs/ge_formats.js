@@ -304,8 +304,6 @@ function send_json() {
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(JSON.stringify(json));
     window.location.replace(url);
-    console.log(labelle_table);
-    console.log(json);
 }
 
 // Fonction de génération des champs personalisable par le JSON en BDD

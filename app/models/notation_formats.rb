@@ -1,0 +1,3 @@
+class NotationFormats < ApplicationRecord
+
+end

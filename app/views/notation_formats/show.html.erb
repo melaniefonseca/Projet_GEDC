@@ -1,0 +1,71 @@
+<%= stylesheet_link_tag "evaluation" %>
+<p style="display:none" id="mydata"><%= @notation_formats.to_json %></p>
+
+<div class="bandeauSuperieur d-flex justify-content-center">
+  <span class="mx-4 uppercase font-bold"><%= @notation_id != "new" ? "Edition de la fiche d'évaluation n°" + @notation_id : "Création de fiche de notation" %></span>
+</div>
+
+<div class="d-flex justify-content-center align-items-center drop py-3">
+  <label class="mx-2" for="ver">Charger une version : </label>
+  <select class="dropdown btn-sm px-3 mx-2 btn-round" name="Editer une version" required id="ver">
+    <option value="" disabled selected>Version</option>
+    <% for option in @notation_ids %>
+      <option class="dropdown-item" <%= @notation_id.to_s == option.to_s ? "selected" : "" %>><%= option %></option>
+    <% end %>
+  </select>
+  <p class="my-2 mx-4">OU</p>
+  <%= button_to "Creer un nouveau formulaire", new_notation_format_path, method: :get, class: "btn btn-round btn-sm px-3 mx-2" %>
+</div>
+
+<div class="m-4 pt-3">
+  <% if @notation_id != "new" %>
+    <div class="section">
+      <div class="block">
+        <div style="color: #181552">
+          Une édition sur une fiche déjà existante entrainera une nouvelle version en base de donnée.
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <div class="section">
+    <div class="block">
+      <div class="sous-titre">
+        <span class="uppercase font-bold text-darkgrey">Note de l'entreprise</span>
+      </div>
+
+      <table class="table" style="box-shadow: none">
+        <thead>
+          <tr id="libelles" style="background-color: white">
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="values">
+
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" class="btn btn-round btn-sm px-3 mt-2" id="add_bareme" style="float:right">+ Ajouter un choix</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="block">
+      <div class="sous-titre-com">
+        <div>
+          <span class="uppercase font-bold text-darkgrey" style="float: left">Espace de commentaire</span>
+          <div class="form-check form-switch" >
+            <input class="form-check-input toggle" type="checkbox" id="commentaire" style="float:right"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center py-2 pb-4">
+  <button id="submit_button" class="btn btn-round" value="<%= notation_formats_path %>">Soumettre</button>
+</div>
+
+*<%= javascript_pack_tag 'notation_formats' %>
+

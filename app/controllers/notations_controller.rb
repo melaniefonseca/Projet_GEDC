@@ -1,26 +1,73 @@
 class NotationsController < ApplicationController
+  skip_before_action :verify_authenticity_token
   def notation
     require 'json'
-    text =  '{"bareme":[{"libelle": "Un stage durant lequel des problèmes se sont manifestés du fait de l\'étudiant","valeur": "E"}, {"libelle": "Aucun véritable problème ne s’est manifesté mais les résultats  escomptés n’ont pas été atteints","valeur": "D"},{"libelle": "Stage moyen, sans reproche particulier à faire à l’étudiant","valeur": "C"},{"libelle": "Stage de bonne qualité, les objectifs ont été atteints et les résultats sont  utiles à l’entreprise","valeur": "B"},{"libelle": "Stage excellent où les résultats dépassent les objectifs assignés","valeur": "A"}]}'
-
+    params.require(:id)
+    @id = params[:id]
+    notationDB = Notation.find(@id)
+    text = NotationFormats.find(notationDB.notation_format_id).contenu
     @data = JSON.parse(text)
 
-    @nomEtudiant = 'Durand Charles'
-    @promotionEtudiant = 'M2 Miage'
-    @entrepriseEtudiant = 'ATOS'
+    sqlevol = "SELECT nom, prenom, mention, libelle, raison_sociale " +
+      " FROM stages, etudiants, entreprises, formations " +
+      " WHERE stages.id == " + notationDB.stage_id.to_s +
+      " AND etudiants.id = stages.etudiant_id" +
+      " AND entreprises.id = stages.entreprise_id" +
+      " AND formations.id = stages.formation_id"
+
+    notationData = JSON.parse ActiveRecord::Base.connection.execute(sqlevol)[0].to_s.gsub("=>", ":")
+
+    @nomEtudiant = notationData["nom"].to_s + " " + notationData["prenom"].to_s
+    @promotionEtudiant = notationData["mention"].to_s + " " + notationData["libelle"].to_s
+    @entrepriseEtudiant = notationData["raison_sociale"].to_s
+
+    @note = notationDB.note
+    @commentaire = notationDB.commentaire
   end
 
   def viewNotation
     require 'json'
-    text =  '{"bareme":[{"libelle": "Un stage durant lequel des problèmes se sont manifestés du fait de l\'étudiant","valeur": "E"}, {"libelle": "Aucun véritable problème ne s’est manifesté mais les résultats  escomptés n’ont pas été atteints","valeur": "D"},{"libelle": "Stage moyen, sans reproche particulier à faire à l’étudiant","valeur": "C"},{"libelle": "Stage de bonne qualité, les objectifs ont été atteints et les résultats sont  utiles à l’entreprise","valeur": "B"},{"libelle": "Stage excellent où les résultats dépassent les objectifs assignés","valeur": "A"}]}'
-
+    params.require(:id)
+    @id = params[:id]
+    notationDB = Notation.find(@id)
+    text = NotationFormats.find(notationDB.notation_format_id).contenu
     @data = JSON.parse(text)
 
-    @nomEtudiant = 'Durand Charles'
-    @promotionEtudiant = 'M2 Miage'
-    @entrepriseEtudiant = 'ATOS'
+    sqlevol = "SELECT nom, prenom, mention, libelle, raison_sociale " +
+    " FROM stages, etudiants, entreprises, formations " +
+    " WHERE stages.id == " + notationDB.stage_id.to_s +
+    " AND etudiants.id = stages.etudiant_id" +
+    " AND entreprises.id = stages.entreprise_id" +
+    " AND formations.id = stages.formation_id"
 
-    @note = 'C'
-    @commentaire = 'Très bon stage dans l\'ensemble, étudiant très volontaire'
+    notationData = JSON.parse ActiveRecord::Base.connection.execute(sqlevol)[0].to_s.gsub("=>", ":")
+
+    @nomEtudiant = notationData["nom"].to_s + " " + notationData["prenom"].to_s
+    @promotionEtudiant = notationData["mention"].to_s + " " + notationData["libelle"].to_s
+    @entrepriseEtudiant = notationData["raison_sociale"].to_s
+
+    @note = notationDB.note
+    @commentaire = notationDB.commentaire
+  end
+
+  def saveNotation
+    require 'json'
+    puts params
+    params.require(:note)
+    params.require(:id)
+    params.require(:commentaire)
+    valid_params = true
+    if (valid_params)
+      @note = params[:note]
+      @commentaire = params[:commentaire]
+      @id = params[:id]
+      data =  Notation.find(@id)
+      if (data != nil)
+        st = ActiveRecord::Base.connection.raw_connection.prepare("update notations set note=?, commentaire=? where id=?")
+        st.execute(@note, @commentaire, @id)
+        st.close
+        redirect_to action: "viewNotation", id: @id
+      end
+    end
   end
 end
