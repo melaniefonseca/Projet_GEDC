@@ -4,6 +4,9 @@ Roles :
       2 : tuteur
       3 : étudiant
 -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <% role = 1 %>
 
 <%
@@ -32,15 +35,18 @@ Roles :
       <a class="nav-link" href="menurespstage"><p>GRILLE D\'EVALUATION</p></a>
     </li>'.html_safe
 %>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#"></a>
+  <img class="logo" style="margin-left: 10px;" <%= image_tag(image_url('miage.png'), class: 'image') %>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-<nav class="navbar navbar-expand-md">
-  <div class="container-fluid pb-4">
-    <img class="logo" <%= image_tag(image_url('miage.png'), class: 'image') %>
-    <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav navbar-right">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="nav navbar-nav navbar-right">
 
-<% case role %>
-  <% when 1 %>
+      <% case role %>
+      <% when 1 %>
 
         <%= offres %>
         <%= tableaudebord %>
@@ -48,24 +54,24 @@ Roles :
         <%= evolution %>
         <%= grilleevaluation %>
 
-  <% when 2 %>
+      <% when 2 %>
 
         <%= tableaudebord %>
         <%= evolution %>
 
-  <% when 3 %>
+      <% when 3 %>
 
         <%= offres %>
         <%= evaluation %>
 
-<% end %>
+      <% end %>
 
       <li class="nav-item">
-          <a href="#">
-            <i class="fas fa-user-circle fa-2x text-purple"></i>
-          </a>
-        </li>
-      </ul>
-    </div>
+        <a href="#">
+          <i class="fas fa-user-circle fa-2x text-purple"></i>
+        </a>
+      </li>
+    </ul>
   </div>
+
 </nav>
