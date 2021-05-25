@@ -6,57 +6,57 @@
     border-radius: 10px;
 }
 
-table {
+table.tableBleu {
     border-collapse: collapse;
     box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
     border-radius: 10px;
     overflow: hidden;
 }
 
-table thead tr {
+table.tableBleu thead tr {
     background: var(--darkblue-transparent);
     color: white;
 }
 
-table tbody tr:nth-child(odd) {
+table.tableBleu tbody tr:nth-child(odd) {
     background-color: white;
 }
 
-table tbody tr:nth-child(even) {
+table.tableBleu tbody tr:nth-child(even) {
     background-color: var(--lightgrey);
 }
 
-.table-responsive {
+table-responsive {
     display: block;
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
 
-.table-responsive > .table-bordered {
+table-responsive > .table-bordered.tableBleu {
     border: 0;
 }
 
-table.table-bordered th,
-table.table-bordered td {
+table.tableBleu.table-bordered th,
+table.tableBleu.table-bordered td {
     text-align: center;
     vertical-align:middle;
     border-bottom: 1px solid var(--mediumgrey) !important;
 }
 
-table .table-bordered td {
+table.tableBleu .table-bordered td {
     color: #181552 !important;
 }
 
-tr, td, th{
+table.tableBleu tr, table.tableBleu td, table.tableBleu th{
     border: none !important;
 }
 
-.table-bordered .btn {
+.tableBleu.table-bordered .btn {
     font-weight: normal !important;
 }
 
-.table-bordered .svg-inline--fa {
+.tableBleu.table-bordered .svg-inline--fa {
     font-size: large !important;
 }
 

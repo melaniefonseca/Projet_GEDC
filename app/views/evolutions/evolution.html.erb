@@ -32,7 +32,7 @@
 <div class="card-body p-2">
   <% if @data['etudiants'].length > 0 then %>
     <div class="table-responsive">
-      <TABLE class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <table class="table table-bordered tableBleu" id="dataTable" width="100%" cellspacing="0">
         <% i = 0 %>
         <% @data['etudiants'].each do |valueData| %>
 
@@ -89,7 +89,7 @@
 
           <% i += 1 %>
         <% end %>
-      </TABLE>
+      </table>
 
     </div>
   <% else %>

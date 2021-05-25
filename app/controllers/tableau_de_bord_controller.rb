@@ -4,7 +4,6 @@ class TableauDeBordController < ApplicationController
 
     idTuteur = 1
 
-
     @filtre = 'tout'
     url = request.original_url
     if url.include? "filtre=" then
@@ -38,7 +37,6 @@ class TableauDeBordController < ApplicationController
 
     @stages = ActiveRecord::Base.connection.execute(sqlStage)
     i = 0
-    # puts(@stages)
     text = '{"etudiants":['
 
     @stages.each do |stage|
@@ -54,9 +52,52 @@ class TableauDeBordController < ApplicationController
         COUNT(CASE WHEN auto_evaluation = 0 THEN (CASE WHEN finale = 0 THEN id END)END) as grille,
         COUNT(CASE WHEN auto_evaluation = 0 THEN (CASE WHEN finale = 1 THEN id END)END) as grilleFinal
         FROM evaluations
-        WHERE evaluations.stage_id = " + stage['id'].to_s
-
+        WHERE evaluations.stage_id = " + stage['id'].to_s + "
+        AND evaluations.rempli = 1"
       eval = ActiveRecord::Base.connection.execute(sqleval)
+
+      sqlautoeval =
+        "SELECT id
+        FROM evaluations
+        WHERE evaluations.stage_id = " + stage['id'].to_s + "
+        AND evaluations.auto_evaluation = 1
+        AND evaluations.finale = 0"
+      resautoeval = ActiveRecord::Base.connection.execute(sqlautoeval)
+      idautoeval = resautoeval[0]['id'].to_s
+
+      sqleval =
+        "SELECT id
+        FROM evaluations
+        WHERE evaluations.stage_id = " + stage['id'].to_s + "
+        AND evaluations.auto_evaluation = 0
+        AND evaluations.finale = 0"
+      reseval = ActiveRecord::Base.connection.execute(sqleval)
+      ideval = reseval[0]['id'].to_s
+
+      sqlautoevalfinale =
+        "SELECT id
+        FROM evaluations
+        WHERE evaluations.stage_id = " + stage['id'].to_s + "
+        AND evaluations.auto_evaluation = 1
+        AND evaluations.finale = 1"
+      resautoevalfinale = ActiveRecord::Base.connection.execute(sqlautoevalfinale)
+      idautoevalfinale = resautoevalfinale[0]['id'].to_s
+
+      sqlevalfinale =
+        "SELECT id
+        FROM evaluations
+        WHERE evaluations.stage_id = " + stage['id'].to_s + "
+        AND evaluations.auto_evaluation = 0
+        AND evaluations.finale = 1"
+      resevalfinale = ActiveRecord::Base.connection.execute(sqlevalfinale)
+      idevalfinale = resevalfinale[0]['id'].to_s
+
+      sqlnote =
+        "SELECT id
+        FROM notations
+        WHERE notations.stage_id = " + stage['id'].to_s
+      resnote = ActiveRecord::Base.connection.execute(sqlnote)
+      idnote = resnote[0]['id'].to_s
 
       if eval.present?
         if (eval[0]['autoEval'].to_s != 0)
@@ -72,10 +113,10 @@ class TableauDeBordController < ApplicationController
           grilleFinal = eval[0]['grilleFinal'].to_s
         end
       end
-      # puts(eval)
 
-      sqlnotation = "SELECT note FROM notations where notations.stage_id = " + stage['id'].to_s
+      sqlnotation = "SELECT COUNT(*) as note FROM notations WHERE notations.stage_id = " + stage['id'].to_s + " AND notations.rempli = 1"
       notation = ActiveRecord::Base.connection.execute(sqlnotation)
+
       if !notation.present?
         notation = 'null'
       else
@@ -84,10 +125,11 @@ class TableauDeBordController < ApplicationController
       if(i>0)
         text += ','
       end
-      text += '{"nom": "'+stage['nom'] +' '+ stage['prenom'] +'","promotion": "'+stage['mention']+'", "entreprise": "'+stage['raison_sociale']+'", "type": "'+stage['type_stage']+'", "autoevaluation": '+autoEval+', "grilleevaluation": '+grille+', "autoevaluationfinale": '+autoEvalFinal+', "grilleevaluationfinale": '+grilleFinal+',  "note": '+notation+'}'
+      text += '{"nom": "'+stage['nom'] +' '+ stage['prenom'] +'","promotion": "'+stage['mention']+'", "entreprise": "'+stage['raison_sociale']+'", "type": "'+stage['type_stage']+'", "autoevaluation": '+autoEval+', "grilleevaluation": '+grille+', "autoevaluationfinale": '+autoEvalFinal+', "grilleevaluationfinale": '+grilleFinal+',  "note": '+notation+', "idautoevaluation": '+idautoeval+', "idevaluation": '+ideval+', "idautoevaluationfinale": '+idautoevalfinale+', "idevaluationfinale": '+idevalfinale+', "idnote": '+idnote+'}'
       i += 1
     end
     text += ']}'
+
     @data = JSON.parse(text)
   end
 end
