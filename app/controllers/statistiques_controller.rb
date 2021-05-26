@@ -15,11 +15,6 @@ class StatistiquesController < ApplicationController
     @pourcentageEtudiantGrilleEvaluationFinal = 0
     @pourcentageEtudiantNotation = 0
 
-    etudiantNotationGrapheA = 0
-    etudiantNotationGrapheB = 0
-    etudiantNotationGrapheC = 0
-    etudiantNotationGrapheD = 0
-    etudiantNotationGrapheE = 0
 
     if @filtre == 'tout' then
       sqlnbTotalEtudiant = "SELECT count(*) as nbEtudiant
@@ -108,47 +103,43 @@ class StatistiquesController < ApplicationController
         end
         @pourcentageEtudiantNotation = (etudiantNotationNb/nbTotalEtudiant[0]['nbEtudiant'])*100
 
-
-
+        maxversion = JSON.parse ActiveRecord::Base.connection.execute("SELECT MAX(notation_format_id) as ver FROM notations")[0].to_s.gsub("=>", ":")
+        
         if @filtre == 'tout' then
-          sqletudiantNotationGraphe = "SELECT
-        COUNT (CASE WHEN note = 'A' THEN note END) as noteA,
-        COUNT (CASE WHEN note = 'B' THEN note END) as noteB,
-        COUNT (CASE WHEN note = 'C' THEN note END) as noteC,
-        COUNT (CASE WHEN note = 'D' THEN note END) as noteD,
-        COUNT (CASE WHEN note = 'E' THEN note END) as noteE
+          sqletudiantNotationGraphe = "SELECT note
         FROM stages, etudiants, notations, formations, promotions
         WHERE stages.etudiant_id = etudiants.id
         AND stages.formation_id = formations.id
         AND formations.promotion_id = promotions.id
-        AND notations.stage_id = stages.id	"+
-            " AND formations.mention = '" + @filtre + "'"
+        AND notations.stage_id = stages.id
+        AND notations.notation_format_id = " + maxversion["ver"].to_s
         else
-          sqletudiantNotationGraphe = "SELECT
-        COUNT (CASE WHEN note = 'A' THEN note END) as noteA,
-        COUNT (CASE WHEN note = 'B' THEN note END) as noteB,
-        COUNT (CASE WHEN note = 'C' THEN note END) as noteC,
-        COUNT (CASE WHEN note = 'D' THEN note END) as noteD,
-        COUNT (CASE WHEN note = 'E' THEN note END) as noteE
+          sqletudiantNotationGraphe = "SELECT note
         FROM stages, etudiants, notations, formations, promotions
         WHERE stages.etudiant_id = etudiants.id
         AND stages.formation_id = formations.id
         AND formations.promotion_id = promotions.id
         AND notations.stage_id = stages.id	"+
-            " AND formations.mention = '" + @filtre + "'"
+            " AND formations.mention = '" + @filtre + "'
+        AND notations.notation_format_id = " + maxversion["ver"].to_s
         end
 
         etudiantNotationGraphe = ActiveRecord::Base.connection.execute(sqletudiantNotationGraphe)
 
-        if etudiantNotationGraphe.present?
-          etudiantNotationGrapheA = (etudiantNotationGraphe[0]['noteA']/nbTotalEtudiant[0]['nbEtudiant'])*100
-          etudiantNotationGrapheB = (etudiantNotationGraphe[0]['noteB']/nbTotalEtudiant[0]['nbEtudiant'])*100
-          etudiantNotationGrapheC = (etudiantNotationGraphe[0]['noteC']/nbTotalEtudiant[0]['nbEtudiant'])*100
-          etudiantNotationGrapheD = (etudiantNotationGraphe[0]['noteD']/nbTotalEtudiant[0]['nbEtudiant'])*100
-          etudiantNotationGrapheE = (etudiantNotationGraphe[0]['noteE']/nbTotalEtudiant[0]['nbEtudiant'])*100
+        dic = {}
+        etudiantNotationGraphe.each do |data|
+          if (!dic.key?(data["note"]))
+            dic[data["note"]] = 1;
+          else
+            dic[data["note"]] = dic[data["note"]] + 1;
+          end
         end
+
       end
-      @data = [["A", etudiantNotationGrapheA], ["B",  etudiantNotationGrapheB], ["C",  etudiantNotationGrapheC],["D",  etudiantNotationGrapheD], ["E",  etudiantNotationGrapheE]]
+      @data = []
+      dic.each do |key, value|
+        @data.push([key, value]);
+      end
     end
   end
 end

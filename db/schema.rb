@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_20_131323) do
+ActiveRecord::Schema.define(version: 2021_05_25_075115) do
 
   create_table "aides", force: :cascade do |t|
     t.boolean "cv_recu"
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 2021_05_20_131323) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "finale"
+    t.boolean "rempli"
     t.index ["ge_format_id"], name: "index_evaluations_on_ge_format_id"
     t.index ["stage_id"], name: "index_evaluations_on_stage_id"
   end
@@ -131,6 +132,7 @@ ActiveRecord::Schema.define(version: 2021_05_20_131323) do
     t.string "commentaire"
     t.integer "stage_id"
     t.integer "notation_format_id"
+    t.boolean "rempli"
   end
 
   create_table "offres", force: :cascade do |t|
