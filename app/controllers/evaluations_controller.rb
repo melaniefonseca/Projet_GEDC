@@ -2,8 +2,15 @@ class EvaluationsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def evaluation
-    sql = "Select * from ge_formats ORDER BY id DESC LIMIT 1 "
-    res = ActiveRecord::Base.connection.execute(sql)
+    # téléchargement d'une évaluation
+    if params.has_key?('id') then
+      sql = "Select * from evaluations where id == " + params[:id]
+      res = ActiveRecord::Base.connection.execute(sql)
+    # téléchargement du template
+    else
+      sql = "Select * from ge_formats ORDER BY id DESC LIMIT 1 "
+      res = ActiveRecord::Base.connection.execute(sql)
+    end
 
     if res.present?
       @data = JSON.parse(res[0]["contenu"])

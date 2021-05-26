@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   get '/', to: 'pages#home'
+  get '/evaluation', to: 'evaluations#evaluation'
   get '/evaluation/edit/(:id)', to: 'evaluations#editEvaluation'
   post '/evaluation/save/(:id)', to: 'evaluations#save'
   get '/evaluation/view/(:id)', to: 'evaluations#viewEvaluation'
